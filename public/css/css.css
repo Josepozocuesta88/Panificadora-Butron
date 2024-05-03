@@ -1,0 +1,161 @@
+/* .fotobackground{
+    background-image: '';
+    overflow: hidden;
+    background-image: url(/images/banner-florys.jpg);
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+}
+.fotobackground::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.62);
+} */
+
+/* index */
+.categoria{
+  position: relative;
+  overflow: hidden;
+}
+.nombre-categoria{
+  overflow: hidden;
+  opacity: 0.9;
+  padding-top: 1rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70%;
+  bottom: 0;
+  transform: translateY(0);
+  -ms-transform: translateY(0);
+  transition: all .3s ease;
+}
+.categoria:hover .nombre-categoria{
+  opacity: 1;
+  display: inline-block;
+  bottom: -50%;
+  padding-top: 0.4rem;
+  transform: translateY(-50%);
+}
+.categoria-link {
+  /* display: inline-block; */
+  opacity: 0;
+  transition: all .3s ease;
+  transform: translateY(30px);
+  -ms-transform: translateY(30px);
+}
+.categoria:hover .categoria-link {
+  opacity: 1; 
+  transform: translateY(0px); 
+}
+
+
+
+.fill{
+
+    height: 300px;
+    object-fit: cover;
+}
+.z-index{
+    z-index: 9;
+}
+.favoritos {
+    display: flex;
+    overflow: hidden; /* Esto oculta las barras de desplazamiento */
+  }
+  
+  .productos {
+    display: flex;
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 50%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    width: 100%; 
+  }
+  
+  .productos::-webkit-scrollbar { /* Chrome, Safari and Opera */
+    display: none;
+  }
+  
+  .producto {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+  }
+
+/* truncate para la tercera linea */
+.l3truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+
+
+  /* index welcome */
+.img-design{
+  max-height: 120px;
+}
+.border-lighten-primary {
+  border: 0.4rem solid rgba(102, 61, 148, 0.5);
+  border-radius: 0.5rem;
+
+}
+  /* iconos mas grandes */
+  .font-30{
+    font-size: 3rem;
+  }
+  .font-25{
+    font-size: 2rem;
+  }
+  
+
+  /* imagenes del modal en article-details */
+  #miModal .modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; 
+    overflow: hidden;
+}
+
+#miModal .modal-body img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.zoomed-in {
+  transform: scale(2); /* Ajusta este valor según el nivel de zoom deseado */
+  cursor: zoom-out;
+}
+
+/* favoritos corazones */
+.red-heart {
+  color: red; /* O usa una clase de color de Bootstrap si prefieres */
+  transition: transform 0.3s; /* Transición suave */
+}
+
+.enlarge {
+  transform: scale(1.5); /* Hacer el icono más grande */
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.observaciones{
+  width: 350px;
+}
+.ser-eje-num{
+  width: 70px;
+}
+.descargar{
+  width: 300px;
+}

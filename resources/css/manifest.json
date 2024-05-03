@@ -1,0 +1,16 @@
+{
+  "public/images/banner-florys.jpg": {
+    "file": "assets/banner-florys-291c830d.jpg",
+    "src": "public/images/banner-florys.jpg"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-fc82a79e.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-5a11d719.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
+  }
+}
