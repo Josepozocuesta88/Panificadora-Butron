@@ -42,15 +42,7 @@ return [
 
     'logo' => 'images/web/logo.png',
 
-    'description_aboutUs' => 'En la actualidad estamos presentes en gran parte del terreno nacional.
-
-    Las visitas de Repostería Flory`s serán en función del consumo del
-        cliente, para que el producto llegue con mayor frescura o también sobre pedido.
-
-    Toda nuestra flota de vehículos son isotermos, debidamente homologados e higienizados.
-
-    Repostería Flory`s lleva un control exhaustivo de los productos que distribuye, mediante
-        un laboratorio especializado.',
+    'caja' => 'no',
 
     'maps' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5314.670080159421!2d-4.320885096624687!3d37.62282415144168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6da169080e0c1b%3A0x6c102c3e0ae2d77d!2zUmVwb3N0ZXLDrWEgRmxvcnnCtHM!5e0!3m2!1ses!2ses!4v1700727311088!5m2!1ses!2ses',
 

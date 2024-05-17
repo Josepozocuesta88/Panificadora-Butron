@@ -313,7 +313,7 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col">
-                                            @if($articulo->cajas->isNotEmpty())
+                                            @if($articulo->cajas->isNotEmpty() && config('app.caja') == 'si')
                                             @isset($articulo->cajas)
                                             <div class="row">
                                                 <div class="quantity-input col">

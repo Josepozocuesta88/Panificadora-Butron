@@ -58,8 +58,10 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>Producto</th>
+                                                @if(config('app.caja') == 'si')
                                                 <th class="px-0">Bulto</th>
                                                 <th>Tipo</th>
+                                                @endif
                                                 <th>Cantidad</th>
                                                 <th>Precio</th>
                                                 <th>Total</th>
@@ -100,7 +102,8 @@
                                                             value="{{ $item['cantidad_cajas'] }}" style="width: 80px;">
                                                     </div>
                                                 </td>
-
+                                                @if(config('app.caja') == 'si')
+                                                
                                                 <!-- tipo -->
                                                 <td>
                                                     <select class="tipoCajaSelect form-select"
@@ -121,7 +124,7 @@
                                                             class="quantity-update mb-0">{{ $item['promedcod'] }}</label>
                                                     </div>
                                                 </td>
-
+                                                @endif
                                                 <td>
                                                     {{ $item['price'] }} €
                                                     @if($item['isOnOffer'])
@@ -172,7 +175,6 @@
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row-->
-                                @endif
                             </div>
                             <div class="col-lg-12 col-xl-3 mt-4 mt-xl-0">
                                 <div class="border p-3 rounded">
@@ -185,6 +187,7 @@
                                                     <td>Subtotal :</td>
                                                     <td class="ps-0">{{ number_format($subtotal, 2) }} €</td>
                                                 </tr>
+                                                
                                                 <tr>
                                                     <td>Descuento: </td>
                                                     <td class="ps-0">- X €</td>
@@ -200,6 +203,7 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    @endif
                                 </div>
 
                                 <div class="alert alert-warning mt-3" role="alert">

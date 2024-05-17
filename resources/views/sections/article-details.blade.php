@@ -117,14 +117,16 @@
 
                                         <!-- Product price -->
 
-                                        @if($cajas->isNotEmpty())
+                                        @if($cajas->isNotEmpty() && config('app.caja') == 'si')
                                         <div class="d-flex gap-4">
                                             @foreach($cajas as $index => $caja)
                                             <div class="product-price">
 
                                                 @isset($articulo->precioTarifa)
-                                                <h6 class="font-14">Precio por @if($caja->cajcod == '0001' || $caja->cajcod
-                                                    == '0002' ) caja @else
+                                                <h6 class="font-14">Precio por @if($caja->cajcod == '0001' ) caja @elseif($caja->cajcod
+                                                    == '0002')
+                                                    media
+                                                    @else
                                                     pieza @endif : </h6>
 
                                                 @if ($articulo->precioOferta)
