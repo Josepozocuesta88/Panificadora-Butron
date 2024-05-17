@@ -103,6 +103,7 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'no-reply@congeladosfloryspanel.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+    'cc' => env('MAIL_CC_ADDRESS', 'administracion2@florys.es'),
 
     /*
     |--------------------------------------------------------------------------

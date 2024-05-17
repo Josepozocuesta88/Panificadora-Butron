@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Http\Request;
 use App\Models\Pedido;
 use App\Models\Pedido_linea;
@@ -54,7 +56,7 @@ class DashboardController extends Controller
             $chartPurchasesByMonth = $this->getChart($startDate, $endDate);
             $topSellingItems = $this->getTop10($startDate, $endDate);
 
-    
+            // Log::info('Datos procesados', ['data' => $chartPurchasesByMonth]);
             // Retorna los datos en formato JSON
             return response()->json([
                 'data' => $data,
@@ -139,6 +141,8 @@ class DashboardController extends Controller
         ->take(10)
         ->get();
     
+        // Log::info('Datos procesados', ['topSellingItems' => $topSellingItems]);  // Loguear los datos procesados
+        // Log::info('SQL Query', ['query' => $topSellingItems->toSql(), 'bindings' => $topSellingItems->getBindings()]);
 
         return $topSellingItems;
 

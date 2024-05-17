@@ -45,7 +45,7 @@ class Articulo extends Model
 
     public function primeraImagenRelacion()
     {
-        return $this->hasOne(Articulo_imagen::class, 'imaartcod', 'artcod')->where('imatip', 0)->oldest();
+        return $this->imagenes()->where('imatip', 0)->orderBy('imaartcod', 'asc')->first();
     }
     
     public function pdf()

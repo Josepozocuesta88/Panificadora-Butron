@@ -1,105 +1,3 @@
-// var agrupado = false;
-
-// // Función para sumar y agrupar los artículos por código
-// function sumarYAgruparArticulos(api) {
-//     var data = api.rows().data().toArray();
-//     var agrupados = {};
-
-//     // Suma las cantidades de los artículos con el mismo código
-//     data.forEach(function (item) {
-//         if (!agrupados[item.artcod]) {
-//             // Si no existe el grupo, crea uno nuevo con la misma estructura de datos
-//             agrupados[item.artcod] = {
-//                 artcod: item.artcod,
-//                 artnom: item.artnom,
-//                 estalbfec: item.estalbfec,
-//                 estalbimptot: item.estalbimptot,
-//                 estcan: item.estcan
-//             };
-//         } else {
-//             // Si ya existe, suma las cantidades
-//             agrupados[item.artcod].estcan += item.estcan;
-//         }
-//     });
-//     // Actualizamos la tabla con los artículos agrupados y las cantidades sumadas
-//     api.clear(); 
-//     api.rows.add(Object.values(agrupados));
-//     api.draw(); 
-// }
-// function desagruparArticulos(api) {
-//     // Función para revertir la agrupación y mostrar la lista original
-//     api.ajax.reload(); // Recarga los datos originales desde el servidor
-// }
-
-
-// function cargarRejilla() {
-//     var url = "/history";
-//     var columns = [
-//         { data: "artcod" },
-//         {
-//             data: "artnom",
-//             render: function(data, type, row) {
-//                 return '<a href="/articles/' + row.artcod + '" class="text-body fw-semibold"><img class="rounded me-3" height="48" width="48" src="' + window.location.origin + '/images/articulos/' 
-//                 + row.imanom + '">'+ data + '</a>';
-//             }
-//         },
-//         { data: "estalbfec" },
-//         { data: "estalbimptot" },
-//         { data: "estcan" },
-//     ];
-
-//     var table = $("#history-datatable").DataTable({
-//         ajax: url,
-//         columns: columns,
-//         stateSave: true,
-//         language: {
-//             paginate: {
-//                 previous: "<i class='mdi mdi-chevron-left'>",
-//                 next: "<i class='mdi mdi-chevron-right'>"
-//             },
-//             emptyTable: "No se encontraron documentos para mostrar."
-//         },
-//         columnDefs: [
-//             { className: "table-action", targets: [2] },
-//             { visible: false, targets: 0 }
-//         ],
-//         order: [[0, "asc"]],
-//         dom: 'Bfrtip', // Agregamos el botón al DOM de DataTables
-//         buttons: [
-//             {
-//                 text: 'Sumar y Agrupar Artículos', // Este texto será actualizado después de la primera carga
-//                 className: 'btn btn-primary',
-//                 action: function (e, dt, node, config) {
-//                     // La lógica para alternar se maneja aquí
-//                 }
-//             }
-//         ],
-//         initComplete: function(settings, json) {
-//             // Llamada inicial para agrupar los artículos
-//             sumarYAgruparArticulos(this.api());
-//             // Actualiza el texto del botón y la variable de estado después de la carga inicial
-//             table.button(0).text('Desagrupar Artículos');
-//             agrupado = true;
-//         }
-//     });
-
-//     // Configuración del botón para alternar entre agrupado y desagrupado
-//     table.button(0).action(function (e, dt, node, config) {
-//         if (!agrupado) {
-//             sumarYAgruparArticulos(dt);
-//             dt.button(0).text('Desagrupar Artículos'); // Cambia el texto del botón
-//             agrupado = true; // Actualiza el estado a agrupado
-//         } else {
-//             desagruparArticulos(dt);
-//             dt.button(0).text('Sumar y Agrupar Artículos'); // Restablece el texto original del botón
-//             agrupado = false; // Actualiza el estado a no agrupado
-//         }
-//     });
-// }
-
-
-
-
 // Definir la función cargarRejilla fuera de cualquier otra función para asegurar que se ejecute al cargar la página.
 function cargarRejilla() {
     // Inicialmente, definir la URL para cargar datos agrupados.
@@ -119,14 +17,21 @@ function cargarRejilla() {
                     }
                 }
             },
-            { data: "estalbfec"},
-            { 
-                "data": "estpre", 
+            { data: "estalbfec" },
+            {
+                "data": "estpre",
                 render: function(data, type, row) {
                     if (typeof data === 'undefined') {
                         return '-';
                     }
-                    return data ? data : '-';
+            
+                    // Suponiendo que `data` contiene la información necesaria
+                    let precio = data.toLocaleString("es-ES", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) + " €";
+            
+                    return precio ? precio : '-';
                 }
             },
 

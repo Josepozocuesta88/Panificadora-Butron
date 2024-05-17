@@ -29,4 +29,23 @@ class Caja extends Model
     // {
     //     return $this->belongsToMany(Articulo::class, 'etitagcod', 'barcod');
     // }
+
+    public static function quantityByType($artcod, $type, $quantity)
+    {
+        if ($type === '0001' || $type === '0002') { 
+            $caja = Caja::where('cajcod', $type)->where('cajartcod', $artcod)->firstOrFail();
+            $quantity_box = $quantity;
+            $quantity_ud = $quantity_box * $caja->cajreldir;
+        }
+        else{
+            $quantity_box = $quantity;
+            $quantity_ud = $quantity;
+            // \Log::info('Artículo no encontrado', ['quantity_ud' => $quantity_ud]); 
+            // \Log::info('Artículo no encontrado', ['quantity_box' => $quantity_box]); 
+            // \Log::info('Artículo no encontrado', ['quantity' => $quantity]); 
+        }
+
+        return [$quantity_ud, $quantity_box]; 
+
+    }
 }

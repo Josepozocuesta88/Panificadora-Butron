@@ -18,10 +18,6 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('search') }}">Productos</a></li>
-
-                            <!-- <li class="breadcrumb-item"><a href="{{ session('last_page_url') }}">Volver a:
-                                    {{ session('last_page_name') }}</a></li> -->
-
                             <li class="breadcrumb-item active">Carrito de Compras</li>
                         </ol>
                     </div>
@@ -51,23 +47,23 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-8">
+                            <div class="col-xl-9">
                                 @if (isset($message))
                                 <div class="alert alert-dark" role="alert">
                                     <h5>{{ $message }}</h5>
                                 </div>
                                 @else
-                                <div class="table-responsive" data-simplebar data-simplebar-primary >
+                                <div class="table-responsive" data-simplebar data-simplebar-primary>
                                     <table class="table table-borderless table-nowrap table-centered mb-0">
                                         <thead class="table-light">
                                             <tr>
                                                 <th>Producto</th>
+                                                <th class="px-0">Bulto</th>
                                                 <th>Tipo</th>
-                                                <th>Bulto</th>
-                                                <th>Cantidad </th>
+                                                <th>Cantidad</th>
                                                 <th>Precio</th>
                                                 <th>Total</th>
-                                                <th style="width: 50px;"></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -77,16 +73,14 @@
                                                 <td>
                                                     @if ($item['image'])
                                                     <img src="{{ asset('images/articulos/'. $item['image'] ) }}"
-                                                        alt="img"  class="rounded me-2"
-                                                        height="48" />
+                                                        alt="img" class="rounded me-2" height="48" />
                                                     @else
-                                                    <img src="{{ asset('images/articulos/noimage.jpg') }}"
-                                                        alt="img"  class="rounded me-2"
-                                                        height="48" />
+                                                    <img src="{{ asset('images/articulos/noimage.jpg') }}" alt="img"
+                                                        class="rounded me-2" height="48" />
                                                     @endif
 
-                                                    <p class="m-0 d-inline-block align-middle">
-
+                                                    <p class="m-0 d-inline-block align-middle text-truncate"
+                                                        style="max-width: 150px;">
                                                         <a href="{{route('info', ['artcod' => $item['artcod']])}}"
                                                             class="text-body fw-semibold">{{ $item['name'] }}</a>
                                                         <br>
@@ -94,28 +88,40 @@
                                                             {{ $item['price'] }}</small>
                                                     </p>
                                                 </td>
+
+                                                <!-- bulto -->
+                                                <td class="px-0">
+                                                    <!-- Campo para la cantidad de cajas -->
+                                                    <div class="">
+                                                        <input type="number"
+                                                            class="quantity-update box_quantity form-control"
+                                                            name="box_quantity" min="1"
+                                                            data-cartcod="{{ $item['cartcod'] }}" data-update-type=""
+                                                            value="{{ $item['cantidad_cajas'] }}" style="width: 80px;">
+                                                    </div>
+                                                </td>
+
                                                 <!-- tipo -->
                                                 <td>
-                                                        {{$item['cajtip']}}
-                                                </td>
-                                                <!-- bulto -->
-                                                <td>
-                                                    <input type="number" name="quantity_bultos" min="1"
-                                                        value="{{ $item['cantidad_cajas'] }}" class="quantity-update"
-                                                        data-cartcod="{{ $item['cartcod'] }}" data-update-type="bulto"
-                                                        data-enable-type="{{ $item['cartcajcod'] }}"
-                                                        style="width: 50px;" />
-                                                </td>
-                                                <!-- cantidad  -->
-                                                <td>
-                                                    <input type="number" name="quantity" min="1.00" step="0.10"
-                                                        value="{{ $item['cantidad_unidades'] }}" class="quantity-update"
+                                                    <select class="tipoCajaSelect form-select"
                                                         data-cartcod="{{ $item['cartcod'] }}"
-                                                        data-update-type="unidades"
-                                                        data-enable-type="{{ $item['cartcajcod'] }}"
-                                                        style="width: 60px;" />
-                                                        <label for="quantity">{{ $item['promedcod'] }}</label>
+                                                        data-artcod="{{ $item['artcod'] }}"
+                                                        data-cajcod="{{ $item['cajcod'] }}"
+                                                        data-cartcant="{{ $item['cantidad_cajas'] }}">
+                                                    </select>
                                                 </td>
+                                                <!-- cantidad ud -->
+                                                <td class="pe-0">
+                                                    <div class="d-flex align-items-center justify-content-start">
+                                                        <input type="number" class="form-control me-1" disabled
+                                                            data-cartcod="{{ $item['cartcod'] }}" name="ud_quantity"
+                                                            min="1" value="{{ $item['cantidad_unidades'] }}"
+                                                            style="width:90px;">
+                                                        <label for="unit-quantity-input"
+                                                            class="quantity-update mb-0">{{ $item['promedcod'] }}</label>
+                                                    </div>
+                                                </td>
+
                                                 <td>
                                                     {{ $item['price'] }} €
                                                     @if($item['isOnOffer'])
@@ -129,11 +135,12 @@
                                                 </td>
                                                 <td>
                                                     <form method="POST" id="removeItem"
-                                                        action="{{route('cart.removeItem', ['artcod' =>$item['artcod']])}}">
+                                                        action="{{route('cart.removeItem', ['artcod' => $item['artcod']])}}">
                                                         @csrf
                                                         <input type="hidden" name="artcod"
                                                             value="{{ $item['artcod'] }}">
-                                                        <button type="submit" class="remove-item action-icon btn btn-white">
+                                                        <button type="submit"
+                                                            class="remove-item action-icon btn btn-white">
                                                             <i class="mdi mdi-delete text-primary font-22"></i>
                                                         </button>
                                                     </form>
@@ -142,9 +149,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-
                                 </div> <!-- end table-responsive-->
-
 
                                 <!-- Add note input-->
                                 <div class="mt-3">
@@ -167,10 +172,10 @@
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row-->
-
+                                @endif
                             </div>
-                            <div class="col-lg-4">
-                                <div class="border p-3 mt-4 mt-lg-0 rounded">
+                            <div class="col-lg-12 col-xl-3 mt-4 mt-xl-0">
+                                <div class="border p-3 rounded">
                                     <h4 class="header-title mb-3">Detalles del pedido</h4>
 
                                     <div class="table-responsive">
@@ -178,30 +183,27 @@
                                             <tbody>
                                                 <tr>
                                                     <td>Subtotal :</td>
-                                                    <td>{{ number_format($subtotal, 2) }} €</td>
+                                                    <td class="ps-0">{{ number_format($subtotal, 2) }} €</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Descuento: </td>
-                                                    <td>- X €</td>
+                                                    <td class="ps-0">- X €</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Gastos de envío :</td>
-                                                    <td>{{ number_format($shippingCost, 2) }} €</td>
+                                                    <td class="ps-0">{{ number_format($shippingCost, 2) }} €</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total :</th>
-                                                    <th>{{ number_format($total, 2) }} €</th>
+                                                    <th class="ps-0">{{ number_format($total, 2) }} €</th>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    @endif
-
                                 </div>
 
                                 <div class="alert alert-warning mt-3" role="alert">
-                                    ¡ Usa tus <strong>{{ config('app.points') }}</strong> para tener el x% de descuento
-                                    !
+                                    ¡ Usa tus <strong>{{ config('app.points') }}</strong> para tener el x% de descuento!
                                 </div>
 
                                 <div class="input-group mt-3">
@@ -209,14 +211,10 @@
                                         aria-label="Recipient's username">
                                     <button class="input-group-text btn-light" type="button">Aplicar</button>
                                 </div>
-
                             </div> <!-- end col -->
-
                         </div>
+
                         <!-- end col -->
-
-
-
                     </div> <!-- end row -->
                 </div> <!-- end card-body-->
             </div> <!-- end card-->
@@ -227,4 +225,3 @@
 </div> <!-- container -->
 
 @endsection
-

@@ -102,14 +102,13 @@ Route::get('/history', [HistoryController::class, 'getHistory'])->name('history'
 Route::get('/historyAgrupado', [HistoryController::class, 'getHistoryGroup'])->name('historyAgrupado')->middleware('auth');
 
 Route::post('/articles/{artcod}', [CartController::class, 'addToCart'])->name('cart.add')->middleware('auth');
-// ajax (los 3)
+// ajax (los 4)
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show')->middleware('auth');
 Route::post('/cart/{artcod}', [CartController::class, 'removeItem'])->name('cart.removeItem')->middleware('auth');
-// Route::post('/update-cart', [CartController::class, 'update'])->name('update-cart')->middleware('auth');
+Route::get('/selectTipo/{artcod}', [CartController::class, 'selectTipo'])->name('cart.selectTipo')->middleware('auth');
+Route::post('/update-select/{cartcod}/{cartcant}/{type}', [CartController::class, 'changeSelect'])->middleware('auth');
 
-// Route::get('/update-cart/{id}/{quantity}', [CartController::class, 'update'])->middleware('auth');
-
-Route::post('/update-cart/{artcod}', [CartController::class, 'updateCart'])->name('cart.updateCart')->middleware('auth');
+Route::post('/update-cart/{cartcod}', [CartController::class, 'updateCart'])->name('cart.updateCart')->middleware('auth');
 // ModalCart (AJAX)
 Route::get('/modalCart', [CartController::class, 'showModalCart'])->name('cart.modalCart')->middleware('auth');
 

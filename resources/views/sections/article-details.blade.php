@@ -99,12 +99,11 @@
 
                                         <!-- Product stock -->
                                         <div class="mt-3">
-                                            @if($articulo->artstocon > 0)
-                                            <h4><span class="badge badge-danger-lighten">No
-                                                    hay Stock</span></h4>
-                                            @elseif($articulo->artstocon <= 0) <h4><span
-                                                    class="badge badge-success-lighten">En Stock</span></h4>
-                                                @endif
+                                            @if($articulo->artstocon == 1 || $articulo->artstock > 1)
+                                            <h4><span class="badge badge-success-lighten">En Stock</span></h4>
+                                            @else
+                                            <h4><span class="badge badge-danger-lighten">No hay Stock</span></h4>
+                                            @endif
                                         </div>
 
                                         <!-- Product ficha tecnica -->
@@ -113,18 +112,70 @@
                                             data-toggle="fullscreen" title="Ficha técnica">
                                             <i class="uil-clipboard-alt font-23"></i> Ver Ficha Técnica
                                         </a>
-                                        <!-- <a class="p-1 link-info " href="javascript:void(0);" data-toggle="fullscreen"
-                                            title="Ficha técnica">
-                                            <i class="uil-clipboard-alt font-23"></i> Ficha técnica no disponible,
-                                            consultenos
-                                            para más información.
-                                        </a> -->
                                         @endforeach
 
 
                                         <!-- Product price -->
+
+                                        @if($cajas->isNotEmpty())
+                                        <div class="d-flex gap-4">
+                                            @foreach($cajas as $index => $caja)
+                                            <div class="product-price">
+
+                                                @isset($articulo->precioTarifa)
+                                                <h6 class="font-14">Precio por @if($caja->cajcod == '0001' || $caja->cajcod
+                                                    == '0002' ) caja @else
+                                                    pieza @endif : </h6>
+
+                                                @if ($articulo->precioOferta)
+                                                <span class="badge badge-danger-lighten">OFERTA</span>
+                                                <h3 class="text-danger fw-bolder d-inline">
+                                                    {{ $articulo->precioOferta }} €
+                                                </h3>
+                                                <span class="text-decoration-line-through font-15">
+                                                    {{ $articulo->precioTarifa }} €</span>
+
+                                                @else
+                                                <h3> {{ $articulo->precioTarifa * $caja->cajreldir }} €</h3>
+                                                @endif
+
+                                                @else
+                                                <div class="mt-4">
+                                                    <h6 class="font-14">Precio por @if($caja->cajcod == '0001' || $caja->cajcod
+                                                    == '0002') caja @else
+                                                        pieza @endif : <span class="text-danger">El
+                                                            precio
+                                                            no está
+                                                            disponible, consúltenos.</span></h6>
+                                                </div>
+                                                @endisset
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <h6 class="font-14">Cantidad</h6>
+                                        <div class="form-check">
+                                            @isset($cajas)
+                                            @foreach($cajas as $index => $caja)
+                                            <div>
+                                                <input class="form-check-input" type="radio" value="{{ $caja->cajcod }}"
+                                                    name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef == 1)
+                                                checked
+                                                @endif
+                                                >
+                                                <label class="form-check-label" for="caja{{ $index }}">
+                                                    {{ $caja->cajnom }}
+                                                    @if($caja->cajreldir > 0)
+                                                    ({{ $caja->cajreldir }} {{ $articulo->promedcod }})
+                                                    @endif
+                                                </label>
+                                            </div>
+                                            @endforeach
+                                            @endisset
+                                        </div>
+                                        @else
+                                        <!-- Product price -->
                                         <!-- para unidades -->
-                                        <!-- <div class="product-price">
+                                        <div class="product-price">
                                             @isset($articulo->precioTarifa)
                                             <h6 class="font-14">Precio:</h6>
                                             @if ($articulo->precioOferta)
@@ -143,45 +194,11 @@
                                                         disponible, consúltenos.</span></h6>
                                             </div>
                                             @endisset
-                                        </div> -->
-                                        @isset($cajas)
-                                        <div class="d-flex gap-4">
-                                            @foreach($cajas as $index => $caja)
-                                            <div class="product-price">
-
-                                                @isset($articulo->precioTarifa)
-                                                    <h6 class="font-14">Precio  por @if($caja->cajtip == 'P' || $caja->cajtip == 'Unidades' ) pieza @else
-                                                    caja @endif : </h6>
-
-                                                    @if ($articulo->precioOferta)
-                                                    <span class="badge badge-danger-lighten">OFERTA</span>
-                                                    <h3 class="text-danger fw-bolder d-inline">
-                                                        {{ $articulo->precioOferta }} €
-                                                    </h3>
-                                                    <span class="text-decoration-line-through font-15">
-                                                        {{ $articulo->precioTarifa }} €</span>
-
-                                                    @else
-                                                    <h3> {{ $articulo->precioTarifa * $caja->cajreldir }} €</h3>
-                                                    @endif
-
-                                                    @else
-                                                    <div class="mt-4">
-                                                        <h6 class="font-14">Precio  por @if($caja->cajtip == 'P' || $caja->cajtip == 'Unidades' ) pieza @else
-                                                    caja @endif : <span class="text-danger">El
-                                                                precio
-                                                                no está
-                                                                disponible, consúltenos.</span></h6>
-                                                    </div>
-                                                @endisset
-                                            </div>
-                                            @endforeach
                                         </div>
-                                        @endisset
-                                        <!-- end product price -->
-
+                                        @endif
+                                        <!-- end product price unidades-->
                                     </div>
-
+                                    <!-- alergenos -->
                                     <div class="col text-end">
                                         @isset($alergenos)
                                         @foreach($alergenos as $alergeno)
@@ -190,57 +207,20 @@
                                         @endforeach
                                         @endisset
                                     </div>
+                                    <!-- fin alergenos -->
                                 </div>
 
                                 <!-- Quantity -->
                                 <div class="mt-3">
 
-                                    <h6 class="font-14">Cantidad</h6>
-                                    <div class="form-check">
-                                        @isset($cajas)
-                                        @foreach($cajas as $index => $caja)
-                                        <div>
-                                            <input class="form-check-input" type="radio" value="{{ $caja->cajcod }}"
-                                                name="caja" id="caja{{ $index }}" @if($caja->cajdef == 1)
-                                            checked
-                                            @endif
-                                            >
-                                            <label class="form-check-label" for="caja{{ $index }}">
-                                                {{ $caja->cajnom }}
-                                                @if($caja->cajreldir > 0)
-                                                ({{ $caja->cajreldir }} {{ $articulo->promedcod }})
-                                                @endif
-                                            </label>
-                                        </div>
-                                        @endforeach
-                                        @endisset
 
-                                        <!-- <div>
-                                            <input class="form-check-input" type="radio" value="unidades" name="caja"
-                                                id="ud" @if(!isset($caja->cajdef))
-                                            checked
-                                            @endif
-                                            >
-                                            <label class="form-check-label" for="ud">Unidades</label>
-                                        </div> -->
-                                    </div>
 
                                     <div class="d-flex align-items-end mt-3">
-                                        <!-- <input type="number" min="1" value="1" name="quantity" id="quantity"
-                                            class="form-control" placeholder="quantity" style="width: 90px;"> -->
-
-                                        <!-- Campo para la cantidad de cajas -->
-                                        <div id="box-quantity-input" style="display:none;">
-                                            <label for="box-quantity">Cantidad de cajas:</label>
-                                            <input type="number" id="box-quantity" name="box_quantity" min="1" value="1"
-                                                style="width: 90px;" class="form-control">
-                                        </div>
 
                                         <!-- Campo para la cantidad de unidades -->
-                                        <div id="unit-quantity-input">
-                                            <label for="unit-quantity">Cantidad de unidades:</label>
-                                            <input type="number" id="unit-quantity" name="ud_quantity" min="1" value="1"
-                                                style="width: 90px;" class="form-control">
+                                        <div class="quantity-input">
+                                            <input type="number" class="quantity form-control" name="quantity" min="1"
+                                                value="1" style="width: 90px;">
                                         </div>
                                         <button type="submit" class="btn btn-danger ms-2"><i
                                                 class="mdi mdi-cart me-1"></i> Añadir al carrito</button>

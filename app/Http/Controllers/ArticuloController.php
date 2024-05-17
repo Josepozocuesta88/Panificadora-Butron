@@ -62,9 +62,8 @@ class ArticuloController extends Controller
                   ->orWhere('artcod', 'like', "%{$searchTerm}%");
         })
         ->where('artsit', 'C')
-        ->with('imagenes')
+        ->with(['imagenes', 'cajas']) 
         ->paginate(12);
-
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
         

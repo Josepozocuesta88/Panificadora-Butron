@@ -1,3 +1,98 @@
+$(document).ready(function () {
+    $(".quantity-update").on("change", function () {
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var cartcod = $(this).data("cartcod");
+        var box_quantity = $(".box_quantity[data-cartcod='" + cartcod + "']").val();
+        var type = $(".tipoCajaSelect[data-cartcod='" + cartcod + "']").val();
+
+        $.ajax({
+            url: "/update-cart/" + cartcod,
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                box_quantity: box_quantity,
+                type: type,
+            },
+            success: function (response) {
+                location.reload();
+            },
+            error: function (response) {
+                console.log(response.message);
+            },
+        });
+    });
+
+    $(".tipoCajaSelect").on("change", function () {
+        var select = $(this);
+        var selectedValue = select.val();
+        var cartcant = select.data("cartcant");
+        var cartcod = select.data("cartcod");
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+
+        $.ajax({
+            url: "/update-select/" + cartcod + "/" + cartcant + "/" + selectedValue,
+            type: "POST",
+            data: {
+                _token: csrfToken,
+            },
+            success: function (response) {
+                location.reload();
+            },
+            error: function (response) {
+                console.log("Error: " + response.responseText);
+            },
+        });
+    });
+
+    rellenarSelects();
+});
+
+function rellenarSelects() {
+    $(".tipoCajaSelect").each(function () {
+        var select = $(this);
+        var productId = select.data("artcod");
+
+        if (select.val() === 'unidades') {
+            select.html('<option value="unidades" selected>Unidad</option>');
+            return; // No realizar AJAX para artículos sin cajas/piezas
+        }
+
+        $.ajax({
+            url: "/selectTipo/" + productId,
+            type: "GET",
+            success: function (response) {
+                var cajas = response.cajas;
+                select.empty();
+                var cajcod = select.data("cajcod");
+
+                $.each(cajas, function (i, caja) {
+                    var tipo = "";
+                    if (caja.cajcod == "0001") {
+                        tipo = "Caja";
+                    } else if (caja.cajcod == "0003") {
+                        tipo = "Pieza";
+                    } else {
+                        tipo = "Media";
+                    }
+
+                    var isSelected = cajcod == caja.cajcod;
+
+                    var option = $("<option>", {
+                        value: caja.cajcod,
+                        text: tipo,
+                        selected: isSelected,
+                    });
+
+                    select.append(option);
+                });
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    });
+}
+
 // removeItem
 $("#removeItem").submit(function (e) {
     e.preventDefault();
@@ -14,58 +109,6 @@ $("#removeItem").submit(function (e) {
             console.log(e.message);
         },
     });
-});
-
-// update quantity
-$(document).ready(function () {
-    // para habilitar o deshabilitar los inputs
-    $(".quantity-update").each(function () {
-        var enableType = $(this).data("enable-type");
-        var updateType = $(this).data("update-type");
-
-        if (enableType === "unidades" && updateType === "bulto") {
-            $(this).prop("disabled", true);
-        } else if (enableType !== "unidades" && updateType === "unidades") {
-            $(this).prop("disabled", true);
-        }
-    });
-
-    var csrfToken = $('meta[name="csrf-token"]').attr("content");
-
-    $(".quantity-update").on("change", function () {
-        var productId = $(this).data("cartcod");
-        var quantity = $(this).val();
-        var updateType = $(this).data("update-type"); // "bulto" o "unidades"
-
-        $.ajax({
-            url: "/update-cart/" + productId,
-            type: "POST",
-            data: {
-                _token: csrfToken,
-                quantity: quantity,
-                cartcod: productId,
-                updateType: updateType,
-            },
-            success: function (response) {
-                location.reload();
-            },
-            error: function (response) {
-                console.log(response.message);
-            },
-        });
-    });
-});
-
-// Logica para alternar entre cajas y unidades (en article-details)
-$("input[type=radio][name=caja]").change(function () {
-    if ($(this).val() === "unidades" || $(this).val() === "0003") {
-        $("#box-quantity-input").hide();
-        $("#unit-quantity-input").show();
-    } else {
-        // Si no es 'unidades', asumimos que cualquier otro valor es una caja
-        $("#box-quantity-input").show();
-        $("#unit-quantity-input").hide();
-    }
 });
 
 // showModalCart
