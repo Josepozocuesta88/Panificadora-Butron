@@ -214,6 +214,7 @@ class CartController extends Controller
             $pedidoLinea->save();
         }
 
+        $data['usuario'] = Auth::user();
         try {
             Mail::send('sections.email-order', $data, function ($message) use ($data, $email, $email_copia) {
                 $message->to($email)

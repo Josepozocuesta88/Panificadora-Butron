@@ -4,7 +4,7 @@
 <head>
     <title>Pedido procesado</title>
     <style>
-    .email-container {
+    .center {
         text-align: center;
     }
 
@@ -23,6 +23,7 @@
         text-align: left;
         margin-top: 20px;
     }
+
     .line {
         text-decoration: line-through;
     }
@@ -30,57 +31,88 @@
 </head>
 
 <body>
-    <div class="email-container">
-        <h2>¡Tu pedido ha sido procesado!</h2>
-        <p>Gracias por tu compra. Aquí están los detalles de tu pedido:</p>
-        <table class="email-table">
-            <thead>
-                <tr>
-                    <th>Código de Artículo</th>
-                    <th>Nombre</th>
-                    <th>Bulto</th>
-                    <th>Cantidad Uds.</th>
-                    <th>Precio</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach ($itemDetails as $detail)
-                <tr>
-
-                    <td>{{ $detail['artcod'] }}</td>
-                    
-                    <td>
-                        @if (array_key_exists('image', $detail))
-                        <img src="{{ asset('images/articulos/'. $detail['image'] ) }}" height="48" style="margin-right: 8px;"/>
-                        @endif
-                        {{ $detail['artnom'] ?? 'N/A' }}
-                    </td>
-                    
-                    <td>{{ $detail['cantidad_cajas'] }}</td>
-
-                    <td>{{ $detail['cantidad_unidades'] }}</td>
-
-                    <td>  
-                        {{ $detail['price'] }} €
-                        @if($detail['tarifa'] !== null )
-                        <small class="line">{{ $detail['tarifa'] }} €</small>
-                        @endif
-                    </td>
-
-                    <td>{{ $detail['total'] }} €</td>
-
-                </tr>
-                @endforeach
-
-            </tbody>
-        </table>
-        <div class="totals">
-            <p>Subtotal: {{ $subtotal }} €</p>
-            <p>Total: {{ $total }} €</p>
-        </div>
+    <div class="center">
+        <h3>Estimado {{ $usuario['name'] }}</h3>
+        <p>Nos complace informarle que su pedido ha sido recibido y está siendo procesado. A continuación, encontrará
+            los detalles de su pedido:</p>
     </div>
+    <h4>Detalles del Cliente:</h4>
+    <ul>
+        <li>Nombre: {{ $usuario['name'] }}</li>
+        <li>Correo Electrónico: {{ $usuario['name'] }}</li>
+    </ul>
+    <br>
+    <h4>Detalles del Pedido:</h4>
+    <table class="email-table">
+        <thead>
+            <tr>
+                <th>Código de Artículo</th>
+                <th>Nombre</th>
+                @if(config('app.caja') == 'si')
+                <th>Bulto</th>
+                @endif
+                <th>Cantidad Uds.</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach ($itemDetails as $detail)
+            <tr>
+
+                <td>{{ $detail['artcod'] }}</td>
+
+                <td>
+                    @if (array_key_exists('image', $detail))
+                    <img src="{{ asset('images/articulos/'. $detail['image'] ) }}" height="48"
+                        style="margin-right: 8px;" />
+                    @endif
+                    {{ $detail['name'] ??  'N/A' }}
+                </td>
+                @if(config('app.caja') == 'si')
+                <td style="text-align: right;">{{ $detail['cantidad_cajas'] }}</td>
+                @endif
+                <td style="text-align: right;">{{ $detail['cantidad_unidades'] }}</td>
+
+                <td style="text-align: right;">
+                    {{ $detail['price'] }} €
+                    @if($detail['isOnOffer'])
+                    <small class="text-decoration-line-through">{{ $detail['tarifa'] }}
+                        €</small>
+                    @endif
+                </td>
+
+                <td style="text-align: right;">{{ $detail['total'] }} €</td>
+
+            </tr>
+            @endforeach
+
+        </tbody>
+    </table>
+    <br>
+
+    <div class="totals">
+        <h4>Resumen del Pedido:</h4>
+        <p>Subtotal: {{ $subtotal }} €</p>
+        <p>Total: {{ $total }} €</p>
+    </div>
+    <br>
+
+    <div class="center">
+        <p>
+            Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros
+            llamando al {{ config('app.telefono') }}.
+        </p>
+        <p>¡Gracias por comprar con nosotros!</p>
+        <p>Atentamente,</p>
+        <p>{{ config('app.name') }}</p>
+        <p><img src="{{ asset(config('app.logo')) }}" height="48" /></p>
+        <p>{{ config('mail.cc') }}</p>
+        <p>{{ config('app.telefono') }}</p>
+        <p>{{ config('app.direccion') }}</p>
+    </div>
+
 </body>
 
 </html>
