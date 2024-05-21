@@ -103,7 +103,7 @@
                                                     </div>
                                                 </td>
                                                 @if(config('app.caja') == 'si')
-                                                
+
                                                 <!-- tipo -->
                                                 <td>
                                                     <select class="tipoCajaSelect form-select"
@@ -125,16 +125,17 @@
                                                     </div>
                                                 </td>
                                                 @endif
+                                                <!-- precio -->
                                                 <td>
-                                                    {{ $item['price'] }} €
+                                                    {{ \App\Services\FormatoNumeroService::convertirADecimal($item['price']) }} €
                                                     @if($item['isOnOffer'])
-                                                    <small class="text-decoration-line-through">{{ $item['tarifa'] }}
+                                                    <small class="text-decoration-line-through">{{ \App\Services\FormatoNumeroService::convertirADecimal($item['tarifa']) }}
                                                         €</small>
                                                     @endif
                                                 </td>
-
+                                                <!-- total -->
                                                 <td>
-                                                    {{ $item['total'] }} €
+                                                    {{ \App\Services\FormatoNumeroService::convertirADecimal($item['total']) }} €
                                                 </td>
                                                 <td>
                                                     <form method="POST" id="removeItem"
@@ -185,20 +186,23 @@
                                             <tbody>
                                                 <tr>
                                                     <td>Subtotal :</td>
-                                                    <td class="ps-0">{{ number_format($subtotal, 2) }} €</td>
+                                                    <td class="ps-0">{{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €</td>
                                                 </tr>
-                                                
-                                                <tr>
+
+                                                <!-- <tr>
                                                     <td>Descuento: </td>
                                                     <td class="ps-0">- X €</td>
-                                                </tr>
+                                                </tr> -->
                                                 <tr>
                                                     <td>Gastos de envío :</td>
-                                                    <td class="ps-0">{{ number_format($shippingCost, 2) }} €</td>
+                                                    <td class="ps-0">{{ \App\Services\FormatoNumeroService::convertirADecimal($shippingCost) }} €</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total :</th>
-                                                    <th class="ps-0">{{ number_format($total, 2) }} €</th>
+                                                    <th class="ps-0">{{ \App\Services\FormatoNumeroService::convertirADecimal($total) }} €</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>( Impuestos no incluidos )</th>
                                                 </tr>
                                             </tbody>
                                         </table>

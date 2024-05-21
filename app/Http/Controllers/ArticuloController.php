@@ -83,13 +83,14 @@ class ArticuloController extends Controller
         // Obtenemos los alérgenos que contiene este artículo
         $alergenos = $articulo->alergenos->pluck('tagnom');
         $cajas = $articulo->cajas;
+
         // Obtenemos el precio del artículo
         $articulos = collect([$articulo]); // Crear una colección con el artículo
         $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
         $usuofecod = Auth::user() ? Auth::user()->usuofecod : '';
         $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod, $usuofecod); // Obtener precios
         $articuloConPrecio = $articulosConPrecio->first(); // Obtener el artículo actualizado con precio
-        // dd($articuloConPrecio);
+        // dd($articuloConPrecio->precioOferta);
         return view('sections.article-details', [
             'articulo' => $articuloConPrecio,
             'precio' => $articuloConPrecio->precio,

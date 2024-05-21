@@ -123,7 +123,8 @@
                                             <div class="product-price">
 
                                                 @isset($articulo->precioTarifa)
-                                                <h6 class="font-14">Precio por @if($caja->cajcod == '0001' ) caja @elseif($caja->cajcod
+                                                <h6 class="font-14">Precio por @if($caja->cajcod == '0001' ) caja
+                                                    @elseif($caja->cajcod
                                                     == '0002')
                                                     media
                                                     @else
@@ -132,19 +133,30 @@
                                                 @if ($articulo->precioOferta)
                                                 <span class="badge badge-danger-lighten">OFERTA</span>
                                                 <h3 class="text-danger fw-bolder d-inline">
-                                                    {{ $articulo->precioOferta }} €
+                                                    @if($caja->cajcod == '0001' || $caja->cajcod == '0002')
+                                                    {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta * $caja->cajreldir) }} €
+                                                    @else
+                                                    {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta) }} €
+                                                    @endif
                                                 </h3>
                                                 <span class="text-decoration-line-through font-15">
-                                                    {{ $articulo->precioTarifa }} €</span>
+                                                    @if($caja->cajcod == '0001' || $caja->cajcod == '0002')
+                                                    {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa * $caja->cajreldir) }} €
+                                                    @else
+                                                    {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa) }} €
+                                                    @endif
+                                                </span>
 
                                                 @else
-                                                <h3> {{ $articulo->precioTarifa * $caja->cajreldir }} €</h3>
+                                                <h3> {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa * $caja->cajreldir) }}
+                                                    €</h3>
                                                 @endif
 
                                                 @else
                                                 <div class="mt-4">
-                                                    <h6 class="font-14">Precio por @if($caja->cajcod == '0001' || $caja->cajcod
-                                                    == '0002') caja @else
+                                                    <h6 class="font-14">Precio por @if($caja->cajcod == '0001' ||
+                                                        $caja->cajcod
+                                                        == '0002') caja @else
                                                         pieza @endif : <span class="text-danger">El
                                                             precio
                                                             no está

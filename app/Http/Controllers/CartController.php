@@ -79,21 +79,32 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $cart = Cart::where('cartcod', $cartcod)->first();
-        
+    
         if (!$cart) {
             return response()->json(['error' => 'Artículo no encontrado'], 404);
         }
-        
-        $cart->cartcajcod = $selectedValue;
-        $cart->save(); 
-
-        list($quantity_ud, $quantity_box) = Caja::quantityByType($cart->cartartcod, $selectedValue, $cartcant);
-        $cart->cartcantcaj = $quantity_box;
-        $cart->cartcant = $quantity_ud;
-        $cart->save(); 
+    
+        $existingCart = Cart::where('cartartcod', $cart->cartartcod)
+                            ->where('cartcajcod', $selectedValue)
+                            ->first();
+    
+        list($quantity_ud, $quantity_box) = Caja::quantityByType($cart->cartartcod, $selectedValue, $cartcant); 
+        if ($existingCart) {
+            // Log::info('Datos procesados', ['existingCart' => $existingCart]);
+            $existingCart->cartcant += $quantity_ud;
+            $existingCart->cartcantcaj += $quantity_box;
+            $existingCart->save();
+            $cart->delete(); 
+        } else {
+            $cart->cartcajcod = $selectedValue;
+            $cart->cartcantcaj = $quantity_box;
+            $cart->cartcant = $quantity_ud;
+            $cart->save();
+        }
     
         return response()->json(['success' => true]);
     }
+    
     
     public function showCart(Request $request)
     {
@@ -196,6 +207,9 @@ class CartController extends Controller
         
         $pedido = new Pedido;
         $pedido->cliente_id = $user->id;
+        $pedido->accclicod = $user->usuclicod;
+        $pedido->acccencod = $user->usucencod;
+        $pedido->estado = 2;
         $pedido->fecha = date('Y-m-d H:i:s');
         $pedido->subtotal = $data['subtotal'];
         $pedido->total = $data['total'];

@@ -296,11 +296,14 @@
                                             @endif
                                         </span>
                                     </h5>
-                                    <span class="font-18 text-danger fw-bolder"> {{ $articulo->precioOferta }} €</span>
-                                    <span class="text-decoration-line-through font-14"> {{ $articulo->precioTarifa }}
-                                        €</span>
+                                    <span class="font-18 text-danger fw-bolder"> 
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta) }} €
+                                    </span>
+                                    <span class="text-decoration-line-through font-14"> 
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa) }} €
+                                    </span>
                                     @elseif(isset($articulo->precioTarifa))
-                                    <span class="font-18"> {{ $articulo->precioTarifa }} €</span>
+                                    <span class="font-18"> {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa) }} €</span>
                                     @else
                                     <span class="font-18"></span>
                                     @endif

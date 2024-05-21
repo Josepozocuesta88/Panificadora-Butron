@@ -14,6 +14,9 @@ class pedido extends Model
 
     protected $fillable = [
         'cliente_id',
+        'accclicod',
+        'acccencod',
+        'estado',
         'fecha',
         'subtotal',
         'total',

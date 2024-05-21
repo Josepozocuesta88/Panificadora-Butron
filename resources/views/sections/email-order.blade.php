@@ -39,7 +39,7 @@
     <h4>Detalles del Cliente:</h4>
     <ul>
         <li>Nombre: {{ $usuario['name'] }}</li>
-        <li>Correo Electrónico: {{ $usuario['name'] }}</li>
+        <li>Correo Electrónico: {{ $usuario['email'] }}</li>
     </ul>
     <br>
     <h4>Detalles del Pedido:</h4>
