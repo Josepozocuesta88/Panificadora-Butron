@@ -32,7 +32,7 @@
 
 <body>
     <div class="center">
-        <h3>Estimado {{ $usuario['name'] }}</h3>
+        <h3>Estimad@ {{ $usuario['name'] }}</h3>
         <p>Nos complace informarle que su pedido ha sido recibido y está siendo procesado. A continuación, encontrará
             los detalles de su pedido:</p>
     </div>

@@ -19,12 +19,9 @@ class DashboardController extends Controller
     {
 
         $fecha = $request->query('fecha');
-        // dd($fecha);
+        
         if ($request->ajax()) {
-            // Datos del último año por defecto
-            // Inicializa $endDate al día actual
             $endDate = Carbon::today();
-            // Inicializa $startDate al año anterior por defecto
             $startDate = $endDate->copy()->subYear();
 
             switch ($fecha) {
@@ -57,7 +54,6 @@ class DashboardController extends Controller
             $topSellingItems = $this->getTop10($startDate, $endDate);
 
             // Log::info('Datos procesados', ['data' => $chartPurchasesByMonth]);
-            // Retorna los datos en formato JSON
             return response()->json([
                 'data' => $data,
                 'selectedRange' => '1y',
@@ -65,7 +61,7 @@ class DashboardController extends Controller
                 'topSellingItems' => $topSellingItems,
             ]);
         } else {
-            // Si no es una petición AJAX, retorna la vista como lo hacías antes
+           
             return view('sections.dashboard');
         }
 
@@ -76,15 +72,15 @@ class DashboardController extends Controller
     {
         $usucod = Auth::user()->usuclicod;
 
-        // Consulta para contar todos los pedidos 
+        
         $currentPeriodOrders = Historico::whereBetween('estalbfec', [$startDate, $endDate])
         ->where('estclicod', $usucod)
         ->select(DB::raw('count(DISTINCT estalbnum) as order_count'))
         ->get()
         ->first()
         ->order_count;
-        // Consulta para contar todos los pedidos en el periodo anterior
-        $previousPeriodEndDate = $startDate->copy()->subDay(1); // Un día antes del inicio del periodo actual
+        
+        $previousPeriodEndDate = $startDate->copy()->subDay(1); 
         $previousPeriodStartDate = $previousPeriodEndDate->copy()->subDays($endDate->diffInDays($startDate));
         
         $previousPeriodOrders = Historico::whereBetween('estalbfec', [$previousPeriodStartDate, $previousPeriodEndDate])
@@ -141,7 +137,7 @@ class DashboardController extends Controller
         ->take(10)
         ->get();
     
-        // Log::info('Datos procesados', ['topSellingItems' => $topSellingItems]);  // Loguear los datos procesados
+        // Log::info('Datos procesados',  ['topSellingItems' => $topSellingItems]);  // Loguear los datos procesados
         // Log::info('SQL Query', ['query' => $topSellingItems->toSql(), 'bindings' => $topSellingItems->getBindings()]);
 
         return $topSellingItems;

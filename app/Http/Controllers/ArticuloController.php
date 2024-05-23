@@ -27,12 +27,6 @@ class ArticuloController extends Controller
     {
         $this->articleService = $articleService;
     }
-    //
-    // public function index()
-    // {
-    //     $articulos = Articulo::all();
-    //     return $this->prepareView($articulos);
-    // }
 
     public function show($catcod)
     {
@@ -47,60 +41,75 @@ class ArticuloController extends Controller
 
     public function search(Request $request)
     {   
-        $query = $request->get('query');
-       
-        // $articulos = Articulo::where('artnom', 'like', "%{$query}%")
-        //     ->orWhere('artobs', 'like', "%{$query}%")
-        //     ->orWhere('artcod', 'like', "%{$query}%")
-        //     ->where('artsit', 'C')
-        //     ->with('imagenes')
-            // ->paginate(12);
-        $articulos = Articulo::where(function ($query) use ($request) {
-            $searchTerm = $request->get('query');
-            $query->where('artnom', 'like', "%{$searchTerm}%")
-                  ->orWhere('artobs', 'like', "%{$searchTerm}%")
-                  ->orWhere('artcod', 'like', "%{$searchTerm}%");
-        })
-        ->where('artsit', 'C')
-        ->with(['imagenes', 'cajas']) 
-        ->paginate(12);
+
+        $cadLeida = explode(' ', $request->get('query')); 
+
+        if (Auth::user()) {
+            $articulos = Articulo::where(function ($query) use ($cadLeida) {
+                foreach ($cadLeida as $word) {
+                    $query->orWhere('artnom', 'LIKE', '%' . $word . '%');
+                }
+            })->orWhere(function ($query) use ($cadLeida) {
+                foreach ($cadLeida as $word) {
+                    $query->orWhere('artobs', 'LIKE', '%' . $word . '%');
+                }
+            })->orWhere(function ($query) use ($cadLeida) {
+                foreach ($cadLeida as $word) {
+                    $query->orWhere('artcod', 'LIKE', '%' . $word . '%');
+                }
+            })->where('artsit', 'C')
+            ->with(['imagenes', 'cajas']) 
+            ->paginate(12);
+        }else{
+
+            $articulos = Articulo::where(function ($query) use ($cadLeida) {
+                foreach ($cadLeida as $word) {
+                    $query->orWhere('artnom', 'LIKE', '%' . $word . '%');
+                }
+            })->orWhere(function ($query) use ($cadLeida) {
+                foreach ($cadLeida as $word) {
+                    $query->orWhere('artobs', 'LIKE', '%' . $word . '%');
+                }
+            })->orWhere(function ($query) use ($cadLeida) {
+                foreach ($cadLeida as $word) {
+                    $query->orWhere('artcod', 'LIKE', '%' . $word . '%');
+                }
+            })->where('artsit', 'C')
+            ->with(['imagenes', 'cajas']) 
+            ->paginate(12);
+        }
+
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
         
         return $this->prepareView($articulos, null, $ofertas);
     }
 
-
     
     public function info($artcod) {
-        // Obtenemos el artículo cuyo artcod coincida con el que se pasó por parámetro
         $articulo = Articulo::with('imagenes', 'alergenos', 'cajas')->find($artcod);
     
         if (!$articulo) {
             return redirect('sections.categories')->with('error', 'Artículo no encontrado');
         }
     
-        // Obtenemos los alérgenos que contiene este artículo
         $alergenos = $articulo->alergenos->pluck('tagnom');
         $cajas = $articulo->cajas;
 
-        // Obtenemos el precio del artículo
-        $articulos = collect([$articulo]); // Crear una colección con el artículo
+        $articulos = collect([$articulo]); 
         $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
         $usuofecod = Auth::user() ? Auth::user()->usuofecod : '';
-        $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod, $usuofecod); // Obtener precios
-        $articuloConPrecio = $articulosConPrecio->first(); // Obtener el artículo actualizado con precio
-        // dd($articuloConPrecio->precioOferta);
+        $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod, $usuofecod); 
+        $articuloConPrecio = $articulosConPrecio->first(); 
+
         return view('sections.article-details', [
             'articulo' => $articuloConPrecio,
             'precio' => $articuloConPrecio->precio,
             'alergenos' => $alergenos,
             'cajas' => $cajas,
-            // 'unidades' => $unidades
         ]);
     }
     
-
 
     
     public function filters(Request $request, $catnom = null)
@@ -117,15 +126,7 @@ class ArticuloController extends Controller
             $categoriaNombre = $catnom;
         }
     
-        // Ordenar por oferta
         if ($request->has('orden_oferta')) {
-            /*SELECT qarticulo.* FROM qarticulo
-            LEFT JOIN qofertac ON qarticulo.artcod = qofertac.ofcartcod
-                AND qofertac.ofccod = $usuofecod
-                AND qofertac.ofcfecfin >= $today
-            GROUP BY qarticulo.artcod
-            ORDER BY ISNULL(qofertac.ofcartcod);
-            */
             $usuofecod = Auth::user()->usuofecod;
             $query->leftJoin('qofertac', function ($join) use ($today, $usuofecod) {
                 $join->on('qanet_articulo.artcod', '=', 'qofertac.ofcartcod')
@@ -137,7 +138,6 @@ class ArticuloController extends Controller
             ->groupBy('qanet_articulo.artcod');
         }
     
-        // Ordenar por precio
         if ($request->has('orden_precio')) {
             $usutarcod = Auth::user()->usutarcod;
         
@@ -151,27 +151,26 @@ class ArticuloController extends Controller
             );
         }
     
-        // Ordenar por nombre
         if ($request->has('orden_nombre')) {
             $query->orderBy('artnom', $request->input('orden_nombre')); 
         }
         $articulos = $query->paginate(12)->appends($request->all());
-        // dd($articulos);
+
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
 
         return $this->prepareView($articulos, $categoriaNombre, $ofertas);
     }
     
-    
 
 
-    // funciones privadas
     private function prepareView($articulos, $catnom = null, $ofertas = null)
     {
         $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
-        $categorias = Category::all();
 
+        $categorias = Category::all();
+        // $category = new Category();
+        // $categorias = Auth::user() ? $category->esCliente(true) : $category->esCliente(false);
         if (Auth::user()) {
             $usutarcod = Auth::user()->usutarcod;
             $usuofecod = Auth::user()->usuofecod;

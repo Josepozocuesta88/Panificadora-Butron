@@ -12,17 +12,17 @@ class OfertasGeneralesService implements OfertaServiceInterface
 {
     public function obtenerOfertas()
     {
-        // Lógica para recuperar ofertas generales
         $today = Carbon::now();
 
         $ofertas = OfertaC::where('ofccod', '=', '')
                         ->whereDate('ofcfecini', '<=', $today)
                         ->whereDate('ofcfecfin', '>=', $today)
                         ->get();
-
+        foreach ($ofertas as $oferta) {
+            if ($oferta->ofcima === null || $oferta->ofcima === '') {
+                $oferta->ofcima = "noimage.jpg";
+            }
+        }
         return $ofertas;
     }
 }
-
-
-

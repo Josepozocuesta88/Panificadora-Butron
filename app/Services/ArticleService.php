@@ -8,14 +8,7 @@ use Carbon\Carbon;
 
 class ArticleService
 {
-    /**
-     * Calcula los precios de una colección de artículos.
-     *
-     * @param  \Illuminate\Database\Eloquent\Collection  $articulos
-     * @param  string  $usutarcod
-     * @param  string  $usuofecod
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
+
     public function calculatePrices($articulos, $usutarcod, $usuofecod)
     {
         $today = Carbon::now();

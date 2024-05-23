@@ -10,7 +10,6 @@ use App\Models\User;
 
 class AccountsController extends Controller
 {
-    //
     public function index(Request $request){
         if (!$request->ajax()) {
             return view('sections.accounts');

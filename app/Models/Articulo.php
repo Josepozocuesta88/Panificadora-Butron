@@ -27,12 +27,7 @@ class Articulo extends Model
         'artstocon',
         'artcatcodw1'
     ];
-    // Relaciones en laravel: son métodos que devuelven una instancia 
-    // de una de las clases de relación de Laravel: hasOne, hasMany, belongsTo, belongsToMany, etc.
-    //  Estos métodos no ejecutan la consulta de la relación, sino que devuelven una instancia 
-    //  de la relación que puedes usar para consultar la relación.
-    // no se puede usar el metodo with de Eloquent con un metodo de un modelo porque with() espera 
-    // una relación no un resultado de una relacion (el resultado de una relacion sería p.e. primeraImagen)
+
     public function etiquetas()
     {
         return $this->belongsToMany(Etiqueta::class, 'qarticulo_etiqueta', 'etiartcod', 'etitagcod');
@@ -58,6 +53,7 @@ class Articulo extends Model
         return $this->belongsToMany(Etiqueta::class, 'qarticulo_etiqueta', 'etiartcod', 'etitagcod')
                     ->where('tagtip', 1);
     }
+
     public function categoria()
     {
         return $this->belongsTo(Category::class, 'artcatcodw1', 'id');
@@ -117,5 +113,4 @@ class Articulo extends Model
         }
     }
     
-
 }

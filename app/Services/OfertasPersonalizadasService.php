@@ -25,7 +25,12 @@ class OfertasPersonalizadasService implements OfertaServiceInterface
             ->get();
     
         $ofertas = $ofertasGenerales->concat($ofertasPersonalizadas);
-    
+        foreach ($ofertas as $oferta) {
+            if ($oferta->ofcima === null || $oferta->ofcima === '') {
+                $oferta->ofcima = "noimage.jpg";
+            }
+        }
+        
         // dd($ofertas);
     
         return $ofertas;
