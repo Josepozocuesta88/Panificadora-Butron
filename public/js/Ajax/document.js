@@ -80,6 +80,7 @@ $(document).ready(function ajaxDashboard() {
         title: "Descargar",
         data: "descarga",
         render: function (data, type, row) {
+
             if (data) {
                 var html =
                     '<a href="/documentos/download/' +

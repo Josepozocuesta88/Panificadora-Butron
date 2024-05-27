@@ -15,6 +15,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PuntosController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\UserLogController;
+use App\Http\Controllers\PedidoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -113,7 +115,11 @@ Route::post('/update-cart/{cartcod}', [CartController::class, 'updateCart'])->na
 Route::get('/modalCart', [CartController::class, 'showModalCart'])->name('cart.modalCart')->middleware('auth');
 
 // Generar pedido
-Route::get('/order', [CartController::class, 'makeOrder'])->name('makeOrder')->middleware('auth');
+Route::get('/order', [PedidoController::class, 'makeOrder'])->name('makeOrder')->middleware('auth');
+
+// Ver pedidos
+Route::get('/pedidos/pedido/{id?}', [PedidoController::class, 'mostrarPedido'])->name('pedido.mostrarPedido')->middleware('auth');
+Route::get('/pedidos', [PedidoController::class, 'mostrarTodos'])->name('pedido.mostrarTodos')->middleware('auth');
 
 
 

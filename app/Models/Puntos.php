@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Puntos extends Model
 {
     use HasFactory;
-    protected $table = 'gif_points';
+    protected $table = 'gift_points';
     
     protected $fillable = [
         'codigo', 

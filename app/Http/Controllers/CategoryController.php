@@ -22,8 +22,6 @@ class CategoryController extends Controller
 
     public function index()
     {
-        // $category = new Category();
-        // $categories = Auth::user() ? $category->esCliente(true) : $category->esCliente(false);
 
         $categories = Category::all();
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);

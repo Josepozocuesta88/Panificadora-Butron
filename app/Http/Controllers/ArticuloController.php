@@ -34,7 +34,22 @@ class ArticuloController extends Controller
         $ofertas = $ofertasService->obtenerOfertas();
 
         $categoria = Category::where('id', $catcod)->firstOrFail();
-        $articulos = $categoria->articulos()->where('artsit', 'C')->where('artcatcodw1', $catcod)->paginate(12);
+
+        if (Auth::user()) {
+            $articulos = $categoria->articulos()
+                    ->where('artsit', 'C')
+                    ->where('artcatcodw1', $catcod)
+                    ->paginate(12);
+        }else{
+
+            $articulos = $categoria->articulos()->where(function ($query) {
+                $query->where('artsolcli', '<>', 1)
+                        ->orWhereNull('artsolcli');
+                    })
+                    ->where('artsit', 'C')
+                    ->where('artcatcodw1', $catcod)
+                    ->paginate(12);
+        }
 
         return $this->prepareView($articulos, $categoria->nombre_es, $ofertas);
     }
@@ -45,7 +60,8 @@ class ArticuloController extends Controller
         $cadLeida = explode(' ', $request->get('query')); 
 
         if (Auth::user()) {
-            $articulos = Articulo::where(function ($query) use ($cadLeida) {
+            $articulos = Articulo::where('artsit', 'C')
+            ->where(function ($query) use ($cadLeida) {
                 foreach ($cadLeida as $word) {
                     $query->orWhere('artnom', 'LIKE', '%' . $word . '%');
                 }
@@ -57,26 +73,34 @@ class ArticuloController extends Controller
                 foreach ($cadLeida as $word) {
                     $query->orWhere('artcod', 'LIKE', '%' . $word . '%');
                 }
-            })->where('artsit', 'C')
+            })
             ->with(['imagenes', 'cajas']) 
             ->paginate(12);
         }else{
 
-            $articulos = Articulo::where(function ($query) use ($cadLeida) {
-                foreach ($cadLeida as $word) {
-                    $query->orWhere('artnom', 'LIKE', '%' . $word . '%');
-                }
-            })->orWhere(function ($query) use ($cadLeida) {
-                foreach ($cadLeida as $word) {
-                    $query->orWhere('artobs', 'LIKE', '%' . $word . '%');
-                }
-            })->orWhere(function ($query) use ($cadLeida) {
-                foreach ($cadLeida as $word) {
-                    $query->orWhere('artcod', 'LIKE', '%' . $word . '%');
-                }
-            })->where('artsit', 'C')
-            ->with(['imagenes', 'cajas']) 
-            ->paginate(12);
+            $articulos = Articulo::where(function ($query) {
+                    $query->where('artsolcli', '<>', 1)
+                        ->orWhereNull('artsolcli');
+                })
+                ->where('artsit', 'C')
+                ->where(function ($query) use ($cadLeida) {
+                    $query->where(function ($subQuery) use ($cadLeida) {
+                        foreach ($cadLeida as $word) {
+                            $subQuery->orWhere('artnom', 'LIKE', '%' . $word . '%');
+                        }
+                    })->orWhere(function ($subQuery) use ($cadLeida) {
+                        foreach ($cadLeida as $word) {
+                            $subQuery->orWhere('artobs', 'LIKE', '%' . $word . '%');
+                        }
+                    })->orWhere(function ($subQuery) use ($cadLeida) {
+                        foreach ($cadLeida as $word) {
+                            $subQuery->orWhere('artcod', 'LIKE', '%' . $word . '%');
+                        }
+                    });
+                })
+                ->with(['imagenes', 'cajas'])
+                ->paginate(12);
+        
         }
 
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
@@ -154,7 +178,15 @@ class ArticuloController extends Controller
         if ($request->has('orden_nombre')) {
             $query->orderBy('artnom', $request->input('orden_nombre')); 
         }
-        $articulos = $query->paginate(12)->appends($request->all());
+
+        if (Auth::user()) {
+            $articulos = $query->paginate(12)->appends($request->all());
+        }else{
+            $articulos = $query->where(function ($query) {
+                $query->where('artsolcli', '<>', 1)
+                    ->orWhereNull('artsolcli');
+            })->paginate(12)->appends($request->all());
+        }
 
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
@@ -169,8 +201,7 @@ class ArticuloController extends Controller
         $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
 
         $categorias = Category::all();
-        // $category = new Category();
-        // $categorias = Auth::user() ? $category->esCliente(true) : $category->esCliente(false);
+
         if (Auth::user()) {
             $usutarcod = Auth::user()->usutarcod;
             $usuofecod = Auth::user()->usuofecod;

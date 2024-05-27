@@ -25,7 +25,8 @@ class Articulo extends Model
         'artdocaso', 
         'artstock',
         'artstocon',
-        'artcatcodw1'
+        'artcatcodw1',
+        'artsolcli'
     ];
 
     public function etiquetas()
@@ -72,18 +73,13 @@ class Articulo extends Model
     {
         return $this->hasMany(Historico::class, 'estartcod', 'artcod');
     }
-    // metodos
+
     public function primeraImagen()
     {
         $imagen = $this->imagenes()->first();
         return $imagen ? $imagen->imanom : null;
     }
 
-    // Definimos un accesor siguiendo la convención de nomenclatura de laravel para accesores y conmutadores
-    // con ello laravel sabe con que campo de la tabla lo va a usar
-    // Para lo que sirve: convierte el valor de artcod a una cadena antes de devolverlo
-    // esto lo hago porque se estaba interpretando la primary key como un valor de tipo entero a pesar de ser un string, 
-    // esto podria estar ocurriendo o bien por un bug de laravel o bien por un bug en el driver de la base de datos.
     public function getArtcodAttribute($value)
     {
         return strval($value);

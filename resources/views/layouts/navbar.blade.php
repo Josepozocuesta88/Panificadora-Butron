@@ -264,6 +264,9 @@
                                         <a onclick="window.location.href='/articles/search?query=';"
                                             href="#">Productos</a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('pedido.mostrarPedido') }}">Mis Pedidos</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

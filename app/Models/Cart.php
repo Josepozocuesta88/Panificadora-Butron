@@ -26,6 +26,13 @@ class Cart extends Model
         return $this->belongsTo(Articulo::class, 'cartartcod', 'artcod');
     }
 
+    public function caja()
+    {
+        return $this->belongsTo(Caja::class, 'cartcajcod', 'cajcod');
+    }
+    
+
+
     public static function updateOrAddItem($artcod, $type, $quantity_ud, $quantity_box)
     {
         $user = Auth::user();
