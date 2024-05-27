@@ -236,21 +236,21 @@
                     <!--- Sidemenu -->
                     <ul class="side-nav">
 
-                        <li class="side-nav-title">Navegación</li>
+                        <li class="side-nav-title text-light">Navegación</li>
 
                         <li class="side-nav-item">
-                            <a href="{{ route('dashboard') }}" class="side-nav-link">
+                            <a href="{{ route('dashboard') }}" class="side-nav-link text-light">
                                 <i class="uil-home-alt"></i>
                                 <!-- <span class="badge bg-success float-end">5</span> -->
                                 <span> Dashboards </span>
                             </a>
                         </li>
 
-                        <li class="side-nav-title">Ventas</li>
+                        <li class="side-nav-title  text-light">Ventas</li>
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false"
-                                aria-controls="sidebarPages" class="side-nav-link">
+                                aria-controls="sidebarPages" class="side-nav-link text-light">
                                 <i class="uil-store"></i>
                                 <span> Ecommerce </span>
                                 <span class="menu-arrow"></span>
@@ -272,7 +272,7 @@
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#gestion" aria-expanded="false"
-                                aria-controls="sidebarPages" class="side-nav-link">
+                                aria-controls="sidebarPages" class="side-nav-link text-light">
                                 <i class=" ri-booklet-line"></i>
                                 <span> Gestión documental </span>
                                 <span class="menu-arrow"></span>
@@ -301,7 +301,7 @@
                                 <div class="toast-body text-white text-center">
                                     <p class="mb-3">Acumula puntos por tus compras para recibir descuentos y otras
                                         ventajas</p>
-                                    <a href="{{ route('all.points') }}" class="btn btn-secondary btn-sm">Ver mis
+                                    <a href="{{ route('all.points') }}" class="btn btn-warning btn-sm text-dark fw-bolder">Ver mis
                                         puntos</a>
                                 </div>
                             </div>
