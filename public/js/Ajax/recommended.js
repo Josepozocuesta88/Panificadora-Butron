@@ -1,16 +1,17 @@
 $(document).ready(function () {
     var page = 1; 
 
-    var artcod = "{{$articulo->artcod}}";
+    var artcod = $(".categorias").data();
 
     $.ajax({
-        url: "/recomendados?artcod=" + artcod,
+        url: "/recomendados",
         type: "GET",
         data: {
             page: page,
+            artcod: artcod,
         },
         success: function (response) {
-            var productosDiv = $(".productos");
+            var categoriasDiv = $(".categorias");
 
             $.each(response, function (i, articulo) {
                 var div = $("<div/>", {
@@ -56,7 +57,7 @@ $(document).ready(function () {
                 div.append(h4);
                 div.append(h5);
 
-                productosDiv.append(div);
+                categoriasDiv.append(div);
             });
         },
     });

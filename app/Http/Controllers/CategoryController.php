@@ -32,8 +32,8 @@ class CategoryController extends Controller
     }
 
     public function show() {
-        $categories = Category::all();
-        return view('sections.categories', compact('categories'));
+        $categorias = Category::all();
+        return view('pages.ecommerce.productos.categories', compact('categorias'));
     }
 
     public function searchCategory(Request $request)
@@ -51,8 +51,8 @@ class CategoryController extends Controller
 
         $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
         $usuofecod = Auth::user() ? Auth::user()->usuofecod : '';
-        $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod, $usuofecod);
+        $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
 
-        return view('sections.categories', ['categorias' => $categorias, 'articulos' => $articulos, 'favoritos' => $favoritos, 'ofertas' => $ofertas]);
+        return view('pages.ecommerce.productos.categories', ['categorias' => $categorias, 'articulos' => $articulos, 'favoritos' => $favoritos, 'ofertas' => $ofertas]);
     }
 }

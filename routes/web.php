@@ -16,7 +16,7 @@ use App\Http\Controllers\PuntosController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\UserLogController;
 use App\Http\Controllers\PedidoController;
-
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +43,13 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Mi cuenta
 Route::middleware(['auth'])->group(function () {
-    Route::view('/myaccount', 'sections.myaccount')->name('myaccount')->middleware('auth');
+    Route::view('/myaccount', 'pages.cuenta.myaccount')->name('myaccount')->middleware('auth');
     Route::put('/myaccount', [MyaccountController::class, 'update'])->name('myaccount.update');
 });
 
 // cambiar de usuario (modo administrador)
 Route::middleware('auth')->group(function () {
-    Route::view('/accounts', 'sections.accounts')->name('accounts');
+    Route::view('/accounts', 'pages.cuenta.accounts')->name('accounts');
     Route::get('/account-change', [AccountsController::class, 'index'])->name('account.change');
     Route::get('/account-login/{id}', [AccountsController::class, 'impersonate'])->name('account.login');
     Route::get('/account-logout', [AccountsController::class, 'stopImpersonate'])->name('account.logout');
@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // reporte de errores por usuarios
-Route::view('/support', 'support.form-report')->name('form-report')->middleware('auth');
+Route::view('/support', 'pages.cuenta.support.form-report')->name('form-report')->middleware('auth');
 Route::post('/support/form', [SupportController::class, 'reportarError'])->name('reportar.error')->middleware('auth');
 
 
@@ -66,13 +66,16 @@ Route::post('/support/form', [SupportController::class, 'reportarError'])->name(
 //   Todas las rutas relacionadas con: ARTICULOS
 // ============================================================== 
 // productos y categorias 
-Route::get('/categories/{catcod}', [ArticuloController::class, 'show'])->name('categories');
+Route::get('/categorias/{catcod}', [ArticuloController::class, 'showByCategory'])->name('categories');
 
 // buscar productos
 Route::get('/articles/search/', [ArticuloController::class, 'search'])->name('search');
 
 // buscar categorias
 Route::get('/articles/search/category', [CategoryController::class, 'searchCategory'])->name('search.category');
+
+// categorias
+Route::get('/categorias', [CategoryController::class, 'show'])->name('show.categorias');
 
 // informacion de cada producto (article-details)
 Route::get('/articles/{artcod}', [ArticuloController::class, 'info'])->name('info');
@@ -122,6 +125,9 @@ Route::get('/pedidos/pedido/{id?}', [PedidoController::class, 'mostrarPedido'])-
 Route::get('/pedidos', [PedidoController::class, 'mostrarTodos'])->name('pedido.mostrarTodos')->middleware('auth');
 
 
+// guardar comentario
+Route::post('/guardar-comentario', [PedidoController::class, 'guardarComentario']);
+
 
 
 // ============================================================== 
@@ -132,6 +138,11 @@ Route::get('/pedidos', [PedidoController::class, 'mostrarTodos'])->name('pedido.
 Route::get('/documentos/download/{filename}', [DocumentoController::class, 'descargarDocumento'])->name('descargar.documento')->middleware('auth');
 // ruta para obtener los documentos (AJAX DATATABLES)
 Route::get('/documentos/{doctip?}', [DocumentoController::class, 'getDocumentos'])->name('get.documentos')->middleware('auth');
+// ver documento
+Route::get('/documentos/ver/{filename}', [DocumentoController::class, 'verDocumento'])
+     ->where('filename', '.*')
+     ->name('documentos.ver')
+     ->middleware('auth');
 
 
 // ============================================================== 
@@ -141,7 +152,7 @@ Route::get('/puntosderegalo', [PuntosController::class, 'allPoints'])->name('all
 
 // ajax (datatables)
 Route::get('/historicoPuntos', [PuntosController::class, 'getPoints'])->name('get.points')->middleware('auth');
-Route::get('/historicoPuntosAgrupado', [PuntosController::class, 'getPointsGroup'])->name('get.pointsGroup')->middleware('auth');
+// Route::get('/historicoPuntosAgrupado', [PuntosController::class, 'getPointsGroup'])->name('get.pointsGroup')->middleware('auth');
 
 
 // ============================================================== 
@@ -149,17 +160,30 @@ Route::get('/historicoPuntosAgrupado', [PuntosController::class, 'getPointsGroup
 // ============================================================== 
 
 // contactanos
-Route::view('/contacto', 'contacto.formulario')->name('contacto.formulario');
+Route::view('/contacto', 'pages.contacto.formulario')->name('contacto.formulario');
 Route::post('/contacto/email', [SupportController::class, 'contactoEmail'])->name('contacto.email');
 
 // politica de privacidad
-Route::view('/politica-de-privacidad', 'legal.privacidad')->name('privacidad');
+Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
 
 // politica de cookies
-Route::view('/politica-de-cookies', 'legal.cookies')->name('cookies');
+Route::view('/politica-de-cookies', 'pages.legal.cookies')->name('cookies');
 
 // politica de privacidad redes sociales
-Route::view('/politica-de-redes', 'legal.redes')->name('redes');
+Route::view('/politica-de-redes', 'pages.legal.redes')->name('redes');
 
 // aviso legal
-Route::view('/aviso-legal', 'legal.aviso')->name('avisoLegal');
+Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
+
+
+
+
+
+// TEMPORALES
+Route::get('/clear-all-caches', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return response()->json(['message' => 'All caches cleared']);
+});

@@ -62,7 +62,7 @@ class DashboardController extends Controller
             ]);
         } else {
            
-            return view('sections.dashboard');
+            return view('pages.dashboard.dashboard');
         }
 
     }

@@ -52,7 +52,7 @@ class CartController extends Controller
         }
     
         $articulos = $items->pluck('articulo');
-        $this->articleService->calculatePrices($articulos, $user->usutarcod, $user->usuofecod);
+        $this->articleService->calculatePrices($articulos, $user->usutarcod);
     
         $itemDetails = $this->calculateItemDetails($items);
     
@@ -112,27 +112,37 @@ class CartController extends Controller
         $items = $this->getItems($user->id);
 
         if ($items->isEmpty()) {
-            return view('sections.cart', ['message' => 'El carrito está vacío.']);
+            return view('pages.ecommerce.carrito.cart', ['message' => 'El carrito está vacío.']);
         }
     
         $articulos = $items->pluck('articulo');
-        $this->articleService->calculatePrices($articulos, $user->usutarcod, $user->usuofecod);
+        $this->articleService->calculatePrices($articulos, $user->usutarcod);
     
         $itemDetails = $this->calculateItemDetails($items);
         
         if ($itemDetails->isEmpty()) {
-            return view('sections.cart', ['message' => 'Todos los artículos en el carrito no están disponibles.']);
+            return view('pages.ecommerce.carrito.cart', ['message' => 'Todos los artículos en el carrito no están disponibles.']);
         }
-    
+
         $subtotal = $itemDetails->sum('total');
         $shippingCost = 0.00;
         $total = $subtotal + $shippingCost;
+            Log::info('Datos procesados', ['existingCart' => $items->pluck('articulo.artivapor')->toArray()]);
 
-        return view('sections.cart', [
+        $artivapor = $itemDetails->sum('artivapor');
+        $artrecpor = $itemDetails->sum('artrecpor');
+        $artsigimp = $itemDetails->sum('artsigimp');
+
+        $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+
+        return view('pages.ecommerce.carrito.cart', [
             'items' => $itemDetails,
             'subtotal' => $subtotal,
             'shippingCost' => $shippingCost,
-            'total' => $total
+            'artivapor' => $artivapor,
+            'artrecpor' => $artrecpor,
+            'artsigimp' => $artsigimp,
+            'total' => $total,
         ]);
     }
     
@@ -184,16 +194,16 @@ class CartController extends Controller
         $items = $this->getItems($user->id);
     
         if ($items->isEmpty()) {
-            return view('sections.cart', ['message' => 'El carrito está vacío.']);
+            return view('pages.ecommerce.carrito.cart', ['message' => 'El carrito está vacío.']);
         }
     
         $articulos = $items->pluck('articulo');
-        $this->articleService->calculatePrices($articulos, $user->usutarcod, $user->usuofecod);
+        $this->articleService->calculatePrices($articulos, $user->usutarcod);
         $itemDetails = $this->calculateItemDetails($items);
         $data['itemDetails'] = $itemDetails;
         
         if ($itemDetails->isEmpty()) {
-            return view('sections.cart', ['message' => 'Todos los artículos en el carrito no están disponibles.']);
+            return view('pages.ecommerce.carrito.cart', ['message' => 'Todos los artículos en el carrito no están disponibles.']);
         }
     
         $subtotal = $itemDetails->sum('total');
@@ -230,7 +240,7 @@ class CartController extends Controller
 
         $data['usuario'] = Auth::user();
         try {
-            Mail::send('sections.email-order', $data, function ($message) use ($data, $email, $email_copia) {
+            Mail::send('pages.pedidos.email-order', $data, function ($message) use ($data, $email, $email_copia) {
                 $message->to($email)
                         ->cc($email_copia)
                         ->subject('Su pedido ya se ha procesado')
@@ -270,7 +280,7 @@ class CartController extends Controller
                 $img = $item->articulo->primeraImagen();
                 $tarifa = $item->articulo->precioTarifa;
                 $price = $item->articulo->precioOferta ?? $tarifa;
-    
+
 
                 if ($tarifa === null) {
                     return ['name' => $name, 'price' => 'Precio no disponible'];
@@ -286,8 +296,12 @@ class CartController extends Controller
                     $name = $item->cajnom;
                 }
     
+                
                 $total = round($price * $totalUnits, 2);
-
+                
+                $artivapor = $total * ($item->articulo->artivapor / 100);
+                $artrecpor = $total * ($item->articulo->artrecpor / 100);
+                $artsigimp = $total * ($item->articulo->artsigimp / 100);
     
                 return [
                     'cartcod' => $item->cartcod,
@@ -295,6 +309,9 @@ class CartController extends Controller
                     'cajcod' => $item->cajcod,
                     'cartcajcod' => $item->cartcajcod,
                     'name' => $name,
+                    'artivapor' => $artivapor,
+                    'artrecpor' => $artrecpor,
+                    'artsigimp' => $artsigimp,
                     'promedcod' => $item->articulo->promedcod,
                     'image' => $img,
                     'cantidad_unidades' => $item->cartcant,

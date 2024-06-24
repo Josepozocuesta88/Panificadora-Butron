@@ -50,6 +50,33 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function articulos()
+    {
+        return $this->belongsToMany(Articulo::class, 'qanet_clientearticulo', 'artcod', 'clicod', 'usuclicod', 'artcod');
+    }
+
+    public function categorias()
+    {
+        // dd($this->belongsToMany(Category::class, 'qanet_clientecategoria', 'catcod', 'clicod', 'usuclicod', 'id'));
+        return $this->belongsToMany(Category::class, 'qanet_clientecategoria', 'clicod', 'catcod', 'usuclicod', 'id');
+
+    }
+
+    public function accessibleArticles()
+    {
+        $categoryArticleIds = Articulo::whereIn('artcatcodw1', $this->categorias()->pluck('cat_categorias.id'))->pluck('artcod');
+
+        // dd($categoryArticleIds);
+        $directArticleIds = $this->articulos()->pluck('qanet_articulo.artcod');
+
+        $allArticleIds = $categoryArticleIds->merge($directArticleIds)->unique();
+        
+        $articles = Articulo::whereIn('artcod', $allArticleIds);
+
+
+        return $articles;
+    }
+
     public function historico()
     {
         return $this->hasMany(Historico::class, 'estclicod', 'usuclicod');
@@ -60,13 +87,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Documento::class, 'docclicod', 'usuclicod');
     }
-    
+
     public function ofertas()
     {
         return $this->hasMany(OfertaC::class, 'ofccod', 'usuofecod');
     }
 
-    public function favoritos() {
+    public function favoritos()
+    {
         return $this->hasMany(Favorito::class, 'favusucod', 'id');
     }
 }

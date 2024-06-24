@@ -9,23 +9,21 @@ use Carbon\Carbon;
 class ArticleService
 {
 
-    public function calculatePrices($articulos, $usutarcod, $usuofecod)
+    public function calculatePrices($articulos, $usutarcod)
     {
-        $today = Carbon::now();
-
         foreach ($articulos as $articulo) {
             $precioTarifa = $articulo->getPriceForUser($usutarcod);
             $articulo->precioTarifa = $precioTarifa;
-            $oferta = $articulo->getPriceWithOffer($usuofecod, $today);
+            $oferta = $articulo->getPriceWithOffer();
 
             if ($oferta) {
-                if ($oferta['ofctip'] == 'XP') {
-                    $articulo->precioOferta = $oferta['ofcimp'];
-                    $articulo->precioDescuento = null;
-                } elseif ($oferta['ofctip'] == 'XD') {
+                if ($oferta['ofctip'] == 'XD') {
                     $descuento = ($precioTarifa * $oferta['ofcimp']) / 100;
                     $articulo->precioOferta = $precioTarifa - $descuento;
                     $articulo->precioDescuento = $oferta['ofcimp'];
+                }else{
+                    $articulo->precioOferta = $oferta['ofcimp'];
+                    $articulo->precioDescuento = null;
                 }
             } else {
                 $articulo->precioOferta = null;

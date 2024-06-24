@@ -57,7 +57,9 @@
         </div> <!-- end col -->
     </div>
     <!-- end row -->
-
+    <div class="gift-container">
+        <i id="gift-icon" class="mdi mdi-gift"></i>
+    </div>
 </div> <!-- container -->
 @endsection
 

@@ -27,6 +27,9 @@
     .line {
         text-decoration: line-through;
     }
+    .text-decoration-line-through{
+        text-decoration: line-through;
+    }
     </style>
 </head>
 
@@ -76,20 +79,28 @@
                 <td style="text-align: right;">{{ $detail['cantidad_unidades'] }}</td>
 
                 <td style="text-align: right;">
-                    {{ $detail['price'] }} €
+                    {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['price']) }} €
                     @if($detail['isOnOffer'])
-                    <small class="text-decoration-line-through">{{ $detail['tarifa'] }}
+                    <small class="text-decoration-line-through">{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['tarifa']) }}
                         €</small>
                     @endif
                 </td>
 
-                <td style="text-align: right;">{{ $detail['total'] }} €</td>
+                <td style="text-align: right;">{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['total']) }} €</td>
 
             </tr>
             @endforeach
 
         </tbody>
     </table>
+    <br>
+
+    @if(isset($comentario))
+        <div class="comentario">
+            <h4>Comentarios sobre el pedido:</h4>
+            <p>{{ $comentario }}</p>
+        </div>
+    @endif
     <br>
 
     <div class="totals">

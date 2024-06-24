@@ -15,7 +15,7 @@ class SupportController extends Controller
             'ubicacion' => 'required',
         ]);
 
-        Mail::send('support.email-report', $data, function ($message) use ($data) {
+        Mail::send('pages.cuenta.support.email-report', $data, function ($message) use ($data) {
             $message->to('marialuisa@redesycomponentes.com')
                     ->subject('Reporte de Error')
                     ->from('marialuisa@redesycomponentes.com', config('app.name'));

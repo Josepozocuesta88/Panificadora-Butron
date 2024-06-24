@@ -25,7 +25,7 @@ class FavoritoController extends Controller {
         $articulos = Articulo::whereIn('artcod', $articulosIds)->paginate(8);
         $articulos = $this->getPrice($articulos);
     
-        return view('sections.favoritos', compact('articulos'));
+        return view('pages.ecommerce.productos.favoritos', compact('articulos'));
     }
     
     
@@ -63,29 +63,27 @@ class FavoritoController extends Controller {
         $today = Carbon::now();
     
         foreach ($articulos as $articulo) {
-            // Obtener el precio de la tarifa
             $precioTarifa = Precio::where('preartcod', $articulo->artcod)
                                    ->where('pretarcod', $usutarcod)
                                    ->first();
     
             $articulo->precioTarifa = $precioTarifa ? $precioTarifa->preimp : null;
     
-            // Intentar obtener el precio de oferta
             $precioOferta = OfertaC::where('ofcartcod', $articulo->artcod)
                                    ->where('ofccod', $usuofecod)
                                    ->whereDate('ofcfecfin', '>=', $today)
                                    ->first();
     
             if ($precioOferta && $precioOferta->OFCIMP != null) {
-                if ($precioOferta->ofctip == 'XP') {
-                    // Precio de oferta directo
-                    $articulo->precioOferta = $precioOferta->OFCIMP;
-                    $articulo->precioDescuento = null; // No hay porcentaje de descuento
-                } elseif ($precioOferta->ofctip == 'XD') {
-                    // Aplicar descuento porcentual al precio de la tarifa
+                if ($precioOferta->ofctip == 'XD') {
+                    // Aplica descuento porcentual al precio de la tarifa
                     $descuento = ($precioTarifa->preimp * $precioOferta->OFCIMP) / 100;
                     $articulo->precioOferta = $precioTarifa->preimp - $descuento;
                     $articulo->precioDescuento = $precioOferta->OFCIMP; 
+                }else{
+                    // Precio de oferta directo
+                    $articulo->precioOferta = $precioOferta->OFCIMP;
+                    $articulo->precioDescuento = null; // No hay porcentaje de descuento
                 }
             } else {
                 $articulo->precioOferta = null;
@@ -97,4 +95,3 @@ class FavoritoController extends Controller {
     }
     
 }
-

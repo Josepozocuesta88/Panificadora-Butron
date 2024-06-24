@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Pedido;
 use App\Models\Pedido_linea;
 use App\Models\Cart;
+use App\Models\Representante;
+
 
 use App\Services\ArticleService;
 
@@ -29,7 +31,7 @@ class PedidoController extends Controller
 
         $items = $this->getItems($user->id);
         $articulos = $items->pluck('articulo');
-        $this->articleService->calculatePrices($articulos, $user->usutarcod, $user->usuofecod);
+        $this->articleService->calculatePrices($articulos, $user->usutarcod);
 
         $itemDetails = $this->calculateItemDetails($items);
         $data = $this->prepareOrderData($user, $itemDetails);
@@ -37,7 +39,7 @@ class PedidoController extends Controller
     
         $this->sendOrderEmail($data, $user);
         Cart::where('cartusucod', $user->id)->delete();
-    
+        session()->forget('comentario');        
         return back()->with('success', '¡Su pedido se procesó correctamente!');
     }
 
@@ -55,11 +57,11 @@ class PedidoController extends Controller
 
         }
         if (is_null($pedido)) {
-            return view('sections.estado', ['message' => "Aún no tiene ningún pedido realizado"]);
+            return view('pages.ecommerce.pedidos.estado', ['message' => "Aún no tiene ningún pedido realizado"]);
         }
         $items = Pedido_linea::where('pedido_id', $pedido->id)->get();
         
-        return view('sections.estado', ['pedido' => $pedido, 'items' => $items, 'user' => $user]);
+        return view('pages.ecommerce.pedidos.estado', ['pedido' => $pedido, 'items' => $items, 'user' => $user]);
 
     }
     
@@ -79,13 +81,13 @@ class PedidoController extends Controller
 
 
 
-    
     private function createPedido($data, $user)
     {
         $pedido = new Pedido;
         $pedido->cliente_id = $user->id;
         $pedido->accclicod = $user->usuclicod;
         $pedido->acccencod = $user->usucencod;
+        $pedido->observaciones = $data['comentario'];
         $pedido->estado = 2;
         $pedido->fecha = date('Y-m-d H:i:s');
         $pedido->subtotal = $data['subtotal'];
@@ -117,11 +119,21 @@ class PedidoController extends Controller
     private function sendOrderEmail($data, $user)
     {
         $email = $user->email;
-        $email_copia = config('mail.cc');
+        $email_empresa = config('mail.cc');
+        $representante = $user ? Representante::where('rprcod', $user->usurprcod)->first() : "";
+        if ($representante !== null && isset($representante->rprema)) {
+            $email_copia_rpr = $representante->rprema;
+        }else{
+            // para prueba (modificar)
+            $email_copia_rpr = "marialuisa@redesycomponentes.com";
+
+        }
+        $emails_copia = array($email_empresa, $email_copia_rpr);
+
         try {
-            Mail::send('sections.email-order', $data, function ($message) use ($data, $email, $email_copia) {
+            Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $emails_copia) {
                 $message->to($email)
-                        ->cc($email_copia)
+                        ->cc($emails_copia)
                         ->subject('Su pedido ya se ha procesado')
                         ->from(config('mail.from.address'), config('app.name'));
             });
@@ -130,6 +142,16 @@ class PedidoController extends Controller
             return back()->with('error', 'Su pedido no se procesó correctamente, intentelo más tarde.');
         }
     }
+
+
+
+    public function guardarComentario(Request $request)
+    {
+        $request->session()->put('comentario', $request->comentario);
+
+        return response()->json(['message' => 'Comentario guardado en la sesión']);
+    }
+
 
     private function getItems($userId)
     {
@@ -197,6 +219,8 @@ class PedidoController extends Controller
 
         $subtotal = $itemDetails->sum('total');
         $data['subtotal'] = $subtotal;
+
+        $data['comentario'] = session('comentario');
 
         $shippingCost = 0.00;
         $total = $subtotal + $shippingCost;

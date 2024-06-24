@@ -49,6 +49,21 @@
 
     <!-- end carrusel imagenes -->
 
+
+    <!-- novedades -->
+    <div class="container mt-3">
+        <div class="row mb-3">
+            <div class="col-lg-12">
+                <div class="nav nav-tabs text-dark ">
+                    <h3>Novedades</h3>
+                </div>
+            </div>
+        </div>
+        <x-novedades :novedades="$novedades" />
+    </div>
+    <!-- fin novedades -->
+
+
     <!-- categories -->
 
     <div class="container mt-3">
@@ -61,36 +76,7 @@
         </div>
         <!-- categorias disponibles -->
         <div class="row justify-content-center">
-            <div class="favoritos">
-                <button id="scrollLeft" class="btn btn-link"><i
-                        class="bi bi-arrow-left-circle-fill font-24 text-primary"></i></button>
-                <div id="productos" class="productos gap-3">
-                    @foreach($categories as $category)
-                    <div class="categoria col-2 d-block position-relative p-0 m-2">
-                        <a href="{{ route('categories', ['catcod' => $category->id]) }}" title=""
-                            onclick="irAProductos()">
-                            <img src="{{ asset('images/categorias/' . $category->imagen) }}"
-                                class="object-fit-fill border rounded" alt="{{ $category->nombre_es }}"
-                                style="height:200px; width:100%;"
-                                onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
-                        </a>
-                        <div class="nombre-categoria bg-primary text-center">
-                            <h5>
-                                <a href="{{route('categories', ['catcod' => $category->id])}}" class="text-white"
-                                    onclick="irAProductos()">
-                                    {{ $category->nombre_es }}
-                                </a>
-                            </h5>
-                            <a href="{{route('categories', ['catcod' => $category->id])}}" onclick="irAProductos()"
-                                class="categoria-link text-warning font-20">Ver más <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                <button id="scrollRight" class="btn btn-link"><i
-                        class="bi bi-arrow-right-circle-fill font-24 text-primary"></i></button>
-            </div>
+            <x-categorias :categorias="$categorias" />
         </div>
 
 

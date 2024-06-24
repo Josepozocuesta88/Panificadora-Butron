@@ -20,10 +20,12 @@ class OfertaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(\App\Contracts\OfertaServiceInterface::class, function ($app) {
-            if (auth()->check()) {
-                return new \App\Services\OfertasPersonalizadasService();
-            } else {
+            $user = auth()->user();
+
+            if (is_null($user) || is_null($user->usuofecod)) {
                 return new \App\Services\OfertasGeneralesService();
+            } else {
+                return new \App\Services\OfertasPersonalizadasService();
             }
         });
     }

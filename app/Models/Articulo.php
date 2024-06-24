@@ -26,12 +26,23 @@ class Articulo extends Model
         'artstock',
         'artstocon',
         'artcatcodw1',
-        'artsolcli'
+        'artsolcli',
+        'artivapor',
+        'artrecpor',
+        'artsigimp',
     ];
 
     public function etiquetas()
     {
         return $this->belongsToMany(Etiqueta::class, 'qarticulo_etiqueta', 'etiartcod', 'etitagcod');
+    }
+
+    public function usuarios() {
+        return $this->belongsToMany(User::class, 'qanet_clientearticulo', 'artcod', 'clicod', 'artcod', 'usuclicod');
+    }
+
+    public function categoriacliente() {
+        return $this->belongsToMany(User::class, 'qanet_clientecategoria', 'catcod', 'clicod', 'artcatcodw1', 'usuclicod');
     }
 
     public function imagenes()
@@ -69,6 +80,7 @@ class Articulo extends Model
     public function favoritos() {
         return $this->hasMany(Favorito::class, 'favartcod', 'artcod');
     }
+
     public function historicos()
     {
         return $this->hasMany(Historico::class, 'estartcod', 'artcod');
@@ -94,11 +106,24 @@ class Articulo extends Model
         return $precioTarifa ? $precioTarifa->preimp : null;
     }
 
-    public function getPriceWithOffer($usuofecod, $today){
-        $offerPrice = OfertaC::where('ofcartcod', $this->artcod)
-                             ->where('ofccod', $usuofecod)
-                             ->whereDate('ofcfecfin', '>=', $today)
-                             ->first();
+    public function getPriceWithOffer(){
+        $user = auth()->user();
+        $today = now(); 
+        
+        $offerPriceQuery = OfertaC::where('ofcartcod', $this->artcod)
+                                  ->whereDate('ofcfecfin', '>=', $today);
+        
+        if (is_null($user) || is_null($user->usuofecod)) {
+            $offerPrice = $offerPriceQuery->where('ofccod', '')->first();
+        } else {
+            $offerPrice = $offerPriceQuery->where(function ($query) use ($user) {
+                $query->where('ofccod', $user->usuofecod)
+                      ->orWhere('ofccod', '');
+            })->orderByRaw("CASE WHEN ofccod = '{$user->usuofecod}' THEN 1 ELSE 2 END")->first();
+        }
+        
+        
+        
         if ($offerPrice) {
             return [
                 'ofcimp' => $offerPrice->OFCIMP,
@@ -106,6 +131,41 @@ class Articulo extends Model
             ];
         } else {
             return null;
+        }
+    }
+
+    public function scopeSearch($query, $keywords)
+    {
+        if (!empty($keywords)) {
+            $query->where(function ($q) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $q->where('artnom', 'like', '%' . $keyword . '%');
+                }
+            })->orWhere(function ($q) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $q->where('artobs', 'like', '%' . $keyword . '%');
+                }
+            })->orWhere(function ($q) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $q->where('artcod', 'like', '%' . $keyword . '%');
+                }
+            });
+        }
+    }
+
+    public function scopeSituacion($query, $situacion)
+    {
+        $query->where('artsit', $situacion);
+    }
+
+    // scope para aplicar restricciones basadas en el cliente
+    public function scopeRestrictions($query)
+    {
+        if (!auth()->check() || auth()->user()->artsolcli != 1) {
+            $query->where(function ($q) {
+                $q->where('artsolcli', '<>', 1)
+                  ->orWhereNull('artsolcli');
+            });
         }
     }
     

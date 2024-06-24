@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+use App\Services\ArticleService;
 
 use Illuminate\Http\Request;
 
@@ -16,8 +19,17 @@ use Carbon\Carbon;
 
 class HistoryController extends Controller
 {
+
+    protected $articleService;
+
+    public function __construct(ArticleService $articleService)
+    {
+        $this->articleService = $articleService;
+    }
+
     public function getHistory(Request $request)
     {
+
 
         if ($request->ajax()) {
           
@@ -36,10 +48,22 @@ class HistoryController extends Controller
                     'qanet_estadistica.estpre', 
                     'qanet_estadistica.estcan' 
                 ]);
+                $data->transform(function ($item) {
+                    $articulo = Articulo::find($item->artcod);
+                    $articulos = collect([$articulo]);
+                    $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
+                    $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
+                    $articuloConPrecio = $articulosConPrecio->first();
+                    // Log::info('  ' . $articuloConPrecio);
+
+                    $item->precioActual = $articuloConPrecio->precioTarifa;
+
+                    return $item;
+                });
             return response()->json(['data' => $data]);
         
         }
-        return view('sections.history');
+        return view('pages.ecommerce.productos.history');
 
     }
 
@@ -66,10 +90,33 @@ class HistoryController extends Controller
             ->groupBy('qanet_estadistica.estclicod', 'qanet_articulo.artcod')
             ->orderby('estalbfec', 'desc') 
             ->get();
+            // Log::info('  ' . $data);
+            // foreach ($data as $item) {
+            //     $articulo = Articulo::find($item->artcod);
+            //     $articulos = collect([$articulo]);
+            //     $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
+            //     $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
+            //     $articuloConPrecio = $articulosConPrecio->first();
+            //     // Log::info('  ' . $articuloConPrecio);
 
+            //     $item->precioActual = $articuloConPrecio->precioTarifa;
+            // }
+
+            $data->transform(function ($item) {
+                $articulo = Articulo::find($item->artcod);
+                $articulos = collect([$articulo]);
+                $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
+                $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
+                $articuloConPrecio = $articulosConPrecio->first();
+                // Log::info('  ' . $articuloConPrecio);
+
+                $item->precioActual = $articuloConPrecio->precioTarifa;
+
+                return $item;
+            });
             return response()->json(['data' => $data]);
         
         }
-        return view('sections.history');
+        return view('pages.ecommerce.productos.history');
     }
 }

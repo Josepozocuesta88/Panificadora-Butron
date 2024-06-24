@@ -36,8 +36,8 @@
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                     <a
                         href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
-                        <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block w-100 fill"
-                            alt="banner publicitario">
+                        <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill" 
+                            alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
                     </a>
                 </div>
                 @endforeach
@@ -58,51 +58,8 @@
     </div>
     <!-- fin ofertas -->
 
-    <!-- categorias disponibles -->
-    <div class="card p-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="p-2">Categorías disponibles</h2>
-            <div class="app-search dropdown d-none d-lg-block" style="width: auto;">
-                <!-- buscar categoria -->
-                <form method="GET" action="{{ route('search.category') }}">
-                    <div class="input-group">
-                        <input type="search" class="form-control dropdown-toggle" placeholder="Buscar categorías..."
-                            id="top-search" name="query">
-                        <span class="mdi mdi-magnify search-icon"></span>
-                        <button class="input-group-text btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form>
-                <!-- end buscar categoria -->
-            </div>
-        </div>
-        <!-- categorias disponibles -->
-        <div class="row justify-content-center">
-            @foreach($categorias as $category)
-            <div class="categoria col-2 d-block position-relative p-0 m-2">
-                <a href="{{ route('categories', ['catcod' => $category->id]) }}" title="" onclick="irAProductos()">
-                    <img src="{{ asset('images/categorias/' . $category->imagen) }}"
-                        class="object-fit-fill border rounded" alt="{{ $category->nombre_es }}"
-                        style="height:200px; width:100%;"
-                        onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
-                </a>
-                <div class="nombre-categoria bg-primary text-center">
-                    <h5>
-                        <a href="{{route('categories', ['catcod' => $category->id])}}" class="text-white"
-                            onclick="irAProductos()">
-                            {{ $category->nombre_es }}
-                        </a>
-                    </h5>
-                    <a href="{{route('categories', ['catcod' => $category->id])}}" onclick="irAProductos()"
-                        class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-
-
 </div>
-<!-- fin categorias disponibles -->
+
 <!-- CARDS DE PRODUCTOS -->
 
 <section class="py-5" id="productos">
@@ -127,15 +84,32 @@
     <div class="container">
         @isset($catnom)
         <h3 class="text-primary pb-2">{{$catnom}}</h3>
+        @else
+        <h3>Todos los Productos</h3>
         @endisset
 
 
         <div class="d-flex justify-content-end pb-3 gap-3">
+            <!-- Ver todos los productos -->
+            @isset($catnom)
+            <a class="btn btn-primary" href="{{ route('search') }}">
+                Ver todos los productos
+            </a>
+            @endisset
+
+            <!-- ver todas las categorías -->
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#categoriasCollapse"
+                aria-expanded="false" aria-controls="categoriasCollapse">
+                Categorías
+            </button>
+            <!-- fin ver todas las categorías -->
+
             <!-- Botón para controlar el collapse ordenaciones -->
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                 data-bs-target="#menuLateralFormulario" aria-expanded="false" aria-controls="menuLateralFormulario">
                 Opciones de Ordenación
             </button>
+
             <!--end Botón para controlar el collapse ordenaciones -->
             <div class="app-search dropdown d-none d-lg-block" style="width: auto;">
                 <!-- buscar producto -->
@@ -187,12 +161,12 @@
                             <p class="font-weight-bold">Ordenar por precio:</p>
                             <div class="form-check">
                                 <input type="checkbox" name="orden_precio" value="asc" id="orden_precio_asc"
-                                    class="form-check-input checkbox-orden-precio">
+                                    class="form-check-input checkbox-orden-precio" @guest disabled @endguest>
                                 <label class="form-check-label" for="orden_precio_asc">Menor a Mayor</label>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" name="orden_precio" value="desc" id="orden_precio_desc"
-                                    class="form-check-input checkbox-orden-precio">
+                                    class="form-check-input checkbox-orden-precio" @guest disabled @endguest>
                                 <label class="form-check-label" for="orden_precio_desc">Mayor a Menor</label>
                             </div>
                         </div>
@@ -204,7 +178,7 @@
                             </p>
                             <div class="form-check d-inline-block ml-2">
                                 <input type="checkbox" name="orden_oferta" value="1" id="orden_oferta"
-                                    class="form-check-input">
+                                    class="form-check-input" @guest disabled @endguest>
                                 <label class="form-check-label" for="orden_oferta">Mostrar primero productos en
                                     oferta</label>
                             </div>
@@ -221,6 +195,15 @@
             </div>
         </div>
         <!--end Collapse ordenaciones  -->
+
+        <!-- Collapse categorias  -->
+        <div class="collapse" id="categoriasCollapse">
+            <div class="card p-3">
+                <x-categorias :categorias="$categorias" />
+
+            </div>
+        </div>
+        <!--end Collapse categorias  -->
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 p-3">
             @if($articulos->isNotEmpty())
@@ -268,7 +251,7 @@
 
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
-                                    <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}"
+                                    <a class="pe-1" href="{{route('info', ['artcod' => $articulo->artcod])}}"
                                         data-toggle="fullscreen" title="Stock disponible o no">
                                         @if($articulo->artstocon == 1 || $articulo->artstock > 1)
                                         <i class="mdi mdi-archive-check font-24 text-success"></i>
@@ -276,11 +259,11 @@
                                         <i class="mdi mdi-archive-cancel font-24 text-danger"></i>
                                         @endif
                                     </a>
-                                    <a class="pe-2" href="{{ asset('images/' . $articulo->artdocaso) }}"
+                                    <a class="pe-1" href="{{ asset('images/' . $articulo->artdocaso) }}"
                                         data-toggle="fullscreen" title="Ficha técnica">
                                         <i class="uil-clipboard-alt font-24"></i>
                                     </a>
-                                    <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}"
+                                    <a class="pe-1" href="{{route('info', ['artcod' => $articulo->artcod])}}"
                                         data-toggle="fullscreen" title="Información">
                                         <i class="mdi mdi-information-outline font-24"></i>
                                     </a>
@@ -296,14 +279,18 @@
                                             @endif
                                         </span>
                                     </h5>
-                                    <span class="font-18 text-danger fw-bolder"> 
-                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta) }} €
+                                    <span class="font-18 text-danger fw-bolder">
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta) }}
+                                        €
                                     </span>
-                                    <span class="text-decoration-line-through font-14"> 
-                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa) }} €
+                                    <span class="text-decoration-line-through font-14">
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa) }}
+                                        €
                                     </span>
                                     @elseif(isset($articulo->precioTarifa))
-                                    <span class="font-18"> {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa) }} €</span>
+                                    <span class="font-18">
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa) }}
+                                        €</span>
                                     @else
                                     <span class="font-18"></span>
                                     @endif
@@ -317,64 +304,38 @@
                                     <div class="row">
                                         <div class="col">
                                             @if($articulo->cajas->isNotEmpty() && config('app.caja') == 'si')
-                                            @isset($articulo->cajas)
                                             <div class="row">
                                                 <div class="quantity-input col">
-                                                    <input type="number" class="quantity form-control"
-                                                        name="quantity" min="1" value="1">
+                                                    <input type="number" class="quantity form-control" name="quantity"
+                                                        min="1" value="1">
                                                 </div>
                                                 <div class="col-auto">
-                                                @foreach($articulo->cajas as $index => $caja)
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio"
-                                                        data-id="$caja->cajartcod" value="{{ $caja->cajcod }}"
-                                                        name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef == 1)
-                                                    checked
-                                                    @endif
-                                                    >
-                                                    <label class="form-check-label" for="caja{{ $index }}">
-                                                        @if($caja->cajreldir > 0)
-                                                        {{ $caja->cajreldir }} {{ $articulo->promedcod }}
+                                                    @foreach($articulo->cajas as $index => $caja)
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            data-id="$caja->cajartcod" value="{{ $caja->cajcod }}"
+                                                            name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef ==
+                                                        1)
+                                                        checked
                                                         @endif
-                                                        @if($caja->cajcod == "0003")
-                                                        (Pieza)
-                                                        @elseif($caja->cajcod == "0002")
-                                                        (Media)
-                                                        @else
-                                                        (Caja)
-                                                        @endif
+                                                        >
+                                                        <label class="form-check-label" for="caja{{ $index }}">
+                                                            @if($caja->cajreldir > 0)
+                                                            {{ $caja->cajreldir }} {{ $articulo->promedcod }}
+                                                            @endif
+                                                            @if($caja->cajcod == "0003")
+                                                            (Pieza)
+                                                            @elseif($caja->cajcod == "0002")
+                                                            (Media)
+                                                            @else
+                                                            (Caja)
+                                                            @endif
 
-                                                    </label>
-                                                </div>
-                                                @endforeach
+                                                        </label>
+                                                    </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
-                                            @endisset
-                                            @else
-                                            <!-- Product price -->
-                                            <!-- para unidades -->
-                                            <!-- <div class="product-price">
-                                                @isset($articulo->precioTarifa)
-                                                <h6 class="font-14">Precio:</h6>
-                                                @if ($articulo->precioOferta)
-                                                <span class="badge badge-danger-lighten">OFERTA</span>
-                                                <h3 class="text-danger fw-bolder d-inline">
-                                                    {{ $articulo->precioOferta }} €
-                                                </h3>
-                                                <span class="text-decoration-line-through font-15">
-                                                    {{ $articulo->precioTarifa }} €</span>
-
-                                                @else
-                                                <h3> {{ $articulo->precioTarifa }} €</h3>
-                                                @endif
-                                                @else
-                                                <div class="mt-4">
-                                                    <h6 class="font-14">Precio: <span class="text-danger">El precio no
-                                                            está
-                                                            disponible, consúltenos.</span></h6>
-                                                </div>
-                                                @endisset
-                                            </div> -->
                                             @endif
                                             <!-- end product price unidades-->
                                         </div>

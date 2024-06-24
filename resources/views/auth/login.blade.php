@@ -32,23 +32,15 @@
     <!-- vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
 </head>
 
-<body class="authentication-bg pb-0">
+<body class="">
 
-    <div class="auth-fluid" id="app">
-        <!-- Auth fluid right content -->
-        <div class="auth-fluid-right text-center">
-            <div class="auth-user-testimonial">
-                <h2 class="mb-3">Bienvenid@ a {{ config('app.name') }} !</h2>
-            </div> <!-- end auth-user-testimonial-->
-        </div>
-        <!-- end Auth fluid right content -->
-        <!--Auth fluid left content -->
-        <div class="auth-fluid-form-box ">
-            <div class="card-body d-flex flex-column h-100 gap-3">
+    <!--Auth fluid left content -->
+        <div class="px-2 " style="margin: 0 auto; max-width:900px;">
+            <div class=" d-flex flex-column h-100 gap-1">
 
                 <!-- Logo -->
                 <div class="auth-brand text-center text-lg-start align-self-center mt-5">
-                    <a href="{{ route('home') }}" class="logo-dark">
+                    <a href="{{ route('welcome') }}" class="logo-dark">
                         <span><img src="{{ asset(config('app.logo')) }}" alt="logo" height="100"></span>
                     </a>
                 </div>
@@ -122,7 +114,6 @@
         </div>
         <!-- end auth-fluid-form-box-->
 
-    </div>
 
 </body>
 

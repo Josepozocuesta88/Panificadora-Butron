@@ -29,4 +29,18 @@ $(document).ready(function () {
             url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
         },
     });
+
+
+    const $giftIcon = $('#gift-icon');
+
+    const openGift = () => {
+        $giftIcon.addClass('opening');
+
+        setTimeout(() => {
+
+            $giftIcon.removeClass('mdi-gift opening').addClass('mdi-gift-open open');
+        }, 500);
+    };
+
+    $giftIcon.on('click', openGift);
 });

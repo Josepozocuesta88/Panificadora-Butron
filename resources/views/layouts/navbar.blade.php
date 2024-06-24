@@ -168,7 +168,7 @@
                                 <!-- item-->
                                 <a href="{{ route('form-report') }}" class="dropdown-item">
                                     <i class="mdi mdi-lifebuoy me-1"></i>
-                                    <span>Support</span>
+                                    <span>Soporte Técnico</span>
                                 </a>
 
                                 <!-- item-->
@@ -242,7 +242,7 @@
                             <a href="{{ route('dashboard') }}" class="side-nav-link text-light">
                                 <i class="uil-home-alt"></i>
                                 <!-- <span class="badge bg-success float-end">5</span> -->
-                                <span> Dashboards </span>
+                                <span> Panel de Control </span>
                             </a>
                         </li>
 
@@ -252,7 +252,7 @@
                             <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false"
                                 aria-controls="sidebarPages" class="side-nav-link text-light">
                                 <i class="uil-store"></i>
-                                <span> Ecommerce </span>
+                                <span> Comercio </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="sidebarPages">
@@ -263,6 +263,9 @@
                                     <li>
                                         <a onclick="window.location.href='/articles/search?query=';"
                                             href="#">Productos</a>
+                                    </li>
+                                    <li>
+                                    <a href="{{ route('show.categorias') }}">Categorías</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('pedido.mostrarPedido') }}">Mis Pedidos</a>
@@ -311,7 +314,15 @@
                         </div>
                         <!-- end Help Box -->
 
-
+                        <!-- representantes  -->
+                        @isset($representante)
+                        <div class="show help-box bg-white p-1">
+                            <div class="text-dark">
+                                <i class="bi bi-whatsapp pe-1"></i>Repr.:
+                                <a href="https://wa.me/{{ $representante->rprtel }}" >{{ $representante->rprtel }}</a>
+                            </div>
+                        </div>
+                        @endisset
 
                     </ul>
                     <!--- End Sidemenu -->

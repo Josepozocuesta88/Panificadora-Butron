@@ -45,9 +45,10 @@
                                 <tr>
                                     <th>Código</th>
                                     <th>Producto</th>
-                                    <th>Fecha Compra</th>
-                                    <th>Precio</th>
-                                    <th>Cantidad</th>
+                                    <th>Fecha Ultima Compra</th>
+                                    <th>Precio Ultima Compra</th>
+                                    <th>Precio Venta Actual</th>
+                                    <th>Cantidad Total</th>
                                     <!-- <th>Estado</th> -->
                                 </tr>
                             </thead>

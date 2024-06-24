@@ -13,26 +13,20 @@ class OfertasPersonalizadasService implements OfertaServiceInterface
     {
         $today = Carbon::now();
         $user = Auth::user();
-    
-        $ofertasPersonalizadas = $user->ofertas()
-                        ->whereDate('ofcfecini', '<=', $today)
-                        ->whereDate('ofcfecfin', '>=', $today)
-                        ->get();
-      
-        $ofertasGenerales = OfertaC::where('ofccod', '=', '')
-            ->whereDate('ofcfecini', '<=', $today)
-            ->whereDate('ofcfecfin', '>=', $today)
-            ->get();
-    
-        $ofertas = $ofertasGenerales->concat($ofertasPersonalizadas);
+        $usuofecod = $user ? $user->usuofecod : null;
+
+        $ofertas = OfertaC::whereDate('ofcfecfin', '>=', $today)
+                          ->where(function ($query) use ($usuofecod) {
+                              $query->where('ofccod', $usuofecod)
+                                    ->orWhere('ofccod', '');
+                          })
+                          ->orderByRaw("CASE WHEN ofccod = ? THEN 1 ELSE 2 END", [$usuofecod])
+                          ->get();
         foreach ($ofertas as $oferta) {
             if ($oferta->ofcima === null || $oferta->ofcima === '') {
                 $oferta->ofcima = "noimage.jpg";
             }
         }
-        
-        // dd($ofertas);
-    
         return $ofertas;
     }
     

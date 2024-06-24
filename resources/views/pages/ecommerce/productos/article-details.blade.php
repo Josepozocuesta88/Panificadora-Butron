@@ -99,7 +99,7 @@
 
                                         <!-- Product stock -->
                                         <div class="mt-3">
-                                            @if($articulo->artstocon == 1 || $articulo->artstock > 1)
+                                            @if($articulo->artstocon == 1 || $articulo->artstock >= 1)
                                             <h4><span class="badge badge-success-lighten">En Stock</span></h4>
                                             @else
                                             <h4><span class="badge badge-danger-lighten">No hay Stock</span></h4>
@@ -124,8 +124,7 @@
 
                                                 @isset($articulo->precioTarifa)
                                                 <h6 class="font-14">Precio por @if($caja->cajcod == '0001' ) caja
-                                                    @elseif($caja->cajcod
-                                                    == '0002')
+                                                    @elseif($caja->cajcod == '0002')
                                                     media
                                                     @else
                                                     pieza @endif : </h6>
@@ -257,10 +256,10 @@
                     <h3 class="pt-3 text-seccondary">También puede interesarte...</h3>
                     <hr />
                     <div class="favoritos mb-5">
-                        <button id="scrollLeft" class="btn btn-link"><i
+                        <button id="scrollLeft" class="scrollLeft btn btn-link"><i
                                 class="bi bi-arrow-left-circle-fill font-24 text-primary"></i></button>
-                        <div id="productos" class="productos"></div>
-                        <button id="scrollRight" class="btn btn-link"><i
+                        <div id="categorias" class="categorias scrollbar" data-artcod="{{ $articulo->artcod }}"></div>
+                        <button id="scrollRight" class="scrollRight btn btn-link"><i
                                 class="bi bi-arrow-right-circle-fill font-24 text-primary"></i></button>
                     </div>
                 </div> <!-- end card-body-->

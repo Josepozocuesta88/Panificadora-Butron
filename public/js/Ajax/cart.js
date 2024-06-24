@@ -45,6 +45,25 @@ $(document).ready(function () {
     });
 
     rellenarSelects();
+
+
+    $('#example-textarea').blur(function() {
+        var comentario = $(this).val();
+
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+
+        $.ajax({
+            url: '/guardar-comentario',
+            type: 'POST',
+            data: {
+                _token: csrfToken,
+                comentario: comentario,
+            },
+            success: function(response) {
+                console.log(response.message);
+            }
+        });
+    });
 });
 
 function rellenarSelects() {

@@ -70,7 +70,7 @@
     overflow: hidden; /* Esto oculta las barras de desplazamiento */
   }
   
-  .productos {
+  .categorias {
     display: flex;
     overflow-x: auto; 
     scroll-snap-type: x mandatory;
@@ -80,7 +80,7 @@
     width: 100%; 
   }
   
-  .productos::-webkit-scrollbar { /* Chrome, Safari and Opera */
+  .categorias::-webkit-scrollbar { /* Chrome, Safari and Opera */
     display: none;
   }
   
@@ -158,4 +158,33 @@
 }
 .descargar{
   width: 300px;
+}
+
+
+
+
+
+/* gift an */
+.gift-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#gift-icon {
+  font-size: 100px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#gift-icon.opening {
+  transform: scale(1.2);
+  opacity: 0;
+}
+
+#gift-icon.open {
+  font-size: 100px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  transform: scale(1);
+  opacity: 1;
 }

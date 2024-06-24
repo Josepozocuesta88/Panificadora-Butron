@@ -34,7 +34,22 @@ function cargarRejilla() {
                     return precio ? precio : '-';
                 }
             },
-
+            {
+                "data": "precioActual",
+                render: function(data, type, row) {
+                    if (typeof data === 'undefined') {
+                        return '-';
+                    }
+            
+                    // Suponiendo que `data` contiene la información necesaria
+                    let precio = data.toLocaleString("es-ES", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) + " €";
+            
+                    return precio ? precio : '-';
+                }
+            },
             { data: "estcan" },
         ],
         stateSave: true,

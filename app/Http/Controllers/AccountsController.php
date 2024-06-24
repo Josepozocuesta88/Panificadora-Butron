@@ -12,10 +12,10 @@ class AccountsController extends Controller
 {
     public function index(Request $request){
         if (!$request->ajax()) {
-            return view('sections.accounts');
+            return view('pages.cuentas.accounts');
         }
     
-        $data = User::where('usugrucod', 'user')->get();
+        $data = User::where('usugrucod', 'Usuario')->get();
     
         return response()->json(['data' => $data]);
     }
