@@ -54,9 +54,9 @@ class ArticuloController extends Controller
                 ->where('artcatcodw1', $catcod)
                 ->paginate(12);
         }
-
+        $articulosOferta = $ofertasService->obtenerArticulosEnOferta();
         session()->forget('search');
-        return $this->prepareView($articulos, $categoria->nombre_es, $ofertas);
+        return $this->prepareView($articulos, $categoria->nombre_es, $ofertas, $articulosOferta);
     }
 
     public function info($artcod)
@@ -117,8 +117,9 @@ class ArticuloController extends Controller
         // dd($articulos);
         $ofertasService = app(OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
+        $articulosOferta = $ofertasService->obtenerArticulosEnOferta();
 
-        return $this->prepareView($articulos, null, $ofertas);
+        return $this->prepareView($articulos, null, $ofertas, $articulosOferta);
     }
 
     public function filters(Request $request, $catnom = null)
@@ -132,7 +133,6 @@ class ArticuloController extends Controller
                 ->search($keywords)
                 ->restrictions()
                 ->with(['imagenes', 'cajas']);
-
         } else {
             $query = auth()->user()->accessibleArticles()->situacion('C')
                 ->search($keywords)->orwhereHas('usuarios', function ($q) {
@@ -185,14 +185,15 @@ class ArticuloController extends Controller
 
         $ofertasService = app(OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
-
-        return $this->prepareView($articulos, $catnom, $ofertas);
+        $articulosOferta = $ofertasService->obtenerArticulosEnOferta();
+        return $this->prepareView($articulos, $catnom, $ofertas, $articulosOferta);
     }
 
 
 
-    private function prepareView($articulos, $catnom = null, $ofertas = null)
+    private function prepareView($articulos, $catnom = null, $ofertas = null, $articulosOferta = null)
     {
+
         $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
 
         $categorias = Category::all();
@@ -202,9 +203,10 @@ class ArticuloController extends Controller
             $usuofecod = Auth::user()->usuofecod;
 
             $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
+            if ($articulosOferta)
+                $this->articleService->calculatePrices($articulosOferta, $usutarcod);
         }
 
-        return view('pages.ecommerce.productos.products', compact('categorias', 'articulos', 'catnom', 'favoritos', 'ofertas'));
+        return view('pages.ecommerce.productos.products', compact('categorias', 'articulosOferta', 'articulos', 'catnom', 'favoritos', 'ofertas'));
     }
-
 }

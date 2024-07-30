@@ -4,32 +4,54 @@
 <head>
     <title>Pedido procesado</title>
     <style>
-    .center {
-        text-align: center;
-    }
+        .center {
+            text-align: center;
+        }
 
-    .email-table {
-        margin: 0 auto;
-        border-collapse: collapse;
-    }
+        .email-table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
 
-    .email-table th,
-    .email-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
+        .email-table th,
+        .email-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
 
-    .totals {
-        text-align: left;
-        margin-top: 20px;
-    }
+        .totals {
+            text-align: left;
+            margin-top: 20px;
+        }
 
-    .line {
-        text-decoration: line-through;
-    }
-    .text-decoration-line-through{
-        text-decoration: line-through;
-    }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .line {
+            text-decoration: line-through;
+        }
+
+        .text-decoration-line-through {
+            text-decoration: line-through;
+        }
+
+        .me-1 {
+            margin-right: 4px;
+        }
+
+        .j-center {
+            justify-content: center;
+        }
+
+        .c-center {
+            place-content: center;
+        }
     </style>
 </head>
 
@@ -56,6 +78,8 @@
                 @endif
                 <th>Cantidad Uds.</th>
                 <th>Precio</th>
+                <th>IVA</th>
+                <th>Recargo</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -71,7 +95,7 @@
                     <img src="{{ asset('images/articulos/'. $detail['image'] ) }}" height="48"
                         style="margin-right: 8px;" />
                     @endif
-                    {{ $detail['name'] ??  'N/A' }}
+                    {{ $detail['name'] ?? 'N/A' }}
                 </td>
                 @if(config('app.caja') == 'si')
                 <td style="text-align: right;">{{ $detail['cantidad_cajas'] }}</td>
@@ -81,12 +105,40 @@
                 <td style="text-align: right;">
                     {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['price']) }} €
                     @if($detail['isOnOffer'])
-                    <small class="text-decoration-line-through">{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['tarifa']) }}
+                    <small class="text-decoration-line-through">{{
+                        \App\Services\FormatoNumeroService::convertirADecimal($detail['tarifa']) }}
                         €</small>
                     @endif
                 </td>
+                <td>
+                    <div class="d-flex align-items-center center" style="justify-content: center; place-content:center">
+                        <div class="me-1">
+                            {{ $detail['iva_porcentaje'] }}% -
+                            {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['iva']) }}
+                        </div>
+                        <div> €</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center center" style="justify-content: center; place-content:center">
+                        <div class="me-1">
+                            {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['recargo']) }}
+                        </div>
+                        <div> €</div>
+                    </div>
+                </td>
 
-                <td style="text-align: right;">{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['total']) }} €</td>
+                <td>
+                    <div class="d-flex align-items-center center" style="justify-content: center; place-content:center">
+                        <div class="me-1">
+                            {{ \App\Services\FormatoNumeroService::convertirADecimal(
+                            $detail['total'] +
+                            $detail['cantidad_unidades'] * ($detail['iva'] + $detail['recargo']),
+                            ) }}
+                        </div>
+                        <div> €</div>
+                    </div>
+                </td>
 
             </tr>
             @endforeach
@@ -96,17 +148,48 @@
     <br>
 
     @if(isset($comentario))
-        <div class="comentario">
-            <h4>Comentarios sobre el pedido:</h4>
-            <p>{{ $comentario }}</p>
-        </div>
+    <div class="comentario">
+        <h4>Comentarios sobre el pedido:</h4>
+        <p>{{ $comentario }}</p>
+    </div>
     @endif
     <br>
 
-    <div class="totals">
-        <h4>Resumen del Pedido:</h4>
-        <p>Subtotal: {{ $subtotal }} €</p>
-        <p>Total: {{ $total }} €</p>
+    <div style="display: flex; text-align: left; padding: 20px 0;">
+        <div class="totals" style="display: inline-block; vertical-align: top; width: 45%;">
+            <h4>Resumen del Pedido:</h4>
+            <p>Subtotal: {{ $subtotal }} €</p>
+            <p>Total IVA:
+                {{ $itemDetails->reduce(function ($carry, $item) {
+                return $carry + $item['iva'] * $item['cantidad_unidades'];
+                }) }}
+                €</p>
+            <p>Total Recargo:
+                {{ $itemDetails->reduce(function ($carry, $item) {
+                return $carry + $item['recargo'] * $item['cantidad_unidades'];
+                }) }}
+                €</p>
+            <p>Total:
+                {{ $total +
+                $itemDetails->reduce(function ($carry, $item) {
+                return $carry + $item['iva'] * $item['cantidad_unidades'];
+                }) +
+                $itemDetails->reduce(function ($carry, $item) {
+                return $carry + $item['recargo'] * $item['cantidad_unidades'];
+                }) }}
+                €
+            </p>
+        </div>
+        <div class="totals" style="display: inline-block; vertical-align: top; width: 45%;">
+            <h4>Dirección de envío</h4>
+            <p>Nombre: {{ $pedido->env_nombre }}</p>
+            <p>Apellidos: {{ $pedido->env_apellidos }}</p>
+            <p>Dirección: {{ $pedido->env_direccion }}</p>
+            <p>Población: {{ $pedido->env_poblacion }}</p>
+            <p>País: {{ $pedido->env_pais_txt }}</p>
+            <p>Código Postal: {{ $pedido->env_cp }}</p>
+            <p>Teléfono: {{ $pedido->env_tfno_1 }} - {{ $pedido->env_tfno_2 }}</p>
+        </div>
     </div>
     <br>
 

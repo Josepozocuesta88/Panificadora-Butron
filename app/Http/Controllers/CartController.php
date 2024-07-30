@@ -28,12 +28,12 @@ class CartController extends Controller
         $articulo = Articulo::where('artcod', $artcod)->firstOrFail();
         if ($articulo->artstocon < 1 && $articulo->artstock < 1) {
             return redirect()->back()->with('error', 'No hay stock disponible.');
-        }        
-        
+        }
+
         // determina la cantidad basada en si se han seleccionado cajas o unidades
         $type = $request->input('input-tipo');
         $quantity = $request->input('quantity', 1);
-        
+
         list($quantity_ud, $quantity_box) = Caja::quantityByType($artcod, $type, $quantity);
 
         // comprueba si el artículo ya está en el carrito para actualizar la cantidad o añadir uno nuevo
@@ -46,31 +46,31 @@ class CartController extends Controller
     {
         $user = $request->user();
         $items = $this->getItems($user->id);
-        
+
         if ($items->isEmpty()) {
             return response()->json(['message' => 'El carrito está vacío.'], 200);
         }
-    
+
         $articulos = $items->pluck('articulo');
         $this->articleService->calculatePrices($articulos, $user->usutarcod);
-    
+
         $itemDetails = $this->calculateItemDetails($items);
-    
+
         if ($itemDetails->isEmpty()) {
             return response()->json(['message' => 'Los artículos en el carrito no están disponibles actualmente.'], 200);
         }
-    
+
         return response()->json(['items' => $itemDetails], 200);
     }
-    
+
     public function selectTipo($artcod)
     {
         $articulo = Articulo::with('cajas')->find($artcod);
-    
+
         if (!$articulo) {
             return response()->json(['error' => 'Artículo no encontrado'], 404);
         }
-    
+
         $cajas = $articulo->cajas;
         return response()->json(['cajas' => $cajas], 200);
     }
@@ -79,33 +79,33 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $cart = Cart::where('cartcod', $cartcod)->first();
-    
+
         if (!$cart) {
             return response()->json(['error' => 'Artículo no encontrado'], 404);
         }
-    
+
         $existingCart = Cart::where('cartartcod', $cart->cartartcod)
-                            ->where('cartcajcod', $selectedValue)
-                            ->first();
-    
-        list($quantity_ud, $quantity_box) = Caja::quantityByType($cart->cartartcod, $selectedValue, $cartcant); 
+            ->where('cartcajcod', $selectedValue)
+            ->first();
+
+        list($quantity_ud, $quantity_box) = Caja::quantityByType($cart->cartartcod, $selectedValue, $cartcant);
         if ($existingCart) {
             // Log::info('Datos procesados', ['existingCart' => $existingCart]);
             $existingCart->cartcant += $quantity_ud;
             $existingCart->cartcantcaj += $quantity_box;
             $existingCart->save();
-            $cart->delete(); 
+            $cart->delete();
         } else {
             $cart->cartcajcod = $selectedValue;
             $cart->cartcantcaj = $quantity_box;
             $cart->cartcant = $quantity_ud;
             $cart->save();
         }
-    
+
         return response()->json(['success' => true]);
     }
-    
-    
+
+
     public function showCart(Request $request)
     {
         $user = $request->user();
@@ -114,12 +114,12 @@ class CartController extends Controller
         if ($items->isEmpty()) {
             return view('pages.ecommerce.carrito.cart', ['message' => 'El carrito está vacío.']);
         }
-    
+
         $articulos = $items->pluck('articulo');
         $this->articleService->calculatePrices($articulos, $user->usutarcod);
-    
+
         $itemDetails = $this->calculateItemDetails($items);
-        
+
         if ($itemDetails->isEmpty()) {
             return view('pages.ecommerce.carrito.cart', ['message' => 'Todos los artículos en el carrito no están disponibles.']);
         }
@@ -127,7 +127,7 @@ class CartController extends Controller
         $subtotal = $itemDetails->sum('total');
         $shippingCost = 0.00;
         $total = $subtotal + $shippingCost;
-            Log::info('Datos procesados', ['existingCart' => $items->pluck('articulo.artivapor')->toArray()]);
+        Log::info('Datos procesados', ['existingCart' => $items->pluck('articulo.artivapor')->toArray()]);
 
         $artivapor = $itemDetails->sum('artivapor');
         $artrecpor = $itemDetails->sum('artrecpor');
@@ -143,13 +143,14 @@ class CartController extends Controller
             'artrecpor' => $artrecpor,
             'artsigimp' => $artsigimp,
             'total' => $total,
+            'direcciones' => $user->direcciones,
         ]);
     }
-    
+
     public function removeItem($artcod)
     {
         $cartItem = Cart::where('cartartcod', $artcod)->first();
-    
+
         if ($cartItem) {
             $cartItem->delete();
         }
@@ -187,25 +188,25 @@ class CartController extends Controller
         }
     }
 
-    
+
     public function makeOrder()
     {
         $user = auth()->user();
         $items = $this->getItems($user->id);
-    
+
         if ($items->isEmpty()) {
             return view('pages.ecommerce.carrito.cart', ['message' => 'El carrito está vacío.']);
         }
-    
+
         $articulos = $items->pluck('articulo');
         $this->articleService->calculatePrices($articulos, $user->usutarcod);
         $itemDetails = $this->calculateItemDetails($items);
         $data['itemDetails'] = $itemDetails;
-        
+
         if ($itemDetails->isEmpty()) {
             return view('pages.ecommerce.carrito.cart', ['message' => 'Todos los artículos en el carrito no están disponibles.']);
         }
-    
+
         $subtotal = $itemDetails->sum('total');
         $data['subtotal'] = $subtotal;
         $shippingCost = 0.00;
@@ -214,7 +215,7 @@ class CartController extends Controller
 
         $email = $user->email;
         $email_copia = config('mail.cc');
-        
+
         $pedido = new Pedido;
         $pedido->cliente_id = $user->id;
         $pedido->accclicod = $user->usuclicod;
@@ -224,7 +225,7 @@ class CartController extends Controller
         $pedido->subtotal = $data['subtotal'];
         $pedido->total = $data['total'];
         $pedido->save();
-        
+
         foreach ($itemDetails as $itemDetail) {
             $pedidoLinea = new Pedido_linea;
             $pedidoLinea->pedido_id = $pedido->id;
@@ -242,9 +243,9 @@ class CartController extends Controller
         try {
             Mail::send('pages.pedidos.email-order', $data, function ($message) use ($data, $email, $email_copia) {
                 $message->to($email)
-                        ->cc($email_copia)
-                        ->subject('Su pedido ya se ha procesado')
-                        ->from(config('mail.from.address'), config('app.name'));
+                    ->cc($email_copia)
+                    ->subject('Su pedido ya se ha procesado')
+                    ->from(config('mail.from.address'), config('app.name'));
             });
         } catch (\Exception $e) {
             Log::error("Error al enviar correo: " . $e->getMessage());
@@ -260,15 +261,15 @@ class CartController extends Controller
     private function getItems($userId)
     {
         return Cart::where('cartusucod', $userId)
-                   ->selectRaw('cartcod, cartartcod, cartcant, cartcantcaj, cajcod, cartcajcod, qanet_caja.cajnom, qanet_caja.cajreldir')
-                   ->groupBy('cartartcod', 'cartcajcod')
-                   ->leftJoin('qanet_caja', function($join) {
-                        $join->on('qanet_caja.cajcod', '=', 'cart.cartcajcod')
-                             ->on('qanet_caja.cajartcod', '=', 'cart.cartartcod');
-                    })
-                   ->orderby('cartcod', 'desc')
-                   ->with('articulo')
-                   ->get();
+            ->selectRaw('cartcod, cartartcod, cartcant, cartcantcaj, cajcod, cartcajcod, qanet_caja.cajnom, qanet_caja.cajreldir')
+            ->groupBy('cartartcod', 'cartcajcod')
+            ->leftJoin('qanet_caja', function ($join) {
+                $join->on('qanet_caja.cajcod', '=', 'cart.cartcajcod')
+                    ->on('qanet_caja.cajartcod', '=', 'cart.cartartcod');
+            })
+            ->orderby('cartcod', 'desc')
+            ->with('articulo')
+            ->get();
     }
 
     private function calculateItemDetails($items)
@@ -285,24 +286,24 @@ class CartController extends Controller
                 if ($tarifa === null) {
                     return ['name' => $name, 'price' => 'Precio no disponible'];
                 }
-    
+
                 $isOnOffer = $tarifa != $price;
                 $isBox = in_array($item->cartcajcod, ['0001', '0002', '0003']);
                 $unitCount = $isBox ? $item->cajreldir : 1;
                 $totalUnits = $isBox ? $item->cartcantcaj * $unitCount : $item->cartcant;
-    
+
 
                 if ($isBox) {
                     $name = $item->cajnom;
                 }
-    
-                
+
+
                 $total = round($price * $totalUnits, 2);
-                
+
                 $artivapor = $total * ($item->articulo->artivapor / 100);
                 $artrecpor = $total * ($item->articulo->artrecpor / 100);
                 $artsigimp = $total * ($item->articulo->artsigimp / 100);
-    
+
                 return [
                     'cartcod' => $item->cartcod,
                     'artcod' => $item->cartartcod,
@@ -324,7 +325,4 @@ class CartController extends Controller
             }
         })->filter();
     }
-    
-
-
 }

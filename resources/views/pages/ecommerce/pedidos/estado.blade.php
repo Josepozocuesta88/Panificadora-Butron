@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="page-title-box">
                 <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
+                    <ol class="m-0 breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
                         <li class="breadcrumb-item active">Detalles del Pedido</li>
                     </ol>
@@ -26,7 +26,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-7 col-md-10 col-sm-11">
 
-            <div class="horizontal-steps mt-4 mb-4 pb-5" id="tooltip-container" data-estado={{$pedido->estado}}>
+            <div class="pb-5 mt-4 mb-4 horizontal-steps" id="tooltip-container" data-estado={{$pedido->estado}}>
                 <div class="horizontal-steps-content">
                     <div class="step-item">
                         <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -55,10 +55,10 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title mb-3"> Productos del pedido #{{ $pedido->id }}</h4>
+                    <h4 class="mb-3 header-title"> Productos del pedido #{{ $pedido->id }}</h4>
 
                     <div class="table-responsive" data-simplebar data-simplebar-primary>
-                        <table class="table table-borderless table-nowrap table-centered mb-0">
+                        <table class="table mb-0 table-borderless table-nowrap table-centered">
                             <thead class="table-light">
                                 <tr>
                                     <th>Producto</th>
@@ -75,18 +75,20 @@
                                 <tr>
                                     <!-- producto -->
                                     <td>
-                                        @if ($item['image'])
-                                        <img src="{{ asset('images/articulos/'. $item['image'] ) }}" alt="img"
-                                            class="rounded me-2" height="48" />
-                                        @else
-                                        <img src="{{ asset('images/articulos/noimage.jpg') }}" alt="img"
-                                            class="rounded me-2" height="48" />
-                                        @endif
+                                        <div class="d-flex align-items-center">
+                                            @if ($item['image'])
+                                            <img src="{{ asset('images/articulos/'. $item['image'] ) }}" alt="img"
+                                                class="rounded me-2 tw-h-12" height="48" />
+                                            @else
+                                            <img src="{{ asset('images/articulos/noimage.jpg') }}" alt="img"
+                                                class="rounded me-2 tw-h-12" height="48" />
+                                            @endif
 
-                                        <p class="m-0 d-inline-block align-middle" style="max-width: 150px;">
-                                            <a href="{{route('info', ['artcod' => $item['producto_ref']])}}"
-                                                class="text-body fw-semibold">{{ $item['nombre_articulo'] }}</a>
-                                        </p>
+                                            <p class="m-0 align-middle d-inline-block" style="max-width: 150px;">
+                                                <a href="{{route('info', ['artcod' => $item['producto_ref']])}}"
+                                                    class="text-body fw-semibold">{{ $item['nombre_articulo'] }}</a>
+                                            </p>
+                                        </div>
                                     </td>
 
                                     @if(config('app.caja') == 'si')
@@ -130,7 +132,7 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title mb-3">Resumen del Pedido</h4>
+                    <h4 class="mb-3 header-title">Resumen del Pedido</h4>
 
                     <div class="table-responsive">
                         <table class="table mb-0">
@@ -150,15 +152,45 @@
                                 </tr>
 
                                 <tr>
-                                    <th>Total :</th>
-                                    <th class="ps-0">
-                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($pedido->total) }}
-                                        €</th>
+                                    <td>Total IVA :</td>
+                                    <td class="ps-0">
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal(
+                                        $items->reduce(function ($carry, $item) {
+                                        return $carry + $item['iva'] * $item['cantidad'];
+                                        }),
+                                        ) }}
+                                        €</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Recargo :</td>
+                                    <td class="ps-0">
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal(
+                                        $items->reduce(function ($carry, $item) {
+                                        return $carry + $item['recargo'] * $item['cantidad'];
+                                        }),
+                                        ) }}
+                                        €</td>
                                 </tr>
 
                                 <tr>
-                                    <th>( Impuestos no incluidos )</th>
+                                    <th>Total :</th>
+                                    <th class="ps-0">
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal(
+                                        $pedido->total +
+
+                                        $items->reduce(function ($carry, $item) {
+                                        return $carry + $item['iva'] * $item['cantidad'];
+                                        }) +
+                                        $items->reduce(function ($carry, $item) {
+                                        return $carry + $item['recargo'] * $item['cantidad'];
+                                        }),
+                                        ) }}
+                                        €</th>
                                 </tr>
+
+                                {{-- <tr>
+                                    <th>( Impuestos no incluidos )</th>
+                                </tr> --}}
                             </tbody>
                         </table>
                     </div>
@@ -175,15 +207,16 @@
         <div class="col-lg-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title mb-3">Información del Cliente</h4>
+                    <h4 class="mb-3 header-title">Información del Cliente</h4>
 
                     <h5>{{ $user->name }}</h5>
 
                     <address class="mb-0 font-14 address-lg">
-                        795 Folsom Ave, Suite 600<br>
-                        San Francisco, CA 94107<br>
-                        <abbr title="Phone">Teléfono:</abbr> (123) 456-7890 <br />
-                        <abbr title="email">Mail:</abbr> {{ $user->email }}
+                        {{ $pedido->env_direccion }}<br>
+                        {{ $pedido->env_cp }} - {{ $pedido->env_poblacion }} - {{ $pedido->env_pais_txt }}<br>
+                        <abbr title="Phone">Teléfonos:</abbr> {{ $pedido->env_tfno_1 }} - {{ $pedido->env_tfno_2 }}
+                        <br />
+                        {{-- <abbr title="email">Mail:</abbr> {{ $pedido->env_email }} --}}
                     </address>
 
                 </div>
@@ -191,7 +224,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title mb-3">Información de la Empresa</h4>
+                    <h4 class="mb-3 header-title">Información de la Empresa</h4>
 
                     <h5>{{ config('app.name') }}</h5>
 
@@ -223,8 +256,8 @@
     </div>
     <!-- end row -->
     @else
-    <div class="alert alert-primary container text-center" role="alert">
-        <i class="ri-information-line me-1 align-middle font-22"></i>
+    <div class="container text-center alert alert-primary" role="alert">
+        <i class="align-middle ri-information-line me-1 font-22"></i>
         <strong>{{ $message }}</strong>
     </div>
     @endisset

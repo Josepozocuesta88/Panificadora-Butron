@@ -36,7 +36,7 @@ return [
     'favicon' => 'images/web/logo.png',
 
     'hero_index' => 'images/web/hero-index.png',
-    
+
     'hero_gift' => 'images/web/gift.jpg',
 
 
@@ -74,7 +74,7 @@ return [
     // 'color' => '#3490dc',
     'points' => 'Flory`s coins',
     // --color-principal: {{ config('app.color') }};
-    
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -127,7 +127,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Madrid',
 
     /*
     |--------------------------------------------------------------------------

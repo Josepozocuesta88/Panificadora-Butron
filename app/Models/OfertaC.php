@@ -36,8 +36,14 @@ class OfertaC extends Model
         'ofcfecfin',
         'ofcclicod'
     ];
+
     public function usuario()
     {
         return $this->belongsTo(OfertaC::class, 'usuofecod', 'ofccod');
+    }
+
+    public function articulo()
+    {
+        return $this->belongsTo(Articulo::class,  'ofcartcod', 'artcod');
     }
 }

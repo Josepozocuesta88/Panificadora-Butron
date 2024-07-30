@@ -20,6 +20,17 @@ class pedido extends Model
         'fecha',
         'subtotal',
         'total',
+        'env_nombre',
+        'env_apellidos',
+        'env_direccion',
+        'env_cp',
+        'env_municipio',
+        'env_poblacion',
+        'env_pais',
+        'env_tfno_1',
+        'env_tfno_2',
+        'env_pais_txt',
+        'observaciones'
     ];
     public function pedidos_lineas()
     {

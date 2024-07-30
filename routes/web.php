@@ -62,10 +62,10 @@ Route::view('/support', 'pages.cuenta.support.form-report')->name('form-report')
 Route::post('/support/form', [SupportController::class, 'reportarError'])->name('reportar.error')->middleware('auth');
 
 
-// ============================================================== 
+// ==============================================================
 //   Todas las rutas relacionadas con: ARTICULOS
-// ============================================================== 
-// productos y categorias 
+// ==============================================================
+// productos y categorias
 Route::get('/categorias/{catcod}', [ArticuloController::class, 'showByCategory'])->name('categories');
 
 // buscar productos
@@ -86,9 +86,9 @@ Route::get('/recomendados', [RecomendadosController::class, 'getRecomendados'])-
 // ordenaciones de productos
 Route::get('/productos/categoria/{catnom?}', [ArticuloController::class, 'filters'])->name('filtrarArticulos');
 
-// ============================================================== 
+// ==============================================================
 //   Todas las rutas relacionadas con: ARTICULOS FAVORITOS
-// ============================================================== 
+// ==============================================================
 
 // favoritos mostrar
 Route::get('/favoritos', [FavoritoController::class, 'index'])->name('favoritos.show')->middleware('auth');
@@ -99,9 +99,9 @@ Route::post('/favoritos/store', [FavoritoController::class, 'store'])->name('fav
 // favoritos borrar (AJAX)
 Route::post('/favoritos/delete', [FavoritoController::class, 'delete'])->name('favoritos.delete')->middleware('auth');
 
-// ============================================================== 
+// ==============================================================
 //   Todas las rutas relacionadas con: CARRITO Y PEDIDOS
-// ============================================================== 
+// ==============================================================
 // History (AJAX)
 Route::get('/history', [HistoryController::class, 'getHistory'])->name('history')->middleware('auth');
 Route::get('/historyAgrupado', [HistoryController::class, 'getHistoryGroup'])->name('historyAgrupado')->middleware('auth');
@@ -118,7 +118,10 @@ Route::post('/update-cart/{cartcod}', [CartController::class, 'updateCart'])->na
 Route::get('/modalCart', [CartController::class, 'showModalCart'])->name('cart.modalCart')->middleware('auth');
 
 // Generar pedido
-Route::get('/order', [PedidoController::class, 'makeOrder'])->name('makeOrder')->middleware('auth');
+Route::post('/order', [PedidoController::class, 'makeOrder'])->name('makeOrder')->middleware('auth');
+
+//redirige al
+Route::get('/order/{result}', [PedidoController::class, 'orderResult'])->name('orderResult')->middleware('auth');
 
 // Ver pedidos
 Route::get('/pedidos/pedido/{id?}', [PedidoController::class, 'mostrarPedido'])->name('pedido.mostrarPedido')->middleware('auth');
@@ -130,9 +133,9 @@ Route::post('/guardar-comentario', [PedidoController::class, 'guardarComentario'
 
 
 
-// ============================================================== 
+// ==============================================================
 //   Todas las rutas relacionadas con: GESTIÓN DOCUMENTAL
-// ============================================================== 
+// ==============================================================
 
 // ruta para descargar documentos
 Route::get('/documentos/download/{filename}', [DocumentoController::class, 'descargarDocumento'])->name('descargar.documento')->middleware('auth');
@@ -140,14 +143,14 @@ Route::get('/documentos/download/{filename}', [DocumentoController::class, 'desc
 Route::get('/documentos/{doctip?}', [DocumentoController::class, 'getDocumentos'])->name('get.documentos')->middleware('auth');
 // ver documento
 Route::get('/documentos/ver/{filename}', [DocumentoController::class, 'verDocumento'])
-     ->where('filename', '.*')
-     ->name('documentos.ver')
-     ->middleware('auth');
+    ->where('filename', '.*')
+    ->name('documentos.ver')
+    ->middleware('auth');
 
 
-// ============================================================== 
+// ==============================================================
 //   Todas las rutas relacionadas con: PUNTOS DE REGALO
-// ============================================================== 
+// ==============================================================
 Route::get('/puntosderegalo', [PuntosController::class, 'allPoints'])->name('all.points')->middleware('auth');
 
 // ajax (datatables)
@@ -155,9 +158,9 @@ Route::get('/historicoPuntos', [PuntosController::class, 'getPoints'])->name('ge
 // Route::get('/historicoPuntosAgrupado', [PuntosController::class, 'getPointsGroup'])->name('get.pointsGroup')->middleware('auth');
 
 
-// ============================================================== 
-//   Todas las rutas relacionadas con: LEGAL (FOOTER) 
-// ============================================================== 
+// ==============================================================
+//   Todas las rutas relacionadas con: LEGAL (FOOTER)
+// ==============================================================
 
 // contactanos
 Route::view('/contacto', 'pages.contacto.formulario')->name('contacto.formulario');
@@ -180,7 +183,7 @@ Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 
 
 // TEMPORALES
-Route::get('/clear-all-caches', function() {
+Route::get('/clear-all-caches', function () {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
     Artisan::call('route:clear');

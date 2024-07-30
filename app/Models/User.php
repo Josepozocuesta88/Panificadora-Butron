@@ -59,7 +59,6 @@ class User extends Authenticatable
     {
         // dd($this->belongsToMany(Category::class, 'qanet_clientecategoria', 'catcod', 'clicod', 'usuclicod', 'id'));
         return $this->belongsToMany(Category::class, 'qanet_clientecategoria', 'clicod', 'catcod', 'usuclicod', 'id');
-
     }
 
     public function accessibleArticles()
@@ -70,7 +69,7 @@ class User extends Authenticatable
         $directArticleIds = $this->articulos()->pluck('qanet_articulo.artcod');
 
         $allArticleIds = $categoryArticleIds->merge($directArticleIds)->unique();
-        
+
         $articles = Articulo::whereIn('artcod', $allArticleIds);
 
 
@@ -96,5 +95,23 @@ class User extends Authenticatable
     public function favoritos()
     {
         return $this->hasMany(Favorito::class, 'favusucod', 'id');
+    }
+
+    public function direcciones()
+    {
+        // Define a new query on the related model
+        $query = ClienteDireccion::query()
+            ->join('users', function ($join) {
+                $join->on('clientes_direcciones.cliid', '=', 'users.usuclicod');
+            })
+            ->select('clientes_direcciones.*'); // Adjust as necessary
+
+        // Return a hasMany relationship with the custom query
+        return new \Illuminate\Database\Eloquent\Relations\HasMany(
+            $query,
+            $this,
+            'cliid',
+            'usuclicod'
+        );
     }
 }

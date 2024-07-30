@@ -51,7 +51,7 @@
     <link href="{{asset('css/css.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- vite(['resources/sass/app.scss']) -->
-
+    @stack('header')
 </head>
 
 <body>
@@ -61,8 +61,8 @@
         @include('layouts.navbar')
         <div class="fotobackground">
             <div class="content-page @if(!auth::user()) ms-0 @endif">
-
-
+                <x-success-alert />
+                <x-error-alert />
                 @yield('content')
 
             </div>
@@ -83,7 +83,7 @@
     <!-- Daterangepicker js -->
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- daterangepicker
+    <!-- daterangepicker
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -94,7 +94,7 @@
     <script src="{{ asset('vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
- 
+
     <script src="{{ asset('vendor/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
 
@@ -105,13 +105,14 @@
     <script src="{{ asset('vendor/apexcharts/apexcharts.min.js ')}}"></script>
     <!-- Vector Map js -->
     <script src="{{ asset('vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-    <script src="{{ asset('vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}">
+    </script>
 
 
 
     <!-- /// scripts a los que se le llama en diferentes paginas con stack (se encuentran en cada blade especifico) /// -->
 
-    @stack('scripts') 
+    @stack('scripts')
     <!-- Analytics Dashboard App js -->
     <!-- cart -->
     <script src="{{ asset('js/Ajax/cart.js') }}"></script>
