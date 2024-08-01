@@ -42,7 +42,7 @@ return [
 
     'logo' => 'images/web/logo.png',
 
-    'caja' => 'no',
+    'caja' => 'si',
 
     'telefono' => '957 690 508',
 

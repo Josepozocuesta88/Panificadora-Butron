@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\Articulo;
 use App\Contracts\OfertaServiceInterface;
 use App\Services\ArticleService;
+use App\Services\OfertasGeneralesService;
 
 class OfertaCController extends Controller
 {
@@ -27,13 +28,13 @@ class OfertaCController extends Controller
     // Los banner publicitarios se muestran cuando estan en un determinado rango de fecha
     // ademas de mostrarse segun el cliente. Sino se ha asignado ningun cliente al banner, este se mostrara a
     // todos los clientes
-    public function index(ArticleService $articleService)
+    public function index(ArticleService $articleService, OfertasGeneralesService $ofG)
     {
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
         $categorias = Category::all();
         $novedades = Articulo::orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
-        $articulosOferta = $ofertasService->obtenerArticulosEnOferta();
+        $articulosOferta = $ofG->obtenerArticulosEnOferta();
 
         if (Auth::user()) {
             $usutarcod = Auth::user()->usutarcod;

@@ -13,6 +13,8 @@ use App\Models\Precio;
 
 use App\Services\ArticleService;
 use App\Contracts\OfertaServiceInterface;
+use App\Services\OfertasGeneralesService;
+use App\Services\OfertasPersonalizadasService;
 
 class ArticuloController extends Controller
 {
@@ -25,25 +27,18 @@ class ArticuloController extends Controller
     }
 
 
-    public function showByCategory($catcod)
+    public function showByCategory($catcod, OfertasGeneralesService $ofG)
     {
-        $ofertasService = app(OfertaServiceInterface::class);
+        $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
 
         $categoria = Category::where('id', $catcod)->firstOrFail();
 
         if (Auth::user()) {
-            if (auth()->user()->categorias()->count() == 0 && auth()->user()->articulos()->count() == 0) {
-                $articulos = $categoria->articulos()
-                    ->where('artsit', 'C')
-                    ->where('artcatcodw1', $catcod)
-                    ->restrictions()
-                    ->paginate(12);
-            } else {
-                $articulos = auth()->user()->accessibleArticles()->orwhereHas('usuarios', function ($q) {
-                    $q->where('users.usuclicod', Auth::user()->usuclicod);
-                })->with(['cajas', 'imagenes'])->paginate(12);
-            }
+            $articulos = $categoria->articulos()
+                ->where('artsit', 'C')
+                ->where('artcatcodw1', $catcod)
+                ->paginate(12);
         } else {
 
             $articulos = $categoria->articulos()->where(function ($query) {
@@ -54,7 +49,8 @@ class ArticuloController extends Controller
                 ->where('artcatcodw1', $catcod)
                 ->paginate(12);
         }
-        $articulosOferta = $ofertasService->obtenerArticulosEnOferta();
+
+        $articulosOferta = $ofG->obtenerArticulosEnOferta();
         session()->forget('search');
         return $this->prepareView($articulos, $categoria->nombre_es, $ofertas, $articulosOferta);
     }
@@ -84,61 +80,46 @@ class ArticuloController extends Controller
         ]);
     }
 
-    public function search(Request $request)
+    public function search(Request $request, OfertasGeneralesService $ofG)
     {
         session(['search' => $request->get('query')]);
         // session(['filters' => $request->all()]);
 
         $keywords = explode(' ', $request->get('query'));
 
-
-        if (Auth::user()) {
-            if (auth()->user()->categorias()->count() == 0 && auth()->user()->articulos()->count() == 0) {
-                $articulos = Articulo::situacion('C')
-                    ->search($keywords)
-                    ->restrictions()
-                    ->with(['imagenes', 'cajas'])
-                    ->paginate(12);
-            } else {
-                $articulos = auth()->user()->accessibleArticles()->orwhereHas('usuarios', function ($q) {
-                    $q->where('users.usuclicod', Auth::user()->usuclicod);
-                })->with(['cajas', 'imagenes'])->paginate(12);
-            }
+        if (!Auth::user()) {
+            $articulos = Articulo::situacion('C')
+                ->search($keywords)
+                ->restrictions()
+                ->with(['imagenes', 'cajas'])
+                ->paginate(12);
         } else {
             $articulos = Articulo::situacion('C')
                 ->search($keywords)
-                ->where(function ($query) {
-                    $query->where('artsolcli', '<>', 1)
-                        ->orWhereNull('artsolcli');
-                })
+                ->restrictions()
                 ->with(['imagenes', 'cajas'])
                 ->paginate(12);
         }
-        // dd($articulos);
-        $ofertasService = app(OfertaServiceInterface::class);
+
+        $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
-        $articulosOferta = $ofertasService->obtenerArticulosEnOferta();
+        $articulosOferta = $ofG->obtenerArticulosEnOferta();
 
         return $this->prepareView($articulos, null, $ofertas, $articulosOferta);
     }
 
-    public function filters(Request $request, $catnom = null)
+    public function filters(Request $request, $catnom = null, OfertasGeneralesService $ofG)
     {
         $search = session('search');
         // $filters = session('filters');
 
         $keywords = explode(' ', $search);
-        if (auth()->user()->categorias()->count() == 0 && auth()->user()->articulos()->count() == 0) {
-            $query = Articulo::situacion('C')
-                ->search($keywords)
-                ->restrictions()
-                ->with(['imagenes', 'cajas']);
-        } else {
-            $query = auth()->user()->accessibleArticles()->situacion('C')
-                ->search($keywords)->orwhereHas('usuarios', function ($q) {
-                    $q->where('users.usuclicod', Auth::user()->usuclicod);
-                })->with(['cajas', 'imagenes']);
-        }
+
+        $query = Articulo::situacion('C')
+            ->search($keywords)
+            ->restrictions()
+            ->with(['imagenes', 'cajas']);
+
 
         // logica filtros
         $today = Carbon::now();
@@ -183,9 +164,9 @@ class ArticuloController extends Controller
 
         $articulos = $query->paginate(12)->appends($request->all());
 
-        $ofertasService = app(OfertaServiceInterface::class);
+        $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
-        $articulosOferta = $ofertasService->obtenerArticulosEnOferta();
+        $articulosOferta = $ofG->obtenerArticulosEnOferta();
         return $this->prepareView($articulos, $catnom, $ofertas, $articulosOferta);
     }
 
