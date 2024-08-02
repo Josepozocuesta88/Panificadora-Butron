@@ -8,7 +8,7 @@ $(document).ready(function ajaxDashboard() {
         { title: "#", data: "doccon" },
         { title: "Serie", data: "docser" },
         { title: "Ejercicio", data: "doceje" },
-        {  title: "Número", className: "ser-eje-num text-end", data: "docnum" },
+        { title: "Número", className: "ser-eje-num text-end", data: "docnum" },
         {
             title: "Fecha",
             data: "docfec",
@@ -88,11 +88,11 @@ $(document).ready(function ajaxDashboard() {
                     '" class="btn btn-primary me-2"><i class="bi bi-download"></i></a>';
                 if (row.docfichero && row.docfichero.length === 1) {
                     html +=
-                        '<a href="' +
+                        '<button class="ver-documento btn btn-primary" data-href="' +
                         urlDoc +
-                        "/images/files/" +
+                        "/documentos/ver/" +
                         row.docfichero +
-                        '" class="btn btn-primary" data-toggle="fullscreen"><i class="bi bi-eye-fill"></i></a>';
+                        '" data-toggle="fullscreen"><i class="bi bi-eye-fill"></i></button>';
                 }
 
                 return html;
@@ -113,5 +113,22 @@ $(document).ready(function ajaxDashboard() {
             emptyTable: "No se encontraron documentos para mostrar.",
             url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
         },
+    });
+
+    $(document).on('click', '.ver-documento', (e) => {
+        e.preventDefault(); // Prevent default action
+        const url = e.currentTarget.dataset.href; // Get the URL from data attribute
+
+        // Fetch the new URL
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.url) {
+                    window.open(data.url, '_blank'); // Open the new URL in a new tab
+                } else {
+                    console.error('No se encontró la nueva URL en la respuesta.');
+                }
+            })
+            .catch(error => console.error('Error al realizar la petición:', error));
     });
 });

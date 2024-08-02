@@ -17,6 +17,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\UserLogController;
 use App\Http\Controllers\PedidoController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::get('/home', [OfertaCController::class, 'index'])->name('home');
 
 // dashboard (AJAX)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+
 
 // Mi cuenta
 Route::middleware(['auth'])->group(function () {
@@ -146,6 +148,9 @@ Route::get('/documentos/ver/{filename}', [DocumentoController::class, 'verDocume
     ->where('filename', '.*')
     ->name('documentos.ver')
     ->middleware('auth');
+
+//descargar archivos temporales
+Route::get('local/temp/{path}', [DocumentoController::class, 'verArchivoTemporal'])->name('local.temp');
 
 
 // ==============================================================

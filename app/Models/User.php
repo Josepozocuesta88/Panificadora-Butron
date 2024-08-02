@@ -99,19 +99,11 @@ class User extends Authenticatable
 
     public function direcciones()
     {
-        // Define a new query on the related model
-        $query = ClienteDireccion::query()
+        return $this->hasMany(ClienteDireccion::class, 'dirclicod', 'usuclicod')
             ->join('users', function ($join) {
-                $join->on('clientes_direcciones.cliid', '=', 'users.usuclicod');
+                $join->on('clientes_direcciones.dirclicod', '=', 'users.usuclicod')
+                    ->on('clientes_direcciones.dircencod', '=', 'users.usucencod');
             })
-            ->select('clientes_direcciones.*'); // Adjust as necessary
-
-        // Return a hasMany relationship with the custom query
-        return new \Illuminate\Database\Eloquent\Relations\HasMany(
-            $query,
-            $this,
-            'cliid',
-            'usuclicod'
-        );
+            ->select('clientes_direcciones.*'); // Ajustar según sea necesario
     }
 }

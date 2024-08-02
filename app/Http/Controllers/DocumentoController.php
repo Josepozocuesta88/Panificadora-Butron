@@ -23,6 +23,8 @@ class DocumentoController extends Controller
         if ($request->ajax()) {
 
             $user = Auth::user();
+            if (Auth::user() && Auth::user()->usugrucod !== 'Admin' && $doctip == 'Albaranes')
+                return response()->json(['data' => []]);
             $query = $user->documentos()->with(['ficheros' => function ($query) {
                 $query->select('qdocumento_id', 'docfichero');
             }]);
@@ -67,6 +69,8 @@ class DocumentoController extends Controller
 
             return response()->json(['data' => $data]);
         }
+        if (Auth::user() && Auth::user()->usugrucod !== 'Admin' && $doctip == 'Albaranes')
+            return back()->with('error', 'No permitivo');
 
         return view('pages.documentos.document', compact('doctip'));
     }
@@ -147,29 +151,38 @@ class DocumentoController extends Controller
         }
     }
 
+    public function verArchivoTemporal($path)
+    {
+        $filePath = Storage::disk('local')->path(base64_decode($path));
+        return response()->file($filePath, [
+            'Content-Disposition' => ' filename="' . basename($filePath) . '"'
+        ]);
+    }
 
     public function verDocumento($filename)
     {
-        // dd('pasa');
+
 
         $user = Auth::user();
         $fichero = DocumentoFichero::where('docfichero', $filename)
-            ->join('qdocumento', 'qdocumento.doccon', '=', 'qdocumento_fichero.qdocumento_id')
-            ->where('qdocumento.docclicod', $user->usuclicod)
+            ->whereHas('documento', function ($query) use ($user) {
+                $query->where('docclicod', $user->usuclicod);
+            })
             ->first();
-
 
         if (!$fichero) {
             abort(404, 'Archivo no encontrado o acceso no permitido.');
         }
 
-        $path = storage_path('app/' . $filename);
-
-        if (!file_exists($path)) {
+        if (!Storage::disk('local')->exists($filename)) {
             abort(404, 'Archivo no encontrado.');
         }
 
-        return response()->file($path);
+        $url = Storage::disk('local')->temporaryUrl(
+            base64_encode($filename),
+            now()->addMinutes(1)
+        );
+        return response()->json(['url' => $url]);
     }
 
 

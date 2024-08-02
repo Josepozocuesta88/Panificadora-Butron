@@ -1,7 +1,7 @@
 @if (session('success'))
 <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
     <!-- Success Toast -->
-    <div id="successToast" class="toast show bg-primary" data-bs-delay="10000">
+    <div id="successToast" class="toast show bg-primary" data-bs-delay="5000">
         <div class="toast-header">
             <strong class="mr-auto text-primary">Éxito</strong>
             <button type="button" class="m-auto btn-close me-2" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -41,10 +41,10 @@
             successProgressBar.style.transition = 'width 10s linear';
             successProgressBar.style.width = '100%';
 
-            // Hide the toasts after 30 seconds
+            // Hide the toasts after 5 seconds
             setTimeout(function() {
                 successToast.hide();
-            }, 10000); // 15000 milliseconds = 15 seconds
+            }, 5000); // 15000 milliseconds = 5 seconds
         });
 </script>
 @endif

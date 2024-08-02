@@ -28,12 +28,13 @@ class PedidoController extends Controller
 
     public function makeOrder(Request $request)
     {
+
         try {
             $data = $request->all();
             $direccionId = $data['direccionId'];
             $comentario = $data['comentario'];
             $user = auth()->user();
-            $direccion = ClienteDireccion::where([['dirid', $direccionId], ['cliid', $user->usuclicod]])->first();
+            $direccion = ClienteDireccion::where([['dirid', $direccionId], ['dirclicod', $user->usuclicod]])->first();
             if (!$direccion) {
                 return back()->with('error', 'La dirección seleccionada no existe');
             }

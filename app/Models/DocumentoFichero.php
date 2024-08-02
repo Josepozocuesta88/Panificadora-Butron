@@ -23,9 +23,8 @@ class DocumentoFichero extends Model
     ];
 
 
-    public function documento() {
-        return $this->belongsTo(Documento::class, 'doccon', 'qdocumento_id');
+    public function documento()
+    {
+        return $this->belongsTo(Documento::class,  'qdocumento_id', 'doccon');
     }
-
 }
-

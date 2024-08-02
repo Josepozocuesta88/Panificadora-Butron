@@ -1,6 +1,6 @@
 @if (session('error'))
 <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
-    <div id="errorToast" class="toast show bg-primary" data-bs-delay="10000">
+    <div id="errorToast" class="toast show bg-primary" data-bs-delay="5000">
         <div class="toast-header">
             <strong class="mr-auto text-primary">Alerta</strong>
             <button type="button" class="m-auto btn-close me-2" data-bs-dismiss="toast" aria-label="Cerrar"></button>
@@ -38,13 +38,13 @@
             const errorProgressBar = errorToastElement.querySelector('.progress-bar .progress');
 
             // Animate the progress bars
-            errorProgressBar.style.transition = 'width 10s linear';
+            errorProgressBar.style.transition = 'width 5s linear';
             errorProgressBar.style.width = '100%';
 
-            // Hide the toasts after 30 seconds
+            // Hide the toasts after 5 seconds
             setTimeout(function() {
                 errorToast.hide();
-            }, 10000); // 10000 milliseconds = 10 seconds
+            }, 5000); // 5000 milliseconds = 5 seconds
         });
 </script>
 @endif
