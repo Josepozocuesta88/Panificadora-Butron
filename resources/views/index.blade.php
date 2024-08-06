@@ -14,68 +14,24 @@
             <h3>Productos en oferta</h3>
         </div>
         <ul class="mb-3 nav nav-pills bg-nav-pills nav-justified tw-w-4/12 tw-mr-4">
-            <li class="nav-item">
-                <a href="#carrouselOfertas" data-bs-toggle="tab" aria-expanded="false"
-                    class="nav-link rounded-0 active">
-                    <i class="bi bi-lightbulb d-md-none d-block"></i>
-                    <h2 class="d-none d-md-block">Carrousel</h2>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#tarjetasOfertas" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0">
-                    <i class="bi bi-percent d-md-none d-block"></i>
-                    <h2 class="d-none d-md-block">Tarjetas</h2>
-                </a>
-            </li>
 
+            <li class="nav-item">
+                <a href="#tarjetasOfertas" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                    <i class="bi bi-percent d-md-none d-block"></i>
+                    <h2 class="d-none d-md-block">Ofertas generales</h2>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#carrouselOfertas" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 ">
+                    <i class="bi bi-lightbulb d-md-none d-block"></i>
+                    <h2 class="d-none d-md-block">Ofertas personalizadas</h2>
+                </a>
+            </li>
         </ul>
     </div>
 
     <div class="pb-5 tab-content">
-
-        <div class="tab-pane show active" id="carrouselOfertas">
-
-            <div class="container">
-                <div id="carouselExampleIndicators" class="pb-5 carousel slide" data-bs-ride="carousel">
-                    <!-- Indicadores del Carrusel -->
-                    <div class="carousel-indicators">
-                        @foreach ($ofertas as $index => $image)
-                        <button type="button" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide-to="{{ $index }}" class="{{ $loop->first ? 'active' : '' }}"
-                            aria-current="{{ $loop->first ? 'true' : 'false' }}"
-                            aria-label="Slide {{ $index + 1 }}"></button>
-                        @endforeach
-                    </div>
-
-                    <!-- Elementos del Carrusel -->
-                    <div class="carousel-inner">
-                        @foreach ($ofertas as $image)
-                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                            <a
-                                href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
-                                <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill"
-                                    alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
-                            </a>
-                        </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Controles del Carrusel -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-
-        </div>
-        <div class="tab-pane" id="tarjetasOfertas">
+        <div class="tab-pane show active" id="tarjetasOfertas">
             <div class="favoritos">
                 <button id="scrollLeft" class="scrollLeft btn btn-light ">
                     <i class="bi bi-arrow-left-circle font-24 text-primary"></i>
@@ -240,6 +196,48 @@
                     <i class="bi bi-arrow-right-circle font-24 text-primary"></i>
                 </button>
             </div>
+        </div>
+        <div class="tab-pane " id="carrouselOfertas">
+
+            <div class="container">
+                <div id="carouselExampleIndicators" class="pb-5 carousel slide" data-bs-ride="carousel">
+                    <!-- Indicadores del Carrusel -->
+                    <div class="carousel-indicators">
+                        @foreach ($ofertas as $index => $image)
+                        <button type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide-to="{{ $index }}" class="{{ $loop->first ? 'active' : '' }}"
+                            aria-current="{{ $loop->first ? 'true' : 'false' }}"
+                            aria-label="Slide {{ $index + 1 }}"></button>
+                        @endforeach
+                    </div>
+
+                    <!-- Elementos del Carrusel -->
+                    <div class="carousel-inner">
+                        @foreach ($ofertas as $image)
+                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                            <a
+                                href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
+                                <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill"
+                                    alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
+                            </a>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Controles del Carrusel -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 

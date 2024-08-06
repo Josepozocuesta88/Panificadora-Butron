@@ -108,8 +108,9 @@ class ArticuloController extends Controller
         return $this->prepareView($articulos, null, $ofertas, $articulosOferta);
     }
 
-    public function filters(Request $request, $catnom = null, OfertasGeneralesService $ofG)
+    public function filters(Request $request, $catnom = null)
     {
+        $ofG = new OfertasGeneralesService();
         $search = session('search');
         // $filters = session('filters');
 

@@ -47,6 +47,7 @@ class RecomendadosController extends Controller
             ->where('qanet_articulo.artcod', '<>', $request->get('artcod'))
             ->select('qanet_articulo.artcod', 'qanet_articulo.artnom', 'qarticulo_precio.preimp', DB::raw('coincidencias.coincidencias as coincidencias'))
             ->where('coincidencias.coincidencias', '<>', 0)
+            ->orderBy('qanet_articulo.artstock', 'desc')
             ->orderBy('coincidencias', 'desc')
             ->orderBy('qanet_articulo.artnom')
             ->distinct()
