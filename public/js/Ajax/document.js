@@ -88,11 +88,12 @@ $(document).ready(function ajaxDashboard() {
                     '" class="btn btn-primary me-2"><i class="bi bi-download"></i></a>';
                 if (row.docfichero && row.docfichero.length === 1) {
                     html +=
-                        '<button class="ver-documento btn btn-primary" data-href="' +
-                        urlDoc +
-                        "/documentos/ver/" +
-                        row.docfichero +
-                        '" data-toggle="fullscreen"><i class="bi bi-eye-fill"></i></button>';
+                    '<a href="' +
+                    urlDoc +
+                    // "/documentos/ver/" +
+                    "/images/files/facturas/" +
+                    row.docfichero +
+                    '" class="btn btn-primary" data-toggle="fullscreen"><i class="bi bi-eye-fill"></i></a>';
                 }
 
                 return html;
