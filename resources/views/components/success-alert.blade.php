@@ -45,6 +45,7 @@
             setTimeout(function() {
                 successToast.hide();
             }, 2000); // 15000 milliseconds = 5 seconds
+            
         });
 </script>
 @endif
