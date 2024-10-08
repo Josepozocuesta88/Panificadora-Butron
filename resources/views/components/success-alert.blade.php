@@ -1,7 +1,7 @@
 @if (session('success'))
 <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
     <!-- Success Toast -->
-    <div id="successToast" class="toast show bg-primary" data-bs-delay="5000">
+    <div id="successToast" class="toast show bg-primary" data-bs-delay="2000">
         <div class="toast-header">
             <strong class="mr-auto text-primary">Éxito</strong>
             <button type="button" class="m-auto btn-close me-2" data-bs-dismiss="toast" aria-label="Close"></button>

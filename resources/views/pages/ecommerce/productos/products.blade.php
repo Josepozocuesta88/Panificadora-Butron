@@ -257,24 +257,6 @@
 <!-- CARDS DE PRODUCTOS -->
 
 <section class="py-5" id="productos">
-
-    @if (session('success') || session('error'))
-    <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
-        <div class="toast show bg-primary" data-bs-delay="5000">
-            <div class="toast-header">
-                <strong class="mr-auto text-primary">Alerta</strong>
-                <button type="button" class="m-auto btn-close me-2" data-bs-dismiss="toast"
-                    aria-label="Cerrar"></button>
-            </div>
-            <div class="text-white toast-body">
-                {{ session('success') ?? session('error') }}
-            </div>
-        </div>
-    </div>
-    @endif
-
-
-
     <div class="container">
         @isset($catnom)
         <h3 class="pb-2 text-primary">{{$catnom}}</h3>
