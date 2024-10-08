@@ -38,13 +38,13 @@
             const errorProgressBar = errorToastElement.querySelector('.progress-bar .progress');
 
             // Animate the progress bars
-            errorProgressBar.style.transition = 'width 5s linear';
+            errorProgressBar.style.transition = 'width 2s linear';
             errorProgressBar.style.width = '100%';
 
             // Hide the toasts after 5 seconds
             setTimeout(function() {
                 errorToast.hide();
-            }, 5000); // 5000 milliseconds = 5 seconds
+            }, 2000); // 5000 milliseconds = 5 seconds
         });
 </script>
 @endif
