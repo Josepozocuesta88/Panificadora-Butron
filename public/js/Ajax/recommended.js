@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    var page = 1;
+    var page = 1; 
 
     var artcod = $(".categorias").data();
-    console.log(artcod)
+
     $.ajax({
         url: "/recomendados",
         type: "GET",
@@ -21,8 +21,8 @@ $(document).ready(function () {
                 var imageUrl =
                     articulo.imagenes.length > 0
                         ? window.location.origin +
-                        "/images/articulos/" +
-                        articulo.imagenes[0].imanom
+                          "/images/articulos/" +
+                          articulo.imagenes[0].imanom
                         : "/images/articulos/noimage.jpg";
                 var artcod = articulo.artcod;
                 var url = "/articles/" + artcod;

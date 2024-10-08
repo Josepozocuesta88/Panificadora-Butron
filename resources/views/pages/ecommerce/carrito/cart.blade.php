@@ -341,6 +341,7 @@
                         }
                     })
                     .then(response => {
+                        console.log(response)
                         if (response.ok) {
                             window.location.href = `/order/ok`; // Redirigir si la respuesta es correcta
                         } else {
