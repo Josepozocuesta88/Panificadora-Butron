@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OfertaCController;
 use App\Http\Controllers\ArticuloController;
@@ -63,7 +64,6 @@ Route::middleware('auth')->group(function () {
 Route::view('/support', 'pages.cuenta.support.form-report')->name('form-report')->middleware('auth');
 Route::post('/support/form', [SupportController::class, 'reportarError'])->name('reportar.error')->middleware('auth');
 
-
 // ==============================================================
 //   Todas las rutas relacionadas con: ARTICULOS
 // ==============================================================
@@ -91,7 +91,6 @@ Route::get('/productos/categoria/{catnom?}', [ArticuloController::class, 'filter
 // ==============================================================
 //   Todas las rutas relacionadas con: ARTICULOS FAVORITOS
 // ==============================================================
-
 // favoritos mostrar
 Route::get('/favoritos', [FavoritoController::class, 'index'])->name('favoritos.show')->middleware('auth');
 
@@ -129,16 +128,12 @@ Route::get('/order/{result}', [PedidoController::class, 'orderResult'])->name('o
 Route::get('/pedidos/pedido/{id?}', [PedidoController::class, 'mostrarPedido'])->name('pedido.mostrarPedido')->middleware('auth');
 Route::get('/pedidos', [PedidoController::class, 'mostrarTodos'])->name('pedido.mostrarTodos')->middleware('auth');
 
-
 // guardar comentario
 Route::post('/guardar-comentario', [PedidoController::class, 'guardarComentario']);
-
-
 
 // ==============================================================
 //   Todas las rutas relacionadas con: GESTIÓN DOCUMENTAL
 // ==============================================================
-
 // ruta para descargar documentos
 Route::get('/documentos/download/{filename}', [DocumentoController::class, 'descargarDocumento'])->name('descargar.documento')->middleware('auth');
 // ruta para obtener los documentos (AJAX DATATABLES)
@@ -152,7 +147,6 @@ Route::get('/documentos/ver/{filename}', [DocumentoController::class, 'verDocume
 //descargar archivos temporales
 Route::get('local/temp/{path}', [DocumentoController::class, 'verArchivoTemporal'])->name('local.temp');
 
-
 // ==============================================================
 //   Todas las rutas relacionadas con: PUNTOS DE REGALO
 // ==============================================================
@@ -162,11 +156,9 @@ Route::get('/puntosderegalo', [PuntosController::class, 'allPoints'])->name('all
 Route::get('/historicoPuntos', [PuntosController::class, 'getPoints'])->name('get.points')->middleware('auth');
 // Route::get('/historicoPuntosAgrupado', [PuntosController::class, 'getPointsGroup'])->name('get.pointsGroup')->middleware('auth');
 
-
 // ==============================================================
 //   Todas las rutas relacionadas con: LEGAL (FOOTER)
 // ==============================================================
-
 // contactanos
 Route::view('/contacto', 'pages.contacto.formulario')->name('contacto.formulario');
 Route::post('/contacto/email', [SupportController::class, 'contactoEmail'])->name('contacto.email');
@@ -182,10 +174,6 @@ Route::view('/politica-de-redes', 'pages.legal.redes')->name('redes');
 
 // aviso legal
 Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
-
-
-
-
 
 // TEMPORALES
 Route::get('/clear-all-caches', function () {

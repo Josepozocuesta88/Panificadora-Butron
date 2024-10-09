@@ -43,7 +43,7 @@
 
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         var toastList = toastElList.map(function (toastEl) {
-            return new bootstrap.Toast(toastEl,  {
+            return new bootstrap.Toast(toastEl, {
                 autohide: true, // Activa el cierre automático
                 delay: 1000 // Tiempo en milisegundos
             });

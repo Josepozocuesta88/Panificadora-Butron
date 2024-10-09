@@ -33,18 +33,18 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-            const successToastElement = document.getElementById('successToast');
-            const successToast = new bootstrap.Toast(successToastElement);
-            const successProgressBar = successToastElement.querySelector('.progress-bar .progress');
+        const successToastElement = document.getElementById('successToast');
+        const successToast = new bootstrap.Toast(successToastElement);
+        const successProgressBar = successToastElement.querySelector('.progress-bar .progress');
 
-            // Animate the progress bars
-            successProgressBar.style.transition = 'width 2s linear';
-            successProgressBar.style.width = '100%';
+        // Animate the progress bars
+        successProgressBar.style.transition = 'width 2s linear';
+        successProgressBar.style.width = '100%';
 
-            // Hide the toasts after 5 seconds
-            setTimeout(function() {
-                successToast.hide();
-            }, 2000); // 15000 milliseconds = 5 seconds
-        });
+        // Hide the toasts after 2 seconds
+        setTimeout(function() {
+            successToast.hide();
+        }, 2000);
+    });
 </script>
 @endif

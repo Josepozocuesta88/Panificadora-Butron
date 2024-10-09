@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
 use App\Models\Articulo;
 use App\Models\Category;
 use App\Models\Precio;
-
 use App\Services\ArticleService;
 use App\Contracts\OfertaServiceInterface;
 use App\Services\OfertasGeneralesService;
@@ -26,13 +23,11 @@ class ArticuloController extends Controller
         $this->articleService = $articleService;
     }
 
-
     public function showByCategory($catcod, OfertasGeneralesService $ofG)
     {
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
-        $ofertas = $ofertasService->obtenerOfertas();
-
-        $categoria = Category::where('id', $catcod)->firstOrFail();
+        $ofertas        = $ofertasService->obtenerOfertas();
+        $categoria      = Category::where('id', $catcod)->firstOrFail();
 
         if (Auth::user()) {
             $articulos = $categoria->articulos()
@@ -40,7 +35,6 @@ class ArticuloController extends Controller
                 ->where('artcatcodw1', $catcod)
                 ->paginate(12);
         } else {
-
             $articulos = $categoria->articulos()->where(function ($query) {
                 $query->where('artsolcli', '<>', 1)
                     ->orWhereNull('artsolcli');
@@ -59,18 +53,16 @@ class ArticuloController extends Controller
     {
         $articulo = Articulo::with('imagenes', 'alergenos', 'cajas')->find($artcod);
 
-
         if (!$articulo) {
             return redirect('/articles/search?query=')->with('error', 'Artículo no encontrado');
         }
 
-        $alergenos = $articulo->alergenos->pluck('tagnom');
-        $cajas = $articulo->cajas;
-
-        $articulos = collect([$articulo]);
-        $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
+        $alergenos          = $articulo->alergenos->pluck('tagnom');
+        $cajas              = $articulo->cajas;
+        $articulos          = collect([$articulo]);
+        $usutarcod          = Auth::user() ? Auth::user()->usutarcod : '';
         $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
-        $articuloConPrecio = $articulosConPrecio->first();
+        $articuloConPrecio  = $articulosConPrecio->first();
 
         return view('pages.ecommerce.productos.article-details', [
             'articulo' => $articuloConPrecio,
@@ -83,50 +75,43 @@ class ArticuloController extends Controller
     public function search(Request $request, OfertasGeneralesService $ofG)
     {
         session(['search' => $request->get('query')]);
-        // session(['filters' => $request->all()]);
-
         $keywords = explode(' ', $request->get('query'));
 
         if (!Auth::user()) {
-            $articulos = Articulo::situacion('C')
-                ->search($keywords)
+            $articulos = Articulo::situacion('C')->search($keywords)
                 ->restrictions()
                 ->with(['imagenes', 'cajas'])
                 ->paginate(12);
         } else {
-            $articulos = Articulo::situacion('C')
-                ->search($keywords)
+            $articulos = Articulo::situacion('C')->search($keywords)
                 ->restrictions()
                 ->with(['imagenes', 'cajas'])
                 ->paginate(12);
         }
 
-        $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
-        $ofertas = $ofertasService->obtenerOfertas();
-        $articulosOferta = $ofG->obtenerArticulosEnOferta();
+        $ofertasService     = app(\App\Contracts\OfertaServiceInterface::class);
+        $ofertas            = $ofertasService->obtenerOfertas();
+        $articulosOferta    = $ofG->obtenerArticulosEnOferta();
 
         return $this->prepareView($articulos, null, $ofertas, $articulosOferta);
     }
 
     public function filters(Request $request, $catnom = null)
     {
-        $ofG = new OfertasGeneralesService();
-        $search = session('search');
-        // $filters = session('filters');
+        $ofG        = new OfertasGeneralesService();
+        $search     = session('search');
+        $keywords   = explode(' ', $search);
 
-        $keywords = explode(' ', $search);
-
-        $query = Articulo::situacion('C')
-            ->search($keywords)
+        $query = Articulo::situacion('C')->search($keywords)
             ->restrictions()
             ->with(['imagenes', 'cajas']);
 
-
         // logica filtros
-        $today = Carbon::now();
-        $usutarcod = Auth::user() ? Auth::user()->usutarcod : '';
+        $today      = Carbon::now();
+        $usutarcod  = Auth::user() ? Auth::user()->usutarcod : '';
         $query->whereNotNull('artnom');
         $categoriaNombre = null;
+
         if ($catnom) {
             $query->whereHas('categoria', function ($query) use ($catnom) {
                 $query->where('nombre_es', $catnom);
@@ -163,27 +148,21 @@ class ArticuloController extends Controller
             $query->orderBy('artnom', $request->input('orden_nombre'));
         }
 
-        $articulos = $query->paginate(12)->appends($request->all());
-
-        $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
-        $ofertas = $ofertasService->obtenerOfertas();
+        $articulos       = $query->paginate(12)->appends($request->all());
+        $ofertasService  = app(\App\Contracts\OfertaServiceInterface::class);
+        $ofertas         = $ofertasService->obtenerOfertas();
         $articulosOferta = $ofG->obtenerArticulosEnOferta();
         return $this->prepareView($articulos, $catnom, $ofertas, $articulosOferta);
     }
 
-
-
     private function prepareView($articulos, $catnom = null, $ofertas = null, $articulosOferta = null)
     {
-
-        $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
-
+        $favoritos  = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
         $categorias = Category::all();
 
         if (Auth::user()) {
-            $usutarcod = Auth::user()->usutarcod;
-            $usuofecod = Auth::user()->usuofecod;
-
+            $usutarcod          = Auth::user()->usutarcod;
+            $usuofecod          = Auth::user()->usuofecod;
             $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
             if ($articulosOferta)
                 $this->articleService->calculatePrices($articulosOferta, $usutarcod);

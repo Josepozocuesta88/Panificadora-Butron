@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Articulo extends Model
 {
     use HasFactory;
-    protected $table = 'qanet_articulo';
-    protected $primaryKey = 'artcod';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $table        = 'qanet_articulo';
+    protected $primaryKey   = 'artcod';
+    public $incrementing    = false;
+    protected $keyType      = 'string';
 
     protected $fillable = [
         'artcod',
         'promedcod',
         'artnom',
-        'artobs',  
+        'artobs',
         'artivacod',
-        'artcatcod', 
+        'artcatcod',
         'artsit',
-        'artbarcod', 
-        'artdocaso', 
+        'artbarcod',
+        'artdocaso',
         'artstock',
         'artstocon',
         'artcatcodw1',
@@ -37,11 +37,13 @@ class Articulo extends Model
         return $this->belongsToMany(Etiqueta::class, 'qarticulo_etiqueta', 'etiartcod', 'etitagcod');
     }
 
-    public function usuarios() {
+    public function usuarios()
+    {
         return $this->belongsToMany(User::class, 'qanet_clientearticulo', 'artcod', 'clicod', 'artcod', 'usuclicod');
     }
 
-    public function categoriacliente() {
+    public function categoriacliente()
+    {
         return $this->belongsToMany(User::class, 'qanet_clientecategoria', 'catcod', 'clicod', 'artcatcodw1', 'usuclicod');
     }
 
@@ -54,7 +56,7 @@ class Articulo extends Model
     {
         return $this->imagenes()->where('imatip', 0)->orderBy('imaartcod', 'asc')->first();
     }
-    
+
     public function pdf()
     {
         return $this->hasMany(Articulo_imagen::class, 'imaartcod', 'artcod')->where('imatip', 1);
@@ -63,7 +65,7 @@ class Articulo extends Model
     public function alergenos()
     {
         return $this->belongsToMany(Etiqueta::class, 'qarticulo_etiqueta', 'etiartcod', 'etitagcod')
-                    ->where('tagtip', 1);
+            ->where('tagtip', 1);
     }
 
     public function categoria()
@@ -77,7 +79,8 @@ class Articulo extends Model
         return $this->hasMany(Caja::class, 'cajartcod', 'artcod');
     }
 
-    public function favoritos() {
+    public function favoritos()
+    {
         return $this->hasMany(Favorito::class, 'favartcod', 'artcod');
     }
 
@@ -101,29 +104,26 @@ class Articulo extends Model
     public function getPriceForUser($usutarcod)
     {
         $precioTarifa = Precio::where('pretarcod', $usutarcod)
-                        ->where('preartcod', $this->artcod)
-                        ->first();
+            ->where('preartcod', $this->artcod)
+            ->first();
         return $precioTarifa ? $precioTarifa->preimp : null;
     }
 
-    public function getPriceWithOffer(){
-        $user = auth()->user();
-        $today = now(); 
-        
-        $offerPriceQuery = OfertaC::where('ofcartcod', $this->artcod)
-                                  ->whereDate('ofcfecfin', '>=', $today);
-        
+    public function getPriceWithOffer()
+    {
+        $user               = auth()->user();
+        $today              = now();
+        $offerPriceQuery    = OfertaC::where('ofcartcod', $this->artcod)->whereDate('ofcfecfin', '>=', $today);
+
         if (is_null($user) || is_null($user->usuofecod)) {
             $offerPrice = $offerPriceQuery->where('ofccod', '')->first();
         } else {
             $offerPrice = $offerPriceQuery->where(function ($query) use ($user) {
                 $query->where('ofccod', $user->usuofecod)
-                      ->orWhere('ofccod', '');
+                    ->orWhere('ofccod', '');
             })->orderByRaw("CASE WHEN ofccod = '{$user->usuofecod}' THEN 1 ELSE 2 END")->first();
         }
-        
-        
-        
+
         if ($offerPrice) {
             return [
                 'ofcimp' => $offerPrice->OFCIMP,
@@ -164,9 +164,8 @@ class Articulo extends Model
         if (!auth()->check() || auth()->user()->artsolcli != 1) {
             $query->where(function ($q) {
                 $q->where('artsolcli', '<>', 1)
-                  ->orWhereNull('artsolcli');
+                    ->orWhereNull('artsolcli');
             });
         }
     }
-    
 }

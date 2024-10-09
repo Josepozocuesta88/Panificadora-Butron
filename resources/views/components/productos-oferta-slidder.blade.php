@@ -6,23 +6,16 @@
                 <div class="card h-100 border border-primary rounded-3 shadow-lg position-relative">
                     <!-- Ícono de la corazon -->
                     @if (in_array($ofertaArticulo->artcod, $favoritos))
-                    <i onclick="heart(this)" data-artcod="{{ $ofertaArticulo->artcod }}"
-                        class="bi bi-suit-heart-fill red-heart position-absolute top-0 end-0 m-2 font-20 cursor-pointer heartIcon"></i>
+                    <i onclick="heart(this)" data-artcod="{{ $ofertaArticulo->artcod }}" class="bi bi-suit-heart-fill red-heart position-absolute top-0 end-0 m-2 font-20 cursor-pointer heartIcon"></i>
                     @else
-                    <i onclick="heart(this)" data-artcod="{{ $ofertaArticulo->artcod }}"
-                        class="bi bi-suit-heart position-absolute top-0 end-0 m-2 font-20 cursor-pointer heartIcon"></i>
+                    <i onclick="heart(this)" data-artcod="{{ $ofertaArticulo->artcod }}" class="bi bi-suit-heart position-absolute top-0 end-0 m-2 font-20 cursor-pointer heartIcon"></i>
                     @endif
-                    <figure class="d-flex bg-white overflow-hidden align-items-center justify-content-center m-0"
-                        style="height:325px;">
+                    <figure class="d-flex bg-white overflow-hidden align-items-center justify-content-center m-0" style="height:325px;">
                         <a href="{{ route('info', ['artcod' => $ofertaArticulo->artcod]) }}" class="d-block">
                             @if ($ofertaArticulo->imagenes->isNotEmpty())
-                            <img src="{{ asset('images/articulos/' . $ofertaArticulo->imagenes->first()->imanom) }}"
-                                class="d-block w-100 h-auto" alt="{{ $ofertaArticulo->artnom }}"
-                                title="{{ $ofertaArticulo->artnom }}"
-                                onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
+                            <img src="{{ asset('images/articulos/' . $ofertaArticulo->imagenes->first()->imanom) }}" class="d-block w-100 h-auto" alt="{{ $ofertaArticulo->artnom }}" title="{{ $ofertaArticulo->artnom }}" onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
                             @else
-                            <img src="{{ asset('images/articulos/noimage.jpg') }}" class="d-block w-100 h-auto"
-                                alt="no hay imagen" title="No hay imagen">
+                            <img src="{{ asset('images/articulos/noimage.jpg') }}" class="d-block w-100 h-auto" alt="no hay imagen" title="No hay imagen">
                             @endif
                         </a>
                     </figure>
@@ -38,50 +31,40 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
-                                    <a class="pe-1" href="{{ route('info', ['artcod' => $ofertaArticulo->artcod]) }}"
-                                        data-toggle="fullscreen" title="Stock disponible o no">
+                                    <a class="pe-1" href="{{ route('info', ['artcod' => $ofertaArticulo->artcod]) }}" data-toggle="fullscreen" title="Stock disponible o no">
                                         @if ($ofertaArticulo->artstocon == 1 || $ofertaArticulo->artstock > 1)
                                         <i class="mdi mdi-archive-check font-24 text-success"></i>
                                         @else
                                         <i class="mdi mdi-archive-cancel font-24 text-danger"></i>
                                         @endif
                                     </a>
-                                    <a class="pe-1" href="{{ asset('images/' . $ofertaArticulo->artdocaso) }}"
-                                        data-toggle="fullscreen" title="Ficha técnica">
+                                    <a class="pe-1" href="{{ asset('images/' . $ofertaArticulo->artdocaso) }}" data-toggle="fullscreen" title="Ficha técnica">
                                         <i class="uil-clipboard-alt font-24"></i>
                                     </a>
-                                    <a class="pe-1" href="{{ route('info', ['artcod' => $ofertaArticulo->artcod]) }}"
-                                        data-toggle="fullscreen" title="Información">
+                                    <a class="pe-1" href="{{ route('info', ['artcod' => $ofertaArticulo->artcod]) }}" data-toggle="fullscreen" title="Información">
                                         <i class="mdi mdi-information-outline font-24"></i>
                                     </a>
                                 </div>
                                 <div class="text-end">
                                     @if ($ofertaArticulo->precioOferta)
                                     <h5>
-                                        <span class="badge badge-danger-lighten">
-                                            OFERTA
+                                        <span class="badge badge-danger-lighten"> OFERTA
                                             @if ($ofertaArticulo->precioDescuento)
                                             {{ $ofertaArticulo->precioDescuento }}%
                                             @endif
                                         </span>
                                     </h5>
                                     <span class="font-18 text-danger fw-bolder">
-                                        {{
-                                        \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioOferta)
-                                        }}
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioOferta) }}
                                         €
                                     </span>
                                     <span class="text-decoration-line-through font-14">
-                                        {{
-                                        \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa)
-                                        }}
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa) }}
                                         €
                                     </span>
                                     @elseif(isset($ofertaArticulo->precioTarifa))
                                     <span class="font-18">
-                                        {{
-                                        \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa)
-                                        }}
+                                        {{ \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa) }}
                                         €
                                     </span>
                                     @else
@@ -90,27 +73,19 @@
                                 </div>
                             </li>
                             <li class="list-group-item product-card">
-                                <form method="POST"
-                                    action="{{ route('cart.add', ['artcod' => $ofertaArticulo->artcod]) }}">
+                                <form method="POST" action="{{ route('cart.add', ['artcod' => $ofertaArticulo->artcod]) }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col">
-                                            @if ($ofertaArticulo->cajas->isNotEmpty() && config('app.caja') ==
-                                            'si')
+                                            @if ($ofertaArticulo->cajas->isNotEmpty() && config('app.caja') == 'si')
                                             <div class="row">
                                                 <div class="quantity-input col">
-                                                    <input type="number" class="quantity form-control" name="quantity"
-                                                        min="1" value="1">
+                                                    <input type="number" class="quantity form-control" name="quantity" min="1" value="1">
                                                 </div>
                                                 <div class="col-auto">
                                                     @foreach ($ofertaArticulo->cajas as $index => $caja)
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio"
-                                                            data-id="$caja->cajartcod" value="{{ $caja->cajcod }}"
-                                                            name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef==
-                                                        1) checked
-                                                        @endif
-                                                        >
+                                                        <input class="form-check-input" type="radio" data-id="$caja->cajartcod" value="{{ $caja->cajcod }}" name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef == 1) checked @endif >
                                                         <label class="form-check-label" for="caja{{ $index }}">
                                                             @if ($caja->cajreldir > 0)
                                                             {{ $caja->cajreldir }}
@@ -135,10 +110,10 @@
                                     <!-- submit -->
                                     <div class="mt-3">
                                         <div class="row align-items-end ">
-                                            <button type="submit" class="btn btn-primary ms-2 col"
-                                                onclick="$('#alertaStock').toast('show')"><i
-                                                    class="mdi mdi-cart me-1"></i>
-                                                Añadir</button>
+                                            <button type="submit" class="btn btn-primary ms-2 col" onclick="$('#alertaStock').toast('show')">
+                                                <i class="mdi mdi-cart me-1"></i>
+                                                Añadir
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -235,5 +210,6 @@
         updateSlider();
     });
 
-    updateSlider(); // Inicializa el slider
+    // Inicializa el slider
+    updateSlider();
 </script>

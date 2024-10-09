@@ -13,10 +13,8 @@ class OfertasGeneralesService implements OfertaServiceInterface
 {
     public function obtenerOfertas()
     {
-        $today = Carbon::now();
-
-        $ofertas = OfertaC::with('articulo')
-            ->where('ofccod', '=', '')
+        $today      = Carbon::now();
+        $ofertas    = OfertaC::with('articulo')->where('ofccod', '=', '')
             ->whereDate('ofcfecini', '<=', $today)
             ->whereDate('ofcfecfin', '>=', $today)
             ->get();
@@ -32,16 +30,14 @@ class OfertasGeneralesService implements OfertaServiceInterface
 
     public function obtenerArticulosEnOferta()
     {
-        $today = Carbon::now();
-
-        $articulos = OfertaC::with('articulo')
-            ->where('ofccod', '=', '')
+        $today      = Carbon::now();
+        $articulos  = OfertaC::with('articulo')->where('ofccod', '=', '')
             ->whereDate('ofcfecini', '<=', $today)
             ->whereDate('ofcfecfin', '>=', $today)
             ->get()
             ->pluck('articulo')
             ->filter(function ($articulo) {
-                return $articulo !== null; // Filter out null articulos
+                return $articulo !== null;
             });
 
         return $articulos;
