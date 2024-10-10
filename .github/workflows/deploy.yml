@@ -26,7 +26,7 @@ jobs:
     - name: Deploy via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ${{ secrets.HOSTINGER_FTP_SERVER }}
+        server: congeladosfloryspanel.com
         username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
         password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
         port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
