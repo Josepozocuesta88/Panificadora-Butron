@@ -42,10 +42,24 @@
         errorProgressBar.style.transition = 'width 2s linear';
         errorProgressBar.style.width = '100%';
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            // Hide the toasts after 5 seconds
+            setTimeout(function() {
+                errorToast.hide();
+            }, 2000); // 2000 milliseconds = 2 seconds
+        });
+=======
+>>>>>>> 38559c26 (aplicacion de restore stash)
         // Hide the toasts after 5 seconds
         setTimeout(function() {
             errorToast.hide();
         }, 2000);
     });
+<<<<<<< HEAD
+=======
+>>>>>>> c2830e1c (formateo de codigo general)
+>>>>>>> 38559c26 (aplicacion de restore stash)
 </script>
 @endif
