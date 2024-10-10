@@ -44,7 +44,7 @@
             // Hide the toasts after 5 seconds
             setTimeout(function() {
                 errorToast.hide();
-            }, 2000); // 5000 milliseconds = 5 seconds
+            }, 2000); // 2000 milliseconds = 2 seconds
         });
 </script>
 @endif
