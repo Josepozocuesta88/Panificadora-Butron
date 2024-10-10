@@ -14,6 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Verify secrets
+        run: |
+          echo "FTP Server: ${{ secrets.HOSTINGER_FTP_SERVER}}"
+          echo "FTP Username: ${{ secrets.HOSTINGER_FTP_USERNAME }}"
+          echo "FTP Port: ${{ secrets.HOSTINGER_FTP_PORT }}"
+
       - name: List local directory
         run: ls -R ./
 
@@ -26,7 +32,7 @@ jobs:
           port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
           protocol: ftps
           local-dir: ./
-          server-dir: /public_html
+          server-dir: /public_html/
           exclude: |
             .git*
             node_modules/
