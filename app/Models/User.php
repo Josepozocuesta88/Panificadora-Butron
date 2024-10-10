@@ -97,7 +97,7 @@ class User extends Authenticatable
         return $this->hasMany(Favorito::class, 'favusucod', 'id');
     }
 
-    public function direcciones()
+     public function direcciones()
     {
         return $this->hasMany(ClienteDireccion::class, 'dirclicod', 'usuclicod')
             ->join('users', function ($join) {

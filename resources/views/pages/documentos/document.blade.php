@@ -39,9 +39,9 @@
         </div>
     </div>
     @endif
-
+    
     @if(request()->is('documentos/Facturas'))
-        <span>Filtrar facturas por estad</span>
+        <span>Filtrar facturas por estado</span>
         <select id="estadoFiltro" class="form-select">
             <option value="todas">Todas</option>
             <option value="1">Pagadas</option>

@@ -76,17 +76,16 @@ $(document).ready(function ajaxDashboard() {
             }
         );
     }
-
+    
     $("#estadoFiltro").on("change", function(){
         let table = $("#tablaDocumentos").DataTable();
         table.draw();
     })
-
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex){
-            let filterSelected = $("#estadofiltro").val();
+            let filterSelected = $("#estadoFiltro").val();
             let estado = data[8];
-
+            
             if(filterSelected === "todas"){
                 return true;
             }else if(filterSelected === "1" && estado.includes("PAGADO")){
@@ -95,9 +94,9 @@ $(document).ready(function ajaxDashboard() {
                 return true;
             }
             return false;
-        }
+        }    
     )
-
+    
     columnsConfig.push({
         title: "Descargar",
         data: "descarga",
@@ -110,12 +109,11 @@ $(document).ready(function ajaxDashboard() {
                     '" class="btn btn-primary me-2"><i class="bi bi-download"></i></a>';
                 if (row.docfichero && row.docfichero.length === 1) {
                     html +=
-                    '<a href="' +
-                    urlDoc +
-                    // "/documentos/ver/" + --> ruta para produccion
-                    "/images/files/facturas/" + // --> ruta para desarrollo
-                    row.docfichero +
-                    '" class="btn btn-primary" data-toggle="fullscreen"><i class="bi bi-eye-fill"></i></a>';
+                        '<button class="ver-documento btn btn-primary" data-href="' +
+                        urlDoc +
+                        "/documentos/ver/" +
+                        row.docfichero +
+                        '" data-toggle="fullscreen"><i class="bi bi-eye-fill"></i></button>';
                 }
 
                 return html;

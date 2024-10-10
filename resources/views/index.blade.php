@@ -29,8 +29,8 @@
             </li>
         </ul>
     </div>
-
     <div class="pb-5 tab-content">
+        <!-- carrusel de ofertas generales -->
         <div class="tab-pane show active" id="tarjetasOfertas">
             <div class="favoritos">
                 <button id="scrollLeft" class="scrollLeft btn btn-light ">
@@ -197,8 +197,10 @@
                 </button>
             </div>
         </div>
+        <!-- fin de carrusel de ofertas generales -->
+        <!-- carrusel de ofertas personalizadas -->
         <div class="tab-pane " id="carrouselOfertas">
-
+            <!-- parte 1 -->
             <div class="container">
                 <div id="carouselExampleIndicators" class="pb-5 carousel slide" data-bs-ride="carousel">
                     <!-- Indicadores del Carrusel -->
@@ -213,15 +215,33 @@
 
                     <!-- Elementos del Carrusel -->
                     <div class="carousel-inner">
-                        @foreach ($ofertas as $image)
+                        <!-- usar cuando hay imagenes del baner -->
+                        <!-- @foreach ($ofertasPer as $image)
                         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                            <a
-                                href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
-                                <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill"
-                                    alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
+                            <a href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
+                                <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill" alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
                             </a>
                         </div>
+                        @endforeach -->
+                        <!-- fin del baner principal -->
+                        <!-- usar esto cuando no hay imagenes del banner quitar cuando existan y usar la de arriba -->
+                        @foreach ($articulosOfertaPer as $ofertaArticuloPer)
+                                @if ($ofertaArticuloPer->imagenes->isNotEmpty())
+                                <div class="carousel-item {{ $loop->first ? 'active' : '' }}  max-w-50">
+                                    <a href="{{ route('info', ['artcod' => $ofertaArticuloPer->artcod]) }}" class="d-block">
+                                        <img src="{{ asset('images/articulos/' . $ofertaArticuloPer->imagenes->first()->imanom) }}"
+                                        class="d-block w-100 mx-auto" alt="banner publicitario" style="object-fit: contain;  width: 100%; height: auto;  aspect-ratio: 3/1;"
+                                        title="{{ $ofertaArticuloPer->artnom }}"
+                                        onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
+                                    </a>
+                                    @else
+                                    <img src="{{ asset('images/articulos/noimage.jpg') }}" class="d-block w-100 mx-auto" 
+                                        style="object-fit: contain; width: 100%; height: auto; aspect-ratio: 3/1;"
+                                        alt="no hay imagen" title="No hay imagen">
+                                    @endif
+                                </div>
                         @endforeach
+                        <!-- fin de uso cuando no hay imagenes de banner -->
                     </div>
 
                     <!-- Controles del Carrusel -->
@@ -237,11 +257,176 @@
                     </button>
                 </div>
             </div>
-
+            <!-- fin de parte 1 -->
+            <!-- parte 2 -->
+            <div class="favoritos">
+                <button id="scrollLeft" class="scrollLeft btn btn-light ">
+                    <i class="bi bi-arrow-left-circle font-24 text-primary"></i>
+                </button>
+                <div id="categorias"
+                    class="gap-3 pt-3 categorias scrollbar row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 bg-light">
+                    @foreach ($articulosOfertaPer as $ofertaArticuloPer)
+                    <div class="">
+                        <div class="card h-100 rounded-3 position-relative">
+                            <!-- Ícono de la corazon -->
+                            @if (in_array($ofertaArticuloPer->artcod, $favoritos))
+                            <i onclick="heart(this)" data-artcod="{{ $ofertaArticuloPer->artcod }}"
+                                class="top-0 m-2 cursor-pointer bi bi-suit-heart-fill red-heart position-absolute end-0 font-20 heartIcon"></i>
+                            @else
+                            <i onclick="heart(this)" data-artcod="{{ $ofertaArticuloPer->artcod }}"
+                                class="top-0 m-2 cursor-pointer bi bi-suit-heart position-absolute end-0 font-20 heartIcon"></i>
+                            @endif
+                            <figure
+                                class="m-0 overflow-hidden bg-white d-flex align-items-center justify-content-center"
+                                style="height:325px;">
+                                <a href="{{ route('info', ['artcod' => $ofertaArticuloPer->artcod]) }}" class="d-block">
+                                    @if ($ofertaArticuloPer->imagenes->isNotEmpty())
+                                    <img src="{{ asset('images/articulos/' . $ofertaArticuloPer->imagenes->first()->imanom) }}"
+                                        class="h-auto d-block w-100" alt="{{ $ofertaArticuloPer->artnom }}"
+                                        title="{{ $ofertaArticuloPer->artnom }}"
+                                        onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
+                                    @else
+                                    <img src="{{ asset('images/articulos/noimage.jpg') }}" class="h-auto d-block w-100"
+                                        alt="no hay imagen" title="No hay imagen">
+                                    @endif
+                                </a>
+                            </figure>
+                            <div class="pb-0 bg-white card-body">
+                                <a href="{{ route('info', ['artcod' => $ofertaArticuloPer->artcod]) }}">
+                                    <h5 class="m-0 card-title text-primary">{{ $ofertaArticuloPer->artnom }}</h5>
+                                    @isset($ofertaArticuloPer->artobs)
+                                    <p class="card-text l3truncate">{{ $ofertaArticuloPer->artobs }}</p>
+                                    @endisset
+                                </a>
+                            </div>
+                            <div class="pt-0 card-footer">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <a class="pe-1"
+                                                href="{{ route('info', ['artcod' => $ofertaArticuloPer->artcod]) }}"
+                                                data-toggle="fullscreen" title="Stock disponible o no">
+                                                @if ($ofertaArticuloPer->artstocon == 1 || $ofertaArticuloPer->artstock >
+                                                1)
+                                                <i class="mdi mdi-archive-check font-24 text-success"></i>
+                                                @else
+                                                <i class="mdi mdi-archive-cancel font-24 text-danger"></i>
+                                                @endif
+                                            </a>
+                                            <a class="pe-1" href="{{ asset('images/' . $ofertaArticuloPer->artdocaso) }}"
+                                                data-toggle="fullscreen" title="Ficha técnica">
+                                                <i class="uil-clipboard-alt font-24"></i>
+                                            </a>
+                                            <a class="pe-1"
+                                                href="{{ route('info', ['artcod' => $ofertaArticuloPer->artcod]) }}"
+                                                data-toggle="fullscreen" title="Información">
+                                                <i class="mdi mdi-information-outline font-24"></i>
+                                            </a>
+                                        </div>
+                                        <div class="text-end">
+                                            @if ($ofertaArticuloPer->precioOferta)
+                                            <h5>
+                                                <span class="badge badge-danger-lighten">
+                                                    OFERTA
+                                                    @if ($ofertaArticuloPer->precioDescuento)
+                                                    {{ $ofertaArticuloPer->precioDescuento }}%
+                                                    @endif
+                                                </span>
+                                            </h5>
+                                            <span class="font-18 text-danger fw-bolder">
+                                                {{
+                                                \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticuloPer->precioOferta)
+                                                }}
+                                                €
+                                            </span>
+                                            <span class="text-decoration-line-through font-14">
+                                                {{
+                                                \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa)
+                                                }}
+                                                €
+                                            </span>
+                                            @elseif(isset($ofertaArticuloPer->precioTarifa))
+                                            <span class="font-18">
+                                                {{
+                                                \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticuloPer->precioTarifa)
+                                                }}
+                                                €</span>
+                                            @else
+                                            <span class="font-18"></span>
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item product-card">
+                                        <form method="POST"
+                                            action="{{ route('cart.add', ['artcod' => $ofertaArticuloPer->artcod]) }}">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col">
+                                                    @if ($ofertaArticuloPer->cajas->isNotEmpty() && config('app.caja')
+                                                    ==
+                                                    'si')
+                                                    <div class="row">
+                                                        <div class="quantity-input col">
+                                                            <input type="number" class="quantity form-control"
+                                                                name="quantity" min="1" value="1">
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            @foreach ($ofertaArticuloPer->cajas as $index => $caja)
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    data-id="$caja->cajartcod"
+                                                                    value="{{ $caja->cajcod }}" name="input-tipo"
+                                                                    id="caja{{ $index }}" @if($caja->cajdef==
+                                                                1)
+                                                                checked
+                                                                @endif
+                                                                >
+                                                                <label class="form-check-label" for="caja{{ $index }}">
+                                                                    @if ($caja->cajreldir > 0)
+                                                                    {{ $caja->cajreldir }}
+                                                                    {{ $ofertaArticuloPer->promedcod }}
+                                                                    @endif
+                                                                    @if ($caja->cajcod == '0003')
+                                                                    (Pieza)
+                                                                    @elseif($caja->cajcod == '0002')
+                                                                    (Media)
+                                                                    @else
+                                                                    (Caja)
+                                                                    @endif
+                                                                </label>
+                                                            </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                    <!-- end product price unidades-->
+                                                </div>
+                                            </div>
+                                            <!-- submit -->
+                                            <div class="mt-3">
+                                                <div class="row align-items-end ">
+                                                    <button type="submit" class="btn btn-primary ms-2 col"
+                                                        onclick="$('#alertaStock').toast('show')"><i
+                                                            class="mdi mdi-cart me-1"></i>
+                                                        Añadir</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <button id="scrollRight" class="scrollRight btn btn-light ">
+                    <i class="bi bi-arrow-right-circle font-24 text-primary"></i>
+                </button>
+            </div>
+            <!-- fin de parte 2 -->
         </div>
+        <!-- fin de carrusel de ofertas personalizadas -->
     </div>
-
-
     <!-- end carrusel imagenes -->
 
 

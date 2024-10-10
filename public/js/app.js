@@ -43,7 +43,10 @@
 
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         var toastList = toastElList.map(function (toastEl) {
-            return new bootstrap.Toast(toastEl)
+            return new bootstrap.Toast(toastEl,  {
+                autohide: true, // Activa el cierre automático
+                delay: 1000 // Tiempo en milisegundos
+            });
         })
 
         // Bootstrap Alert Live Example
@@ -51,7 +54,7 @@
         const alert = (message, type) => {
             const wrapper = document.createElement('div')
             wrapper.innerHTML = [
-                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `<div class="alert alert-${type} alert-dismissible" role="alert" data-bs-delay="1000">`,
                 `   <div>${message}</div>`,
                 '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
                 '</div>'
