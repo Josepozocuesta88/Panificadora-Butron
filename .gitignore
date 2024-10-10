@@ -19,3 +19,4 @@ yarn-error.log
 # /.vscode
 public/index.php
 public/images.zip
+node_modules
