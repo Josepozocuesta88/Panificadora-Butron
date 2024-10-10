@@ -11,7 +11,7 @@
 
     <div class="tw-flex tw-justify-between tw-align-middle tw-ml-4">
         <div class="nav nav-tabs text-dark ">
-            <h3>Productos en oferta PRUEBA DEPLOY</h3>
+            <h3>Productos en oferta</h3>
         </div>
         <ul class="mb-3 nav nav-pills bg-nav-pills nav-justified tw-w-4/12 tw-mr-4">
 
@@ -24,7 +24,7 @@
             <li class="nav-item">
                 <a href="#carrouselOfertas" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 ">
                     <i class="bi bi-lightbulb d-md-none d-block"></i>
-                    <h2 class="d-none d-md-block">Ofertas personalizadas</h2>
+                    <h2 class="d-none d-md-block">Ofertas PRUEBA DEPLOY</h2>
                 </a>
             </li>
         </ul>
