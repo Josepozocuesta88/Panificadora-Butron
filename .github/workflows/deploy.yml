@@ -1,4 +1,4 @@
-name: Deploy to Hostinger via FTP
+name: Deploy Laravel to Hostinger via FTP
 
 on:
   push:
@@ -12,11 +12,43 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: FTP Deploy
+    - name: Install Composer Dependencies
+      run: composer install --no-dev --optimize-autoloader
+
+    - name: Deploy via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4
       with:
         server: ${{ secrets.HOSTINGER_FTP_SERVER }}
         username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
         password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
-        local-dir: ./ # Directorio local del proyecto
-        server-dir: /public_html # Directorio remoto en el servidor
+        local-dir: ./
+        server-dir: /public_html
+        exclude: |
+          .git*
+          node_modules/
+          tests/
+          vendor/
+          .env
+          storage/
+          .github/
+        exclude-older: true
+
+    - name: Upload Vendor Folder
+      uses: SamKirkland/FTP-Deploy-Action@v4
+      with:
+        server: ${{ secrets.HOSTINGER_FTP_SERVER }}
+        username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+        password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+        local-dir: ./vendor
+        server-dir: /public_html/vendor
+        exclude-older: true
+
+    - name: Upload Storage Folder
+      uses: SamKirkland/FTP-Deploy-Action@v4
+      with:
+        server: ${{ secrets.HOSTINGER_FTP_SERVER }}
+        username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+        password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+        local-dir: ./storage
+        server-dir: /public_html/storage
+        exclude-older: true
