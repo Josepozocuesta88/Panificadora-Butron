@@ -5,7 +5,11 @@
 # /public/storage
 # /storage/*.key
 /vendorgi
+<<<<<<< HEAD
  .env
+=======
+.env
+>>>>>>> main
 # .env.backup
 # .env.production
 # .phpunit.result.cache
@@ -20,4 +24,8 @@ yarn-error.log
 public/index.php
 public/images.zip
 /node_modules
+<<<<<<< HEAD
 
+=======
+/vendor
+>>>>>>> main
