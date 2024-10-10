@@ -11,6 +11,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    
+    - name: Verify secrets
+      run: |
+        echo "FTP Server: ${{ secrets.HOSTINGER_FTP_SERVER }}"
+        echo "FTP Username: ${{ secrets.HOSTINGER_FTP_USERNAME }}"
+        echo "FTP Port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}"
 
     - name: Install Composer Dependencies
       run: composer install --no-dev --optimize-autoloader
