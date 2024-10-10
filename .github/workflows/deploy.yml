@@ -35,7 +35,6 @@ jobs:
           server-dir: /public_html/
           exclude: |
             .git*
-            node_modules/
             tests/
             vendor/
             .env
