@@ -7,6 +7,8 @@
         </div>
         <div class="text-white toast-body">
             {{ session('error') }}
+
+            
             <div class="progress-bar">
                 <div class="bg-white progress"></div>
             </div>
