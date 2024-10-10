@@ -21,6 +21,7 @@ jobs:
         server: ${{ secrets.HOSTINGER_FTP_SERVER }}
         username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
         password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+        port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
         local-dir: ./
         server-dir: /public_html
         exclude: |
@@ -39,6 +40,7 @@ jobs:
         server: ${{ secrets.HOSTINGER_FTP_SERVER }}
         username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
         password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+        port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
         local-dir: ./vendor
         server-dir: /public_html/vendor
         exclude-older: true
@@ -49,6 +51,7 @@ jobs:
         server: ${{ secrets.HOSTINGER_FTP_SERVER }}
         username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
         password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+        port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
         local-dir: ./storage
         server-dir: /public_html/storage
         exclude-older: true
