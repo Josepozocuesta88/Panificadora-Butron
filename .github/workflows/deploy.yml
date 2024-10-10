@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Verify secrets
       run: |
@@ -41,24 +41,19 @@ jobs:
           .github/
         exclude-older: true
 
-    - name: Upload Vendor Folder
+    - name: Upload Vendor and Storage Folders
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.HOSTINGER_FTP_SERVER }}
         username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
         password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
         port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
-        local-dir: ./vendor
-        server-dir: /public_html/vendor
-        exclude-older: true
-
-    - name: Upload Storage Folder
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ${{ secrets.HOSTINGER_FTP_SERVER }}
-        username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
-        password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
-        port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
-        local-dir: ./storage
-        server-dir: /public_html/storage
+        local-dir: ./
+        server-dir: /public_html
+        exclude: |
+          .git*
+          node_modules/
+          tests/
+          .env
+          .github/
         exclude-older: true
