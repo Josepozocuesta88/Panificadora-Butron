@@ -14,12 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Verify secrets
-        run: |
-          echo "FTP Server: ${{ secrets.HOSTINGER_FTP_SERVER}}"
-          echo "FTP Username: ${{ secrets.HOSTINGER_FTP_USERNAME }}"
-          echo "FTP Port: ${{ secrets.HOSTINGER_FTP_PORT }}"
-
       - name: List local directory
         run: ls -R ./
 
@@ -41,3 +35,8 @@ jobs:
             .env
             storage/
             .github/
+      - name: Verify secrets
+        run: |
+          echo "FTP Server: ${{ secrets.HOSTINGER_FTP_SERVER}}"
+          echo "FTP Username: ${{ secrets.HOSTINGER_FTP_USERNAME }}"
+          echo "FTP Port: ${{ secrets.HOSTINGER_FTP_PORT }}"
