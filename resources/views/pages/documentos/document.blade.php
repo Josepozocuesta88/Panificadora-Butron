@@ -39,18 +39,18 @@
         </div>
     </div>
     @endif
-    
+
     @if(request()->is('documentos/Facturas'))
-        <span>Filtrar facturas por estado</span>
-        <select id="estadoFiltro" class="form-select">
-            <option value="todas">Todas</option>
-            <option value="1">Pagadas</option>
-            <option value="0">Pendientes</option>
-        </select>
+    <span>Filtrar facturas por estado</span>
+    <select id="estadoFiltro" class="form-select">
+        <option value="todas">Todas</option>
+        <option value="1">Pagadas</option>
+        <option value="0">Pendientes</option>
+    </select>
     @endif
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-13">
             <div class="card">
                 <div class="card-body">
                     <table id="tablaDocumentos" class="table table-centered w-100 dt-responsive nowrap"

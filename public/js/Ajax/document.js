@@ -7,11 +7,12 @@ $(document).ready(function ajaxDashboard() {
     var columnsConfig = [
         { title: "#", data: "doccon" },
         { title: "Serie", data: "docser" },
-        { title: "Ejercicio", data: "doceje" },
+        { title: "Ejercicio", data: "doceje", className: "text-end" },
         { title: "Número", className: "ser-eje-num text-end", data: "docnum" },
         {
             title: "Fecha",
             data: "docfec",
+            className: "text-end",
             render: function (data, type, row) {
                 if (type === "display" && data) {
                     var date = new Date(data);
@@ -76,32 +77,32 @@ $(document).ready(function ajaxDashboard() {
             }
         );
     }
-    
-    $("#estadoFiltro").on("change", function(){
+
+    $("#estadoFiltro").on("change", function () {
         let table = $("#tablaDocumentos").DataTable();
         table.draw();
     })
     $.fn.dataTable.ext.search.push(
-        function(settings, data, dataIndex){
+        function (settings, data, dataIndex) {
             let filterSelected = $("#estadoFiltro").val();
             let estado = data[8];
-            
-            if(filterSelected === "todas"){
+
+            if (filterSelected === "todas") {
                 return true;
-            }else if(filterSelected === "1" && estado.includes("PAGADO")){
+            } else if (filterSelected === "1" && estado.includes("PAGADO")) {
                 return true;
-            }else if(filterSelected === "0" && estado.includes("PENDIENTE")){
+            } else if (filterSelected === "0" && estado.includes("PENDIENTE")) {
                 return true;
             }
             return false;
-        }    
+        }
     )
-    
+
     columnsConfig.push({
         title: "Descargar",
         data: "descarga",
+        className: "text-end",
         render: function (data, type, row) {
-
             if (data) {
                 var html =
                     '<a href="/documentos/download/' +
@@ -120,7 +121,22 @@ $(document).ready(function ajaxDashboard() {
             }
             return "No disponible";
         },
+    })
+
+    columnsConfig.push({
+        title: "Acciones",
+        data: "doccob",
+        className: "text-end",
+        className: "text-end",
+        render: function (data, type, row) {
+            if (data !== 1) {
+                estado = "PENDIENTE";
+                html = '<a href="#" class="btn btn-primary me-2"><i class="bi bi-credit-card"></i></a>';
+            }
+            return html;
+        },
     });
+
 
     $("#tablaDocumentos").DataTable({
         responsive: true,
