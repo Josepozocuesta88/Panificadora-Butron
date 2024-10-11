@@ -36,11 +36,11 @@ jobs:
           state-name: .ftp-deploy-sync-state.json
           dangerous-clean-slate: false
           exclude: |
-            .git*
-            tests/
-            vendor/
-            .env
-            storage/
+            **.git*
+            **/tests/**
+            **/vendor/**
+            **.env*
+            **/storage/**
             .github/
       - name: Verify secrets
         run: |
