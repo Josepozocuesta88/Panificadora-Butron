@@ -1,31 +1,31 @@
-name: Deploy to Hostinger
+name: Deploy Laravel Project to Hostinger
 
 on:
   push:
     branches:
-      - main
+      - main # Se activa en cada push a la rama 'main'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Paso 1: Checkout el código de la rama actual
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      # Paso 2: Configurar SSH usando el Secret
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          php-version: "8.1"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Install dependencies
-        run: composer install --no-dev --prefer-dist --no-progress --no-suggest
-
-      - name: Install sshpass
-        run: sudo apt-get install sshpass
-
+      # Paso 3: Conectar al servidor y desplegar
       - name: Deploy to Hostinger
-        env:
-          HOSTINGER_PASS: ${{ secrets.HOSTINGER_PASS }}
         run: |
-          sshpass -p "${{ secrets.HOSTINGER_PASS }}" ssh -o StrictHostKeyChecking=no -p 65002 u348037785@178.16.128.34 "rsync -avz --delete-after /path/to/local/project/ /home/u348037785/public_html/"
+          ssh -o StrictHostKeyChecking=no  -p 65002 u348037785@178.16.128.34 "
+            cd public_html/ &&
+            git pull origin main &&
+            composer install --no-dev &&
+            php artisan cache:clear
+          "
