@@ -33,12 +33,18 @@ jobs:
           protocol: ftps
           local-dir: ./
           server-dir: /public_html/
+          state-name: .ftp-deploy-sync-state.json
+          dangerous-clean-slate: false
+          passive: true # Habilita el modo pasivo
           exclude: |
-            .git*
-            tests/
-            vendor/
-            .env
-            storage/
+            **.git*
+            **/tests/**
+            **/vendor/**
+            **.env*
+            **/storage/**
+            **/node_modules/**
+            **/images/**
+            **/public/**
             .github/
       - name: Verify secrets
         run: |

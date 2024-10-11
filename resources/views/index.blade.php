@@ -11,6 +11,8 @@
     <div class="tw-flex tw-justify-between tw-align-middle tw-ml-4">
         <div class="nav nav-tabs text-dark ">
             <h3>Productos en oferta</h3>
+            <h3>Prueba deploy</h3>
+            <h3>jdev a main para deploy</h3>
         </div>
         <ul class="mb-3 nav nav-pills bg-nav-pills nav-justified tw-w-4/12 tw-mr-4">
             <li class="nav-item">
