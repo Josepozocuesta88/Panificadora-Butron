@@ -28,4 +28,4 @@ jobs:
 
       - name: Deploy to Hostinger
         run: |
-          ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 'cd public_html/ && git pull origin main && composer update --no-interaction --prefer-dist --optimize-autoloader && php artisan cache:clear && php artisan config:cache'
+          ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 'cd public_html/ && git pull origin main && php artisan cache:clear && php artisan config:cache'
