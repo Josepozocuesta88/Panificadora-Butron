@@ -41,6 +41,7 @@ jobs:
             **/vendor/**
             **.env*
             **/storage/**
+            **/node_modules/**
             .github/
       - name: Verify secrets
         run: |
