@@ -1,4 +1,4 @@
-name: Deploy Laravel to Hostinger
+name: Deploy to Hostinger
 
 on:
   push:
@@ -19,10 +19,9 @@ jobs:
           php-version: "8.1"
 
       - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-dev --prefer-dist --no-progress --no-suggest
 
       - name: Deploy to Hostinger
         run: |
-          ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 'cd public_html/ && git pull origin main && composer update --no-interaction --prefer-dist --optimize-autoloader && php artisan cache:clear && php artisan config:cache'
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-keyscan -H ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts
+          rsync -avz --delete-after -e "ssh -i ${{ secrets.HOSTINGER_SSH_KEY }}" ./ ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:/home/${{ secrets.HOSTINGER_USER }}/public_html/

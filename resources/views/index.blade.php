@@ -10,11 +10,7 @@
 <div class="container py-5">
     <div class="tw-flex tw-justify-between tw-align-middle tw-ml-4">
         <div class="nav nav-tabs text-dark ">
-            <!-- <h3>Productos en oferta</h3>
-            <h3>Prueba deploy</h3>
-            <h3>jdev a main para deploy</h3>
-            <h3>jdev a main para deploy</h3> -->
-            <h3>jdev a main para deploy</h3>
+            <h3>Productos en oferta</h3>
         </div>
         <ul class="mb-3 nav nav-pills bg-nav-pills nav-justified tw-w-4/12 tw-mr-4">
             <li class="nav-item">
@@ -183,13 +179,14 @@
                     <div class="carousel-inner">
                         <!-- usar cuando hay imagenes del baner -->
 
-                        @foreach ($ofertasPer as $image)
+                        <!-- @foreach ($ofertasPer as $image)
                         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                             <a href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
                                 <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill" alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
                             </a>
                         </div>
-                        @endforeach
+                        @endforeach -->
+
                         <!-- fin del baner principal -->
                         <!-- usar esto cuando no hay imagenes del banner quitar cuando existan y usar la de arriba -->
                         @foreach ($articulosOfertaPer as $ofertaArticuloPer)
