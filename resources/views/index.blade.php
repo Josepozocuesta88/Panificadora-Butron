@@ -182,13 +182,13 @@
                     <!-- Elementos del Carrusel -->
                     <div class="carousel-inner">
                         <!-- usar cuando hay imagenes del baner -->
-                        <!-- @foreach ($ofertasPer as $image)
+                        @foreach ($ofertasPer as $image)
                         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                             <a href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
                                 <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill" alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
                             </a>
                         </div>
-                        @endforeach -->
+                        @endforeach
                         <!-- fin del baner principal -->
                         <!-- usar esto cuando no hay imagenes del banner quitar cuando existan y usar la de arriba -->
                         @foreach ($articulosOfertaPer as $ofertaArticuloPer)
