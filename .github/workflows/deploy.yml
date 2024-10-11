@@ -43,6 +43,8 @@ jobs:
             **.env*
             **/storage/**
             **/node_modules/**
+            **/imagenes/**
+            **/public/**
             .github/
       - name: Verify secrets
         run: |
