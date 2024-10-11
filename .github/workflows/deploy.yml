@@ -21,7 +21,11 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --prefer-dist --no-progress --no-suggest
 
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
+
       - name: Deploy to Hostinger
+        env:
+          HOSTINGER_PASS: ${{ secrets.HOSTINGER_PASS }}
         run: |
-          ssh-keyscan -H ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts
-          rsync -avz --delete-after -e "ssh -i ${{ secrets.HOSTINGER_SSH_KEY }}" ./ ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:/home/${{ secrets.HOSTINGER_USER }}/public_html/
+          sshpass -p "${{ secrets.HOSTINGER_PASS }}" ssh -o StrictHostKeyChecking=no -p 65002 u348037785@178.16.128.34 "rsync -avz --delete-after /path/to/local/project/ /home/u348037785/public_html/"
