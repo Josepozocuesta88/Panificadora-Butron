@@ -234,7 +234,7 @@
                 <a href="{{ route('dashboard') }}" class="side-nav-link text-light">
                     <i class="uil-home-alt"></i>
                     <!-- <span class="badge bg-success float-end">5</span> -->
-                    <span> Panel de Control 7</span>
+                    <span> Panel de Control 8</span>
                 </a>
             </li>
 
