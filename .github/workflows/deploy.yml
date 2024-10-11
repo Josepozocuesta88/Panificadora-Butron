@@ -16,13 +16,13 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
+          php-version: "8.1"
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Deploy to Hostinger
         run: |
-          ssh user@hostinger_server 'cd /path/to/your/project && git pull origin main && composer install --no-interaction --prefer-dist --optimize-autoloader && php artisan migrate --force && php artisan cache:clear && php artisan config:cache'
+          ssh -p 65002 u348037785@178.16.128.34 'cd public_html/ && git pull origin main && composer update --no-interaction --prefer-dist --optimize-autoloader && php artisan cache:clear && php artisan config:cache'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
