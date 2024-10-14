@@ -186,7 +186,7 @@ class DocumentoController extends Controller
 
         $path = storage_path('app/facturas/' . $filename);
 
-        if(!File::exists($path)) {
+        if (!File::exists($path)) {
             abort(404, 'Archivo no encontrado.');
         }
 
