@@ -5,7 +5,7 @@
 # /public/storage
 # /storage/*.key
 /vendorgi
-.env
+#.env
 # .env.backup
 # .env.production
 # .phpunit.result.cache
@@ -17,6 +17,6 @@ yarn-error.log
 # /.fleet
 # /.idea
 # /.vscode
-public/index.php
-public/images.zip
-/node_modules
+#public/index.php
+#public/images.zip
+#/node_modules
