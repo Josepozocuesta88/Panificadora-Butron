@@ -28,7 +28,6 @@ class PedidoController extends Controller
 
     public function makeOrder(Request $request)
     {
-
         try {
             $data = $request->all();
             $direccionId = $data['direccionId'];
@@ -38,26 +37,21 @@ class PedidoController extends Controller
             if (!$direccion) {
                 return back()->with('error', 'La dirección seleccionada no existe');
             }
-
             $items = $this->getItems($user->id);
             $articulos = $items->pluck('articulo');
             $this->articleService->calculatePrices($articulos, $user->usutarcod);
-
             $itemDetails = $this->calculateItemDetails($items);
             $itemDetails = $this->addTaxes($itemDetails, $articulos);
-
-            // dd($itemDetails);
             $data = $this->prepareOrderData($user, $itemDetails, $comentario);
-
             $pedido = $this->createPedido($data, $user, $direccion);
             $data['pedido'] = $pedido;
-
             $this->sendOrderEmail($data, $user);
             Cart::where('cartusucod', $user->id)->delete();
 
             return ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
         } catch (\Throwable $th) {
-            // return response()->json(['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()], 500);
+
+            return response()->json(['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()], 500);
         }
     }
 
@@ -66,26 +60,25 @@ class PedidoController extends Controller
         if ($result == 'ok') {
             return back()->with('success', '¡Su pedido se procesó correctamente!');
         }
+
         return back()->with('Error', '¡Hubo un error al procesar su pedido!');
     }
 
     private function addTaxes($itemDetails, $articulos)
     {
         $newItems = $itemDetails->toArray();
-
         for ($i = 0; $i < count($newItems); $i++) {
             $articulo = $articulos->firstWhere('artcod', $newItems[$i]['artcod']);
-
             $newItems[$i]['iva'] = $articulo->precioTarifa * $articulo->artivapor / 100;
             $newItems[$i]['iva_porcentaje'] = $articulo->artivapor;
             $newItems[$i]['recargo'] = $articulo->precioTarifa * $articulo->artrecpor / 100;
             $newItems[$i]['recargo_porcentaje'] = $articulo->artrecpor;
-
             if (Auth::user()->usuivacod == 'N') {
                 $newItems[$i]['recargo'] = 0;
                 $newItems[$i]['recargo_porcentaje'] = 0;
             }
         }
+
         return collect($newItems);
     }
 
@@ -93,28 +86,23 @@ class PedidoController extends Controller
     public function makeOrderOld()
     {
         $user = auth()->user();
-
         $items = $this->getItems($user->id);
         $articulos = $items->pluck('articulo');
         $this->articleService->calculatePrices($articulos, $user->usutarcod);
-
         $itemDetails = $this->calculateItemDetails($items);
         $data = $this->prepareOrderData($user, $itemDetails);
         $pedido = $this->createPedido($data, $user);
-
         $this->sendOrderEmail($data, $user);
         Cart::where('cartusucod', $user->id)->delete();
         session()->forget('comentario');
+
         return back()->with('success', '¡Su pedido se procesó correctamente!');
     }
 
     public function mostrarPedido($id = null)
     {
-
         $user = Auth::user();
-
         $userId = $user->id;
-
         if (is_null($id)) {
             $pedido = Pedido::where('cliente_id', $userId)->latest('fecha')->first();
         } else {
@@ -130,14 +118,12 @@ class PedidoController extends Controller
 
     public function mostrarTodos()
     {
-
         $userId = Auth::id();
-
         $pedidos = Pedido::where('cliente_id', $userId)->get();
-
         if ($pedidos->isEmpty()) {
             return response()->json(['message' => 'Actualmente no tiene ningún pedido.'], 200);
         }
+
         return response()->json(['data' => $pedidos], 200);
     }
 
@@ -154,6 +140,9 @@ class PedidoController extends Controller
         $pedido->estado = 2;
         $pedido->fecha = date('Y-m-d H:i:s');
         $pedido->subtotal = $data['subtotal'];
+        $pedido->descuento = $data['descuento'];
+        $pedido->descuento_porcentaje = $data['descuento_porcentaje'];
+        $pedido->gastos_envio = $data['gastos_envio'];
         $pedido->total = $data['total'];
         if ($direccion) {
             $pedido->env_nombre = $direccion->dirnom;
@@ -166,7 +155,6 @@ class PedidoController extends Controller
             $pedido->env_tfno_2 = $direccion->dirtfno2;
         }
         $pedido->save();
-
         foreach ($data['itemDetails'] as $itemDetail) {
             $this->createPedidoLinea($pedido, $itemDetail);
         }
@@ -202,7 +190,7 @@ class PedidoController extends Controller
             $email_copia_rpr = $representante->rprema;
         } else {
             // para prueba (modificar)
-            $email_copia_rpr = "jluiscontreras95@gmail.com";
+            $email_copia_rpr = "Web.Jorge@redesycomponentes.com";
         }
         $emails_copia = array($email_empresa, $email_copia_rpr);
 
@@ -214,15 +202,12 @@ class PedidoController extends Controller
         });
     }
 
-
-
     public function guardarComentario(Request $request)
     {
         $request->session()->put('comentario', $request->comentario);
 
         return response()->json(['message' => 'Comentario guardado en la sesión']);
     }
-
 
     private function getItems($userId)
     {
@@ -242,29 +227,24 @@ class PedidoController extends Controller
     {
         return $items->map(function ($item) {
             if ($item->articulo) {
-
                 $name = $item->articulo->artnom;
                 $img = $item->articulo->primeraImagen();
                 $tarifa = $item->articulo->precioTarifa;
                 $price = $item->articulo->precioOferta ?? $tarifa;
-
-
                 if ($tarifa === null) {
                     return ['name' => $name, 'price' => 'Precio no disponible'];
                 }
-
                 $isOnOffer = $tarifa != $price;
                 $isBox = in_array($item->cartcajcod, ['0001', '0002', '0003']);
                 $unitCount = $isBox ? $item->cajreldir : 1;
                 $totalUnits = $isBox ? $item->cartcantcaj * $unitCount : $item->cartcant;
-
-
                 if ($isBox) {
                     $name = $item->cajnom;
                 }
-
                 $total = round($price * $totalUnits, 2);
-
+                $artivapor = $total * ($item->articulo->artivapor / 100);
+                $artrecpor = $total * ($item->articulo->artrecpor / 100);
+                $artsigimp = $total * ($item->articulo->artsigimp / 100);
 
                 return [
                     'cartcod' => $item->cartcod,
@@ -279,6 +259,9 @@ class PedidoController extends Controller
                     'isOnOffer' => $isOnOffer,
                     'price' => $price,
                     'tarifa' => $tarifa,
+                    'artivapor' => $artivapor,
+                    'artrecpor' => $artrecpor,
+                    'artsigimp' => $artsigimp,
                     'total' => $total
                 ];
             }
@@ -289,19 +272,23 @@ class PedidoController extends Controller
     {
         $data['itemDetails'] = $itemDetails;
         $subtotal = $itemDetails->sum('total');
-        // revisando si tiene descuento de cliente
+        $data['subtotal'] = $subtotal;
+        $artivapor = $itemDetails->sum('artivapor');
+        $artrecpor = $itemDetails->sum('artrecpor');
+        $user->usudes1 == 0 ? $data['descuento'] = $user->usudes1 : $data['descuento'] = $subtotal * ($user->usudes1 / 100);
+        $data['descuento_porcentaje'] = $user->usudes1 . '%';
+        $shippingCost = 0.00;
+        $data['gastos_envio'] = $shippingCost;
+        $data['comentario'] = $comentario;
         if ($user->usudes1 != 0) {
             $descuento = $subtotal * ($user->usudes1 / 100);
-            $subtotal = $subtotal - $descuento;
-            $data['subtotal'] = $subtotal;
-        }else{
-            $data['subtotal'] = $subtotal;
+            $nuevo_subtotal = $subtotal - $descuento;
+            $total = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor;
+            $data['total'] = $total;
+        } else {
+            $total = $subtotal + $shippingCost + $artivapor + $artrecpor;
+            $data['total'] = $total;
         }
-        // guardando el descuento encontrado
-        $data['comentario'] = $comentario;
-        $shippingCost = 0.00;
-        $total = $subtotal + $shippingCost;
-        $data['total'] = $total;
         $data['usuario'] = $user;
 
         return $data;
