@@ -37,7 +37,3 @@ jobs:
             php artisan cache:clear &&
             php artisan config:cache
           EOF
-ssh-keygen -t rsa -b 4096 -C "Web.Jorge@redesycomponentes.com"
-
-
-
