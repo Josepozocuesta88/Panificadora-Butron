@@ -135,7 +135,14 @@ class CartController extends Controller
 
         $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
 
+        if ($user->usudes1 != 0) {
+            $descuento = $subtotal * ($user->usudes1 / 100);
+            $nuevo_subtotal = $subtotal - $descuento;
+            $total = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+        }
+
         return view('pages.ecommerce.carrito.cart', [
+            'user' => $user,
             'items' => $itemDetails,
             'subtotal' => $subtotal,
             'shippingCost' => $shippingCost,
