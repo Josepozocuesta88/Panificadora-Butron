@@ -184,7 +184,7 @@ class DocumentoController extends Controller
         // );
         // return response()->json(['url' => $url]);
 
-        $path = storage_path('../../../../facturas/' . $filename);
+        $path = storage_path('app/facturas/' . $filename);
 
         if(!File::exists($path)) {
             abort(404, 'Archivo no encontrado.');
