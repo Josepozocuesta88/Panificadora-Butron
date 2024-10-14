@@ -174,15 +174,23 @@ class DocumentoController extends Controller
             abort(404, 'Archivo no encontrado o acceso no permitido.');
         }
 
-        if (!Storage::disk('local')->exists($filename)) {
+        // if (!Storage::disk('local')->exists($filename)) {
+        //     abort(404, 'Archivo no encontrado.');
+        // }
+
+        // $url = Storage::disk('local')->temporaryUrl(
+        //     base64_encode($filename),
+        //     now()->addMinutes(1)
+        // );
+        // return response()->json(['url' => $url]);
+
+        $path = storage_path('app/facturas/' . $filename);
+
+        if(!File::exists($path)) {
             abort(404, 'Archivo no encontrado.');
         }
 
-        $url = Storage::disk('local')->temporaryUrl(
-            base64_encode($filename),
-            now()->addMinutes(1)
-        );
-        return response()->json(['url' => $url]);
+        return response()->file($path);
     }
 
 
