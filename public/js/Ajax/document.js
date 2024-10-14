@@ -158,13 +158,15 @@ $(document).ready(function ajaxDashboard() {
 
         // Fetch the new URL
         fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.url) {
-                    window.open(data.url, '_blank'); // Open the new URL in a new tab
-                } else {
-                    console.error('No se encontró la nueva URL en la respuesta.');
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                window.open(url, '_blank');
             })
             .catch(error => console.error('Error al realizar la petición:', error));
     });

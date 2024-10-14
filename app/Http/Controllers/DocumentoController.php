@@ -163,16 +163,16 @@ class DocumentoController extends Controller
     {
 
 
-        $user = Auth::user();
-        $fichero = DocumentoFichero::where('docfichero', $filename)
-            ->whereHas('documento', function ($query) use ($user) {
-                $query->where('docclicod', $user->usuclicod);
-            })
-            ->first();
+        // $user = Auth::user();
+        // $fichero = DocumentoFichero::where('docfichero', $filename)
+        //     ->whereHas('documento', function ($query) use ($user) {
+        //         $query->where('docclicod', $user->usuclicod);
+        //     })
+        //     ->first();
 
-        if (!$fichero) {
-            abort(404, 'Archivo no encontrado o acceso no permitido.');
-        }
+        // if (!$fichero) {
+        //     abort(404, 'Archivo no encontrado o acceso no permitido.');
+        // }
 
         // if (!Storage::disk('local')->exists($filename)) {
         //     abort(404, 'Archivo no encontrado.');
@@ -184,13 +184,28 @@ class DocumentoController extends Controller
         // );
         // return response()->json(['url' => $url]);
 
-        $path = storage_path('app/facturas/' . $filename);
+        try {
+            $user = Auth::user();
+            $fichero = DocumentoFichero::where('docfichero', $filename)
+                ->whereHas('documento', function ($query) use ($user) {
+                    $query->where('docclicod', $user->usuclicod);
+                })
+                ->first();
 
-        if(!File::exists($path)) {
-            abort(404, 'Archivo no encontrado.');
+            if (!$fichero) {
+                return response()->json(['error' => 'Archivo no encontrado o acceso no permitido.'], Response::HTTP_NOT_FOUND);
+            }
+
+            $path = storage_path('app/facturas/' . $filename);
+
+            if (!File::exists($path)) {
+                return response()->json(['error' => 'Archivo no encontrado.'], Response::HTTP_NOT_FOUND);
+            }
+
+            return response()->file($path);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener el documento.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return response()->file($path);
     }
 
 
