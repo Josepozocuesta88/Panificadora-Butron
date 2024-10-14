@@ -49,9 +49,11 @@ class PedidoController extends Controller
             Cart::where('cartusucod', $user->id)->delete();
 
             return ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
-        } catch (\Throwable $th) {
+        } catch (\RuntimeException  $th) {
 
-            // return ['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()];
+            // Capturar un error específico relacionado con argumentos inválidos
+            error_log('Error en los datos del pedido: ' . $th->getMessage());
+            return ['message' => 'Datos del pedido incorrectos.'];
         }
     }
 
