@@ -74,7 +74,6 @@
                                             @else
                                             <img src="{{ asset('images/articulos/noimage.jpg') }}" alt="img" class="rounded me-2 tw-h-12" height="48" />
                                             @endif
-
                                             <p class="m-0 align-middle d-inline-block text-truncate" style="max-width: 150px;">
                                                 <a href="{{ route('info', ['artcod' => $item['artcod']]) }}" class="text-body fw-semibold">{{ $item['name'] }}</a>
                                                 <br>
@@ -86,8 +85,7 @@
                                     <td class="px-0">
                                         <!-- Campo para la cantidad de cajas -->
                                         <div class="">
-                                            <input type="number"
-                                                class="quantity-update box_quantity form-control" name="box_quantity" min="1" data-cartcod="{{ $item['cartcod'] }}" data-update-type="" value="{{ $item['cantidad_cajas'] }}" style="width: 80px;">
+                                            <input type="number" class="quantity-update box_quantity form-control" name="box_quantity" min="1" data-cartcod="{{ $item['cartcod'] }}" data-update-type="" value="{{ $item['cantidad_cajas'] }}" style="width: 80px;">
                                         </div>
                                     </td>
                                     @if (config('app.caja') == 'si')
