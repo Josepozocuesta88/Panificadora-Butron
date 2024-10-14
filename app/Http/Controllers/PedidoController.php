@@ -51,7 +51,7 @@ class PedidoController extends Controller
             return ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
         } catch (\Throwable $th) {
 
-            return ['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()];
+            // return ['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()];
         }
     }
 
