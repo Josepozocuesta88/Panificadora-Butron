@@ -51,7 +51,7 @@ class PedidoController extends Controller
             return ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
         } catch (\Throwable $th) {
 
-            return response()->json(['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()], 500);
+            return ['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()];
         }
     }
 
@@ -126,9 +126,6 @@ class PedidoController extends Controller
 
         return response()->json(['data' => $pedidos], 200);
     }
-
-
-
 
     private function createPedido($data, $user, $direccion = null)
     {
