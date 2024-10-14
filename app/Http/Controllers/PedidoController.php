@@ -46,7 +46,7 @@ class PedidoController extends Controller
             $itemDetails = $this->calculateItemDetails($items);
             $itemDetails = $this->addTaxes($itemDetails, $articulos);
 
-            //dd($itemDetails);
+            // dd($itemDetails);
             $data = $this->prepareOrderData($user, $itemDetails, $comentario);
 
             $pedido = $this->createPedido($data, $user, $direccion);
@@ -57,7 +57,7 @@ class PedidoController extends Controller
 
             return ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()], 500);
+            // return response()->json(['message' => 'Error al procesar el pedido', 'error' => $th->getMessage()], 500);
         }
     }
 
@@ -202,10 +202,9 @@ class PedidoController extends Controller
             $email_copia_rpr = $representante->rprema;
         } else {
             // para prueba (modificar)
-            $email_copia_rpr = "marialuisa@redesycomponentes.com";
+            $email_copia_rpr = "jluiscontreras95@gmail.com";
         }
         $emails_copia = array($email_empresa, $email_copia_rpr);
-
 
         Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $emails_copia) {
             $message->to($email)
@@ -289,12 +288,17 @@ class PedidoController extends Controller
     private function prepareOrderData($user, $itemDetails, $comentario = "")
     {
         $data['itemDetails'] = $itemDetails;
-
         $subtotal = $itemDetails->sum('total');
-        $data['subtotal'] = $subtotal;
-
+        // revisando si tiene descuento de cliente
+        if ($user->usudes1 != 0) {
+            $descuento = $subtotal * ($user->usudes1 / 100);
+            $subtotal = $subtotal - $descuento;
+            $data['subtotal'] = $subtotal;
+        }else{
+            $data['subtotal'] = $subtotal;
+        }
+        // guardando el descuento encontrado
         $data['comentario'] = $comentario;
-
         $shippingCost = 0.00;
         $total = $subtotal + $shippingCost;
         $data['total'] = $total;
