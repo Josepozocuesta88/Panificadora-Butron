@@ -192,6 +192,7 @@ class DocumentoController extends Controller
                 })
                 ->first();
 
+<<<<<<< HEAD
             if (!$fichero) {
                 return response()->json(['error' => 'Archivo no encontrado o acceso no permitido.'], Response::HTTP_NOT_FOUND);
             }
@@ -205,6 +206,10 @@ class DocumentoController extends Controller
             return response()->file($path);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener el documento.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+=======
+        if (!File::exists($path)) {
+            abort(404, 'Archivo no encontrado.');
+>>>>>>> jdev
         }
     }
 
