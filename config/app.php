@@ -36,7 +36,7 @@ return [
     'favicon' => 'images/web/logo.png',
 
     'hero_index' => 'images/web/hero-index.png',
-    
+
     'hero_gift' => 'images/web/gift.jpg',
 
 
@@ -74,7 +74,7 @@ return [
     // 'color' => '#3490dc',
     'points' => 'Flory`s coins',
     // --color-principal: {{ config('app.color') }};
-    
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -226,6 +226,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\OfertaServiceProvider::class,
+        Ssheduardo\Redsys\RedsysServiceProvider::class
     ])->toArray(),
 
     /*
@@ -241,6 +242,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Redsys'    => Ssheduardo\Redsys\Facades\Redsys::class,
     ])->toArray(),
 
 ];

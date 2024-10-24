@@ -147,6 +147,14 @@ Route::get('/documentos/ver/{filename}', [DocumentoController::class, 'verDocume
 //descargar archivos temporales
 Route::get('local/temp/{path}', [DocumentoController::class, 'verArchivoTemporal'])->name('local.temp');
 
+// pagar factura
+Route::post('/documentos/payment/', [DocumentoController::class, 'payment'])->name('pasarela-pago');
+Route::post('/documentos/payment/success', [DocumentoController::class, 'paymentSuccess'])->name('pagoSuccess');
+Route::post('/documentos/payment/error', [DocumentoController::class, 'paymentError'])->name('pagoError');
+Route::post('/documentos/payment/update', [DocumentoController::class, 'documentUpdate'])->name('documentUpdate');
+
+
+
 // ==============================================================
 //   Todas las rutas relacionadas con: PUNTOS DE REGALO
 // ==============================================================

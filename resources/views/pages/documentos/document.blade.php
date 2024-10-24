@@ -67,9 +67,25 @@
     <!-- end row -->
 
 </div> <!-- container -->
+
+
+
+<!--  -->
+
+
 @endsection
 
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/Ajax/document.js') }}"></script>
+
+
+<script>
+
+
+</script>
+
+
+
 @endpush
