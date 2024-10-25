@@ -65,6 +65,12 @@ $(document).ready(function ajaxDashboard() {
                             '<span class="badge badge-success-lighten"> <i class="mdi mdi-bitcoin"></i> ' +
                             estado +
                             "</span>";
+                    } else if (data == 2) {
+                        estado = "PROCESANDO";
+                        html =
+                            '<span class="badge badge-info-lighten"> <i class="bi bi-hourglass-split"></i> ' +
+                            estado +
+                            "</span>";
                     } else {
                         estado = "PENDIENTE";
                         html =
@@ -92,6 +98,8 @@ $(document).ready(function ajaxDashboard() {
             } else if (filterSelected === "1" && estado.includes("PAGADO")) {
                 return true;
             } else if (filterSelected === "0" && estado.includes("PENDIENTE")) {
+                return true;
+            } else if (filterSelected === "2" && estado.includes("PROCESANDO")) {
                 return true;
             }
             return false;
@@ -129,15 +137,14 @@ $(document).ready(function ajaxDashboard() {
         className: "text-end",
         className: "text-end",
         render: function (data, type, row) {
-            if (data !== 1) {
-                estado = "PENDIENTE";
+            data === 0 ?
                 html = `<a href="#" class="btn btn-primary me-2 btn-enviar"
                  data-id="${row.doccon}"
                  data-order="${row.docnum}"
                  data-mount="${row.docimptot}"
-                 
-                 ><i class="bi bi-credit-card"></i></a>`;
-            }
+                 ><i class="bi bi-credit-card"></i></a>`
+                :
+                html = "";
             return html;
         },
     });
@@ -198,39 +205,36 @@ $(document).ready(function ajaxDashboard() {
                             return new Promise((resolve, reject) => {
                                 // Enviar el formulario directamente
                                 form.submit(); // Esto enviará el formulario al action especificado
+
+                                Swal.fire('Vamos!', '', 'success');
+                                //actualizamos el status de la factura a pendiente
+                                // Enviar un dato al controlador para cambiar el estado de la factura a Pendiente
+                                $.ajax({
+                                    url: '/documentos/payment/update/', // Cambia esta URL a la ruta de tu controlador
+                                    method: 'POST',
+                                    data: {
+                                        id: id/* Aquí el ID de la factura */,
+                                        status: 'Procesando'
+                                    },
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Para Laravel, si es necesario
+                                    },
+                                    success: function (response) {
+                                        console.log('Estado de la factura actualizado:', response);
+                                        // Puedes mostrar otro mensaje de éxito o realizar alguna acción adicional
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error al actualizar el estado de la factura:', error);
+                                        Swal.fire('Error', 'No se pudo actualizar el estado de la factura.', 'error');
+                                    }
+                                });
+                                // end estatus
                                 resolve(); // Resuelve la promesa para continuar
+
                             });
                         }
                     }).then((result) => {
-                        if (result.isConfirmed) {
-                            Swal.fire('Vamos!', '', 'success');
 
-                            //actualizamos el status de la factura a pendiente
-                            // Enviar un dato al controlador para cambiar el estado de la factura a Pendiente
-                            // $.ajax({
-                            //     url: '/documentos/payment/update', // Cambia esta URL a la ruta de tu controlador
-                            //     method: 'POST',
-                            //     data: {
-                            //         id: /* Aquí el ID de la factura */,
-                            //         status: 'Pendiente'
-                            //     },
-                            //     headers: {
-                            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Para Laravel, si es necesario
-                            //     },
-                            //     success: function (response) {
-                            //         console.log('Estado de la factura actualizado:', response);
-                            //         // Puedes mostrar otro mensaje de éxito o realizar alguna acción adicional
-                            //     },
-                            //     error: function (xhr, status, error) {
-                            //         console.error('Error al actualizar el estado de la factura:', error);
-                            //         Swal.fire('Error', 'No se pudo actualizar el estado de la factura.', 'error');
-                            //     }
-                            // });
-                            // end estatus
-
-                        } else {
-                            Swal.fire('Los cambios no se han enviado', '', 'info');
-                        }
                     });
 
                 } else {

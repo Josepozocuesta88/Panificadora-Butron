@@ -33,7 +33,9 @@ class pedido extends Model
         'env_tfno_1',
         'env_tfno_2',
         'env_pais_txt',
-        'observaciones'
+        'iva_porcentaje',
+        'iva_importe',
+        'observaciones',
     ];
     public function pedidos_lineas()
     {

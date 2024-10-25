@@ -279,21 +279,53 @@ class DocumentoController extends Controller
 
     public function paymentSuccess(Request $request)
     {
-        $message = $request->all();
-        if (isset($message['Ds_MerchantParameters'])) {
-            $decode = json_decode(base64_decode($message['Des_MerchantParameters']), true);
-            $date = urldecode($decode['Ds_Date']);
-            $hour = urldecode($decode['Ds_hour']);
-            $decode['Ds_Date'] = $date;
-            $decode['Ds_Hour'] = $hour;
-        }
-        return response()->json(['success' => true, 'message' => $message, 'decode' => $decode]);
+        // $message = $request->all();
+        // if (isset($message['Ds_MerchantParameters'])) {
+        //     $decode = json_decode(base64_decode($message['Des_MerchantParameters']), true);
+        //     $date = urldecode($decode['Ds_Date']);
+        //     $hour = urldecode($decode['Ds_hour']);
+        //     $decode['Ds_Date'] = $date;
+        //     $decode['Ds_Hour'] = $hour;
+        // }
+        // return response()->json(['success' => true, 'message' => $message, 'decode' => $decode]);
+        // return view('pages.documentos.document');
+        return redirect()->route('get.documentos');
     }
 
     public function paymentError(Request $request)
     {
-        return response()->json(['success' => false, 'message' => $request->all()]);
+        // return response()->json(['success' => false, 'message' => $request->all()]);
+        return redirect()->route('get.documentos');
     }
 
-    public function documentUpdate(Request $reques) {}
+    public function documentUpdate(Request $request)
+    {
+        // Validar la solicitud para asegurarse de que el ID y el estado estén presentes
+        // $request->validate([
+        //     'id' => 'required|integer|exists:qdocumento,doccon', // Asegurarse de que el ID existe
+        //     'status' => 'required|string' // Asegurarse de que el estado sea una cadena
+        // ]);
+
+        // Obtener el estado y el ID del documento
+        $status = $request->input('status');
+        $id = $request->input('id');
+
+        // Inicializar la variable de mensaje
+        $message = '';
+
+        // Comprobar si el estado es "Pendiente"
+        if ($status === "Procesando") {
+            // Encontrar el documento y actualizar su estado
+            $factura = Documento::findOrFail($id);
+            $factura->doccob = 2;
+            $factura->save();
+            $message = "El documento ha sido actualizado a 'Pendiente'.";
+
+            return response()->json(['success' => true, 'message' => $message]);
+        }
+
+        // Manejo de estado no reconocido
+        $message = "El estado proporcionado no es válido.";
+        return response()->json(['error' => true, 'message' => $message]);
+    }
 }

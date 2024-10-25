@@ -46,9 +46,10 @@ class PedidoController extends Controller
             $pedido = $this->createPedido($data, $user, $direccion);
             $data['pedido'] = $pedido;
             $this->sendOrderEmail($data, $user);
-            Cart::where('cartusucod', $user->id)->delete();
 
-            return ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
+
+
+            return  ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
         } catch (\RuntimeException  $th) {
 
             // Capturar un error específico relacionado con argumentos inválidos
@@ -60,7 +61,11 @@ class PedidoController extends Controller
     public function orderResult($result)
     {
         if ($result == 'ok') {
-            return back()->with('success', '¡Su pedido se procesó correctamente!');
+
+            $user = Auth::user();
+            Cart::where('cartusucod', $user->id)->delete();
+
+            return view('pages.dashboard.dashboard')->with(['success' => true, 'message' => '¡Su pedido se procesó correctamente!']);
         }
 
         return back()->with('Error', '¡Hubo un error al procesar su pedido!');
@@ -143,6 +148,8 @@ class PedidoController extends Controller
         $pedido->descuento_porcentaje = $data['descuento_porcentaje'];
         $pedido->gastos_envio = $data['gastos_envio'];
         $pedido->total = $data['total'];
+        $pedido->iva_porcentaje = $data['iva_porcentaje'];
+        $pedido->iva_importe = $data['iva_importe'];
         if ($direccion) {
             $pedido->env_nombre = $direccion->dirnom;
             $pedido->env_apellidos = $direccion->dirape;
@@ -226,31 +233,41 @@ class PedidoController extends Controller
     {
         return $items->map(function ($item) {
             if ($item->articulo) {
+
                 $name = $item->articulo->artnom;
                 $img = $item->articulo->primeraImagen();
                 $tarifa = $item->articulo->precioTarifa;
                 $price = $item->articulo->precioOferta ?? $tarifa;
+
                 if ($tarifa === null) {
                     return ['name' => $name, 'price' => 'Precio no disponible'];
                 }
+
                 $isOnOffer = $tarifa != $price;
                 $isBox = in_array($item->cartcajcod, ['0001', '0002', '0003']);
                 $unitCount = $isBox ? $item->cajreldir : 1;
                 $totalUnits = $isBox ? $item->cartcantcaj * $unitCount : $item->cartcant;
+
                 if ($isBox) {
                     $name = $item->cajnom;
                 }
+
                 $total = round($price * $totalUnits, 2);
                 $artivapor = $total * ($item->articulo->artivapor / 100);
-                $artrecpor = $total * ($item->articulo->artrecpor / 100);
+                $iva_porcentaje = $item->articulo->artivapor;
+                Auth::user()->usuivacod === "S" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
                 $artsigimp = $total * ($item->articulo->artsigimp / 100);
 
                 return [
+                    'ivaPorcentaje' => $iva_porcentaje,
                     'cartcod' => $item->cartcod,
                     'artcod' => $item->cartartcod,
                     'cajcod' => $item->cajcod,
                     'cartcajcod' => $item->cartcajcod,
                     'name' => $name,
+                    'artivapor' => $artivapor,
+                    'artrecpor' => $artrecpor,
+                    'artsigimp' => $artsigimp,
                     'promedcod' => $item->articulo->promedcod,
                     'image' => $img,
                     'cantidad_unidades' => $item->cartcant,
@@ -258,9 +275,6 @@ class PedidoController extends Controller
                     'isOnOffer' => $isOnOffer,
                     'price' => $price,
                     'tarifa' => $tarifa,
-                    'artivapor' => $artivapor,
-                    'artrecpor' => $artrecpor,
-                    'artsigimp' => $artsigimp,
                     'total' => $total
                 ];
             }
@@ -269,27 +283,47 @@ class PedidoController extends Controller
 
     private function prepareOrderData($user, $itemDetails, $comentario = "")
     {
-        $data['itemDetails'] = $itemDetails;
         $subtotal = $itemDetails->sum('total');
-        $data['subtotal'] = $subtotal;
         $artivapor = $itemDetails->sum('artivapor');
         $artrecpor = $itemDetails->sum('artrecpor');
-        $user->usudes1 == 0 ? $data['descuento'] = $user->usudes1 : $data['descuento'] = $subtotal * ($user->usudes1 / 100);
-        $data['descuento_porcentaje'] = $user->usudes1 . '%';
+        $artsigimp = $itemDetails->sum('artsigimp');
+        $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
+        Auth::user()->usudes1 == 0 ? $data['descuento'] = 0.00 : $data['descuento'] = $subtotal * (Auth::user()->usudes1 / 100);
         $shippingCost = 0.00;
+
+        $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+
+
+        if (Auth::user()->usudes1 != 0) {
+            $descuento = $subtotal * (Auth::user()->usudes1 / 100);
+            $nuevo_subtotal = $subtotal - $descuento;
+            $artivapor = $nuevo_subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
+            $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
+            $total = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+        }
+
+        var_dump($total);
+        $data['total'] = $total;
         $data['gastos_envio'] = $shippingCost;
         $data['comentario'] = $comentario;
-        if ($user->usudes1 != 0) {
-            $descuento = $subtotal * ($user->usudes1 / 100);
-            $nuevo_subtotal = $subtotal - $descuento;
-            $total = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor;
-            $data['total'] = $total;
-        } else {
-            $total = $subtotal + $shippingCost + $artivapor + $artrecpor;
-            $data['total'] = $total;
-        }
+        $data['descuento_porcentaje'] = $user->usudes1 . '%';
+        $data['iva_porcentaje'] = $iva_porcentaje;
+        $data['iva_importe'] = $artivapor;
+        $data['itemDetails'] = $itemDetails;
+        $data['subtotal'] = $subtotal;
+        $data['artrecpor'] = $artrecpor;
+        $data['artivapor'] = $artivapor;
+        $data['artsigimp'] = $artsigimp;
         $data['usuario'] = $user;
 
         return $data;
+    }
+
+    public function removeCart()
+    {
+        $user = auth()->user();
+        Cart::where('cartusucod', $user->id)->delete();
+
+        return;
     }
 }

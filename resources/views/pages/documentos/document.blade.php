@@ -46,6 +46,7 @@
         <option value="todas">Todas</option>
         <option value="1">Pagadas</option>
         <option value="0">Pendientes</option>
+        <option value="2">Procesando</option>
     </select>
     @endif
 

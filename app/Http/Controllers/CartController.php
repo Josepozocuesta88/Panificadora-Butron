@@ -133,11 +133,14 @@ class CartController extends Controller
         $artrecpor = $itemDetails->sum('artrecpor');
         $artsigimp = $itemDetails->sum('artsigimp');
 
+
+
         $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
 
         if ($user->usudes1 != 0) {
             $descuento = $subtotal * ($user->usudes1 / 100);
             $nuevo_subtotal = $subtotal - $descuento;
+            $artivapor = $nuevo_subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
             $total = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
         }
 
@@ -215,10 +218,23 @@ class CartController extends Controller
         }
 
         $subtotal = $itemDetails->sum('total');
-        $data['subtotal'] = $subtotal;
+        $descuento = 0.00;
         $shippingCost = 0.00;
-        $total = $subtotal + $shippingCost;
-        $data['total'] = $total;
+        $artivapor = $itemDetails->sum('artivapor');
+        $artrecpor = $itemDetails->sum('artrecpor');
+        $artsigimp = $itemDetails->sum('artsigimp');
+        $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
+
+        if (Auth::user()->usudes1 != 0) {
+            $descuento = $subtotal * (Auth::user()->usudes1 / 100);
+            $subtotal = $subtotal - $descuento;
+            $artivapor = $subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
+            $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
+            $total = $subtotal + $artivapor + $artrecpor + $artsigimp;
+        } else {
+            $total = $subtotal + $artivapor + $artrecpor + $artsigimp;
+        }
+
 
         $email = $user->email;
         $email_copia = config('mail.cc');
@@ -229,8 +245,13 @@ class CartController extends Controller
         $pedido->acccencod = $user->usucencod;
         $pedido->estado = 2;
         $pedido->fecha = date('Y-m-d H:i:s');
-        $pedido->subtotal = $data['subtotal'];
-        $pedido->total = $data['total'];
+        $pedido->subtotal = $subtotal;
+        $pedido->descuento = $descuento;
+        $pedido->descuento_porcentaje = Auth::user()->usudes1;
+        $pedido->gasto_envio = $shippingCost;
+        $pedido->total = $total;
+        $pedido->iva_porcentaje = $iva_porcentaje;
+        $pedido->iva_importe = $artivapor;
         $pedido->save();
 
         foreach ($itemDetails as $itemDetail) {
@@ -289,7 +310,6 @@ class CartController extends Controller
                 $tarifa = $item->articulo->precioTarifa;
                 $price = $item->articulo->precioOferta ?? $tarifa;
 
-
                 if ($tarifa === null) {
                     return ['name' => $name, 'price' => 'Precio no disponible'];
                 }
@@ -299,19 +319,18 @@ class CartController extends Controller
                 $unitCount = $isBox ? $item->cajreldir : 1;
                 $totalUnits = $isBox ? $item->cartcantcaj * $unitCount : $item->cartcant;
 
-
                 if ($isBox) {
                     $name = $item->cajnom;
                 }
 
-
                 $total = round($price * $totalUnits, 2);
-
                 $artivapor = $total * ($item->articulo->artivapor / 100);
-                $artrecpor = $total * ($item->articulo->artrecpor / 100);
+                $iva_porcentaje = $item->articulo->artivapor;
+                Auth::user()->usuivacod === "S" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
                 $artsigimp = $total * ($item->articulo->artsigimp / 100);
 
                 return [
+                    'ivaPorcentaje' => $iva_porcentaje,
                     'cartcod' => $item->cartcod,
                     'artcod' => $item->cartartcod,
                     'cajcod' => $item->cajcod,
