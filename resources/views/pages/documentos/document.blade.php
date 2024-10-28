@@ -40,17 +40,26 @@
     </div>
     @endif
 
-    @if(request()->is('documentos/Facturas'))
-    <span>Filtrar facturas por estado</span>
-    <select id="estadoFiltro" class="form-select">
-        <option value="todas">Todas</option>
-        <option value="1">Pagadas</option>
-        <option value="0">Pendientes</option>
-        <option value="2">Procesando</option>
-    </select>
-    @endif
+    <div class="d-flex justify-content-between align-items-end px-3">
+        <div class="">
+            @if(request()->is('documentos/Facturas'))
+            <label class="form-label" for="estadoFiltro">Filtrar:</label>
+            <select id="estadoFiltro" class="form-select">
+                <option value="todas">Todas</option>
+                <option value="1">Pagadas</option>
+                <option value="0">Pendientes</option>
+                <option value="2">Procesando</option>
+            </select>
+            @endif
+        </div>
+        <div class="">
+            <button type="button" id="r347" name="r347" class="btn btn-primary">Resumen 347</button>
+        </div>
+    </div>
 
-    <div class="row">
+
+
+    <div class="row ">
         <div class="col-13">
             <div class="card">
                 <div class="card-body">
