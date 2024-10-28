@@ -196,7 +196,12 @@ class DocumentoController extends Controller
                 return response()->json(['error' => 'Archivo no encontrado o acceso no permitido.'], Response::HTTP_NOT_FOUND);
             }
 
-            $path = storage_path('app/facturas/' . $filename);
+            // $path = storage_path('app/facturas/' . $filename);
+
+            $path = base_path('/../../../facturas/' . $filename);
+            
+            // $path = $_SERVER['DOCUMENT_ROOT'] . '/facturas/' . $filename;
+            Log::info('Intentando obtener el documento en la ruta: ' . $path);
 
             if (!File::exists($path)) {
                 return response()->json(['error' => 'Archivo no encontrado.'], Response::HTTP_NOT_FOUND);

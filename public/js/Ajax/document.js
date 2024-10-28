@@ -103,6 +103,7 @@ $(document).ready(function ajaxDashboard() {
         data: "descarga",
         className: "text-end",
         render: function (data, type, row) {
+            console.log(row.docfichero);
             if (data) {
                 var html =
                     '<a href="/documentos/download/' +
@@ -155,7 +156,6 @@ $(document).ready(function ajaxDashboard() {
     $(document).on('click', '.ver-documento', (e) => {
         e.preventDefault(); // Prevent default action
         const url = e.currentTarget.dataset.href; // Get the URL from data attribute
-
         // Fetch the new URL
         fetch(url)
             .then(response => {
