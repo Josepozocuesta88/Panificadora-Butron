@@ -115,7 +115,7 @@ $(document).ready(function ajaxDashboard() {
             if (data) {
                 var html =
                     '<a href="/documentos/download/' +
-                    row.docfichero +
+                    data +
                     '" class="btn btn-primary me-2"><i class="bi bi-download"></i></a>';
                 if (row.docfichero && row.docfichero.length === 1) {
                     html +=
