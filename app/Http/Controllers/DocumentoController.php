@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Ssheduardo\Redsys\Facades\Redsys;
 
 use App\Models\Documento;
 use App\Models\DocumentoFichero;
@@ -226,5 +228,109 @@ class DocumentoController extends Controller
         ];
 
         return $mimeTypes[$fileExtension] ?? 'application/octet-stream';
+    }
+
+
+
+    // función de pasarela de pago
+    public function payment(Request $request)
+    {
+        // Obtener datos de la solicitud
+        $id = $request->input('id'); // Número de pedido
+        $order = $request->input('numero'); // Número de pedido
+        $importe_completo = $request->input('importe'); // Importe total
+        $isTest = $request->input('test', 1); // Modo de prueba o producción
+        $order_compuesta = (string)$id . "_" . (string)$order;
+
+        try {
+            //             
+            // $key = config('redsys.key');
+            $key = ("sq7HjrUOBfKmC576ILgskD5srU870gJ7");
+            $code = config('redsys.merchantcode');
+
+            Redsys::setAmount($importe_completo);
+            Redsys::setOrder($order_compuesta);
+            Redsys::setMerchantcode($code); //Reemplazar por el código que proporciona el banco
+            Redsys::setCurrency('978');
+            Redsys::setTransactiontype('0');
+            Redsys::setTerminal('1');
+            Redsys::setMethod('T'); //Solo pago con tarjeta, no mostramos iupay
+            Redsys::setNotification(config('redsys.url_notification')); //Url de notificacion
+            Redsys::setUrlOk(config('redsys.url_ok')); //Url OK
+            Redsys::setUrlKo(config('redsys.url_ko')); //Url KO
+            Redsys::setVersion('HMAC_SHA256_V1');
+            Redsys::setTradeName('Congelados Florys');
+            Redsys::setTitular('Javier');
+            Redsys::setProductDescription('Pago Facturas');
+            Redsys::setEnviroment('test'); //Entorno test
+
+            $signature = Redsys::generateMerchantSignature($key);
+            Redsys::setMerchantSignature($signature);
+
+            $form = Redsys::createForm();
+            // Verificar la respuesta de Redsys
+            return response()->json([
+                'success' => true,
+                'form' => $form
+            ]);
+        } catch (\Exception $e) {
+            // Manejar excepciones
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function paymentSuccess(Request $request)
+    {
+        // $message = $request->all();
+        // if (isset($message['Ds_MerchantParameters'])) {
+        //     $decode = json_decode(base64_decode($message['Des_MerchantParameters']), true);
+        //     $date = urldecode($decode['Ds_Date']);
+        //     $hour = urldecode($decode['Ds_hour']);
+        //     $decode['Ds_Date'] = $date;
+        //     $decode['Ds_Hour'] = $hour;
+        // }
+        // return response()->json(['success' => true, 'message' => $message, 'decode' => $decode]);
+        // return view('pages.documentos.document');
+        return redirect()->route('get.documentos');
+    }
+
+    public function paymentError(Request $request)
+    {
+        // return response()->json(['success' => false, 'message' => $request->all()]);
+        return redirect()->route('get.documentos');
+    }
+
+    public function documentUpdate(Request $request)
+    {
+        // Validar la solicitud para asegurarse de que el ID y el estado estén presentes
+        // $request->validate([
+        //     'id' => 'required|integer|exists:qdocumento,doccon', // Asegurarse de que el ID existe
+        //     'status' => 'required|string' // Asegurarse de que el estado sea una cadena
+        // ]);
+
+        // Obtener el estado y el ID del documento
+        $status = $request->input('status');
+        $id = $request->input('id');
+
+        // Inicializar la variable de mensaje
+        $message = '';
+
+        // Comprobar si el estado es "Pendiente"
+        if ($status === "Procesando") {
+            // Encontrar el documento y actualizar su estado
+            $factura = Documento::findOrFail($id);
+            $factura->doccob = 2;
+            $factura->save();
+            $message = "El documento ha sido actualizado a 'Pendiente'.";
+
+            return response()->json(['success' => true, 'message' => $message]);
+        }
+
+        // Manejo de estado no reconocido
+        $message = "El estado proporcionado no es válido.";
+        return response()->json(['error' => true, 'message' => $message]);
     }
 }

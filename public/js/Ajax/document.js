@@ -65,6 +65,12 @@ $(document).ready(function ajaxDashboard() {
                             '<span class="badge badge-success-lighten"> <i class="mdi mdi-bitcoin"></i> ' +
                             estado +
                             "</span>";
+                    } else if (data == 2) {
+                        estado = "PROCESANDO";
+                        html =
+                            '<span class="badge badge-info-lighten"> <i class="bi bi-hourglass-split"></i> ' +
+                            estado +
+                            "</span>";
                     } else {
                         estado = "PENDIENTE";
                         html =
@@ -92,6 +98,8 @@ $(document).ready(function ajaxDashboard() {
             } else if (filterSelected === "1" && estado.includes("PAGADO")) {
                 return true;
             } else if (filterSelected === "0" && estado.includes("PENDIENTE")) {
+                return true;
+            } else if (filterSelected === "2" && estado.includes("PROCESANDO")) {
                 return true;
             }
             return false;
@@ -130,10 +138,14 @@ $(document).ready(function ajaxDashboard() {
         className: "text-end",
         className: "text-end",
         render: function (data, type, row) {
-            if (data !== 1) {
-                estado = "PENDIENTE";
-                html = '<a href="#" class="btn btn-primary me-2"><i class="bi bi-credit-card"></i></a>';
-            }
+            data === 0 ?
+                html = `<a href="#" class="btn btn-primary me-2 btn-enviar"
+                 data-id="${row.doccon}"
+                 data-order="${row.docnum}"
+                 data-mount="${row.docimptot}"
+                 ><i class="bi bi-credit-card"></i></a>`
+                :
+                html = "";
             return html;
         },
     });
@@ -151,6 +163,89 @@ $(document).ready(function ajaxDashboard() {
             emptyTable: "No se encontraron documentos para mostrar.",
             url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
         },
+    });
+
+
+
+    // pasarela de pago
+
+    $(document).on('click', '.btn-enviar', function (e) {
+        e.preventDefault();
+
+        // Obtener los datos desde los atributos "data-" del enlace
+        let id = $(this).data('id');
+        let numero = $(this).data('order');
+        let importe = $(this).data('mount');
+        let test = 1;
+
+        // Realizar la solicitud a la API
+        $.ajax({
+            url: '/documentos/payment', // Cambia esta URL a tu API
+            method: 'POST',
+            data: {
+                id: id,
+                numero: numero,
+                importe: importe,
+                test: test
+                // estado: estado
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Para Laravel, si es necesario
+            },
+            success: function (response) {
+                console.log('Datos enviados exitosamente', response);
+                if (response.success) {
+                    Swal.fire({
+                        title: '¿Pagar Factura?',
+                        html: response.form, // El formulario de Redsys se insertará aquí
+                        showCancelButton: true,
+                        confirmButtonText: 'Enviar',
+                        cancelButtonText: 'Salir',
+                        preConfirm: () => {
+                            const form = Swal.getHtmlContainer().querySelector('form');
+                            return new Promise((resolve, reject) => {
+                                // Enviar el formulario directamente
+                                form.submit(); // Esto enviará el formulario al action especificado
+
+                                Swal.fire('Vamos!', '', 'success');
+                                //actualizamos el status de la factura a pendiente
+                                // Enviar un dato al controlador para cambiar el estado de la factura a Pendiente
+                                $.ajax({
+                                    url: '/documentos/payment/update/', // Cambia esta URL a la ruta de tu controlador
+                                    method: 'POST',
+                                    data: {
+                                        id: id/* Aquí el ID de la factura */,
+                                        status: 'Procesando'
+                                    },
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Para Laravel, si es necesario
+                                    },
+                                    success: function (response) {
+                                        console.log('Estado de la factura actualizado:', response);
+                                        // Puedes mostrar otro mensaje de éxito o realizar alguna acción adicional
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error al actualizar el estado de la factura:', error);
+                                        Swal.fire('Error', 'No se pudo actualizar el estado de la factura.', 'error');
+                                    }
+                                });
+                                // end estatus
+                                resolve(); // Resuelve la promesa para continuar
+
+                            });
+                        }
+                    }).then((result) => {
+
+                    });
+
+                } else {
+                    console.error(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error al enviar datos', error);
+            }
+        });
     });
 
     $(document).on('click', '.ver-documento', (e) => {
