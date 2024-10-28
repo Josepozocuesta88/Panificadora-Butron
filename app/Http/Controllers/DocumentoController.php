@@ -200,7 +200,7 @@ class DocumentoController extends Controller
 
             // $path = storage_path('app/facturas/' . $filename);
 
-            $path = base_path('/../../../facturas/' . $filename);
+            $path = base_path('/../../../../facturas/' . $filename);
             
             // $path = $_SERVER['DOCUMENT_ROOT'] . '/facturas/' . $filename;
             Log::info('Intentando obtener el documento en la ruta: ' . $path);
