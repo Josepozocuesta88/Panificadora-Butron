@@ -90,7 +90,7 @@ class DocumentoController extends Controller
 
         if ($ficheros->count() === 1) {
             // Descarga directa para un solo archivo
-            $filePath = storage_path('app/' . $ficheros->first()->docfichero);
+            $filePath = storage_path('app/facturas/' . $ficheros->first()->docfichero);
             return $this->descargarArchivo($filePath);
         } elseif ($ficheros->count() > 1) {
             // Crear un ZIP para múltiples archivos
