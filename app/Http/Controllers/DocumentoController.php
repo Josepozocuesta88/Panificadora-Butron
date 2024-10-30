@@ -90,7 +90,7 @@ class DocumentoController extends Controller
 
         if ($ficheros->count() === 1) {
             // Descarga directa para un solo archivo
-            $filePath = storage_path('app/facturas/' . $ficheros->first()->docfichero);
+            $filePath = storage_path('app/' . $ficheros->first()->docfichero);
             return $this->descargarArchivo($filePath);
         } elseif ($ficheros->count() > 1) {
             // Crear un ZIP para múltiples archivos
@@ -198,7 +198,7 @@ class DocumentoController extends Controller
                 return response()->json(['error' => 'Archivo no encontrado o acceso no permitido.'], Response::HTTP_NOT_FOUND);
             }
 
-            $path = storage_path('app/facturas/' . $filename);
+            $path = storage_path('app/' . $filename);
 
             // $path = base_path('/../../../../facturas/' . $filename);
             
