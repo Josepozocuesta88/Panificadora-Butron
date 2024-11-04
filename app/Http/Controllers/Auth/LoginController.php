@@ -57,18 +57,22 @@ class LoginController extends Controller
             $storedPassword = $user->getAuthPassword();
     
             // Verificar si el hash almacenado es un hash Bcrypt
-            if (strlen($storedPassword) === 60) {
-                // Intentar la verificación con Bcrypt
-                if (Hash::check($credentials['password'], $storedPassword)) {
+            if(!empty($credentials['password'])) {
+
+                if (strlen($storedPassword) === 60) {
+                    // Intentar la verificación con Bcrypt
+                    if (Hash::check($credentials['password'], $storedPassword)) {
+                        $this->guard()->login($user, $request->filled('remember'));
+                        return true;
+                    }
+                } elseif (md5($credentials['password']) === $storedPassword) {
+                    // Hash MD5 coincidente, actualizar a Bcrypt
+                    $user->password = Hash::make($credentials['password']);
+                    $user->save();
                     $this->guard()->login($user, $request->filled('remember'));
                     return true;
                 }
-            } elseif (md5($credentials['password']) === $storedPassword) {
-                // Hash MD5 coincidente, actualizar a Bcrypt
-                $user->password = Hash::make($credentials['password']);
-                $user->save();
-                $this->guard()->login($user, $request->filled('remember'));
-                return true;
+                
             }
         }
     
