@@ -212,7 +212,7 @@
                                     </tr>
                                     <tr>
                                         <td>Total Recargo :</td>
-                                        <td class="ps-0">
+                                        <td class="ps-0" id="td-recargo" data-recargo="{{ $artrecpor }}">
                                             {{ \App\Services\FormatoNumeroService::convertirADecimal($artrecpor) }}
                                             €
                                         </td>
@@ -279,9 +279,14 @@
         }
         const direccionId = selectedCard.getAttribute('data-direccion-id');
         const comentario = document.getElementById('comentario').value; // Obtener el comentario
+
+        // Obtenemos el valor del atributo data-recargo
+        var recargoValue = document.getElementById('td-recargo').getAttribute('data-recargo');
+
         const formData = new FormData(); // Crear un objeto FormData
         formData.append('direccionId', direccionId); // Agregar el ID de dirección
         formData.append('comentario', comentario); // Agregar el comentario
+        formData.append('recargo', recargoValue); //agregar el regarto total
 
         fetch('/order', { // Cambiar a una petición POST
                 method: 'POST',

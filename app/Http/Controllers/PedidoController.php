@@ -32,6 +32,7 @@ class PedidoController extends Controller
             $data = $request->all();
             $direccionId = $data['direccionId'];
             $comentario = $data['comentario'];
+            $recargo = $data['recargo'];
             $user = auth()->user();
             $direccion = ClienteDireccion::where([['dirid', $direccionId], ['dirclicod', $user->usuclicod]])->first();
             if (!$direccion) {

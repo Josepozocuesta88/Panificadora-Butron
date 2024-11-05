@@ -133,8 +133,6 @@ class CartController extends Controller
         $artrecpor = $itemDetails->sum('artrecpor');
         $artsigimp = $itemDetails->sum('artsigimp');
 
-
-
         $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
 
         if ($user->usudes1 != 0) {
