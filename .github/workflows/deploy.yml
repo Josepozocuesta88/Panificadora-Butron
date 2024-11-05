@@ -33,7 +33,7 @@
 #       - name: Deploy to Hostinger
 #         run: |
 #           ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 << 'EOF'
-#             cd public_html/Congelados-florys &&
+#             cd public_html/congelados-florys &&
 #             git pull origin main &&
 #             php artisan cache:clear &&
 #             php artisan config:cache
@@ -77,7 +77,7 @@ jobs:
       - name: Deploy to Hostinger Subdomain (Test)
         run: |
           ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 << 'EOF'
-            cd public_html/test/Congelados-florys &&  # Cambia esto a la ruta de tu subdominio
+            cd public_html/test/congelados-florys &&  # Cambia esto a la ruta de tu subdominio
             git pull origin test &&  # Realiza pull de la rama test
             php artisan cache:clear &&
             php artisan config:cache
