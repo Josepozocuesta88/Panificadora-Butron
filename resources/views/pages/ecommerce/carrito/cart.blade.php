@@ -194,11 +194,7 @@
                                     </tr>
                                     <tr>
                                         <td>Descuento: </td>
-                                        @if($user->usudes1 !== 0)
-                                        <td class="ps-0"> {{ $user->usudes1 }} % </td>
-                                        @else
-                                        <td class="ps-0"> 0 %</td>
-                                        @endif
+                                        <td class="ps-0"> {{ $user->usudes1 !== 0 ? $user->usudes1 : 0 }} % </td>
                                     </tr>
                                     <tr>
                                         <td>Gastos de envío :</td>

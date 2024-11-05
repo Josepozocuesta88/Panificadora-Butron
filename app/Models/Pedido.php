@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pedido_linea;
 
 class pedido extends Model
 {
@@ -39,6 +40,6 @@ class pedido extends Model
     ];
     public function pedidos_lineas()
     {
-        return $this->hasMany(PedidoLinea::class, 'pedido_id', 'id');
+        return $this->hasMany(Pedido_linea::class, 'pedido_id', 'id');
     }
 }

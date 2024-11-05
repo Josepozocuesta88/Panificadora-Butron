@@ -23,10 +23,11 @@
     </div>
     <!-- end page title -->
     @isset($pedido)
+
     <div class="row justify-content-center">
         <div class="col-lg-7 col-md-10 col-sm-11">
 
-            <div class="pb-5 mt-4 mb-4 horizontal-steps" id="tooltip-container" data-estado={{$pedido->estado}}>
+            <div class="pb-5 mt-4 mb-4 horizontal-steps" id="tooltip-container" data-estado="{{$pedido->estado}}">
                 <div class="horizontal-steps-content">
                     <div class="step-item">
                         <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -49,7 +50,6 @@
         </div>
     </div>
     <!-- end row -->
-
 
     <div class="row">
         <div class="col-lg-8">
@@ -77,16 +77,12 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             @if ($item['image'])
-                                            <img src="{{ asset('images/articulos/'. $item['image'] ) }}" alt="img"
-                                                class="rounded me-2 tw-h-12" height="48" />
+                                            <img src="{{ asset('images/articulos/'. $item['image'] ) }}" alt="img" class="rounded me-2 tw-h-12" height="48" />
                                             @else
-                                            <img src="{{ asset('images/articulos/noimage.jpg') }}" alt="img"
-                                                class="rounded me-2 tw-h-12" height="48" />
+                                            <img src="{{ asset('images/articulos/noimage.jpg') }}" alt="img" class="rounded me-2 tw-h-12" height="48" />
                                             @endif
-
                                             <p class="m-0 align-middle d-inline-block" style="max-width: 150px;">
-                                                <a href="{{route('info', ['artcod' => $item['producto_ref']])}}"
-                                                    class="text-body fw-semibold">{{ $item['nombre_articulo'] }}</a>
+                                                <a href="{{route('info', ['artcod' => $item['producto_ref']])}}" class="text-body fw-semibold">{{ $item['nombre_articulo'] }}</a>
                                             </p>
                                         </div>
                                     </td>
@@ -96,7 +92,6 @@
                                     <td class="px-0">
                                         {{ $item['aclcancaj'] }}
                                     </td>
-
                                     <!-- tipo -->
                                     <td>
                                         @if($item['aclcajcod'] == '0001')
@@ -106,7 +101,6 @@
                                         @else
                                         Pieza
                                         @endif
-
                                     </td>
                                     @endif
                                     <!-- cantidad ud -->
@@ -143,97 +137,72 @@
                                         {{ \App\Services\FormatoNumeroService::convertirADecimal($pedido->subtotal) }} €
                                     </td>
                                 </tr>
-
+                                <tr>
+                                    <td>Descuento: </td>
+                                    <td class="ps-0"> {{ $user->usudes1 !== 0 ? $user->usudes1 : 0 }} % </td>
+                                </tr>
                                 <tr>
                                     <td>Gastos de envío :</td>
                                     <td class="ps-0">
                                         {{ \App\Services\FormatoNumeroService::convertirADecimal(0) }} €
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td>Total IVA :</td>
                                     <td class="ps-0">
-                                        {{ \App\Services\FormatoNumeroService::convertirADecimal(
-                                        $items->reduce(function ($carry, $item) {
-                                        return $carry + $item['iva'] * $item['cantidad'];
-                                        }),
-                                        ) }}
-                                        €</td>
+                                        {{ $pedido->iva_importe }} €
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Total Recargo :</td>
                                     <td class="ps-0">
                                         {{ \App\Services\FormatoNumeroService::convertirADecimal(
-                                        $items->reduce(function ($carry, $item) {
-                                        return $carry + $item['recargo'] * $item['cantidad'];
-                                        }),
-                                        ) }}
-                                        €</td>
+                                            $items->reduce(function ($carry, $item) { 
+                                                return $carry + $item['recargo'] * $item['cantidad'];
+                                            }),
+                                        ) }} €
+                                    </td>
                                 </tr>
-
                                 <tr>
                                     <th>Total :</th>
                                     <th class="ps-0">
-                                        {{ \App\Services\FormatoNumeroService::convertirADecimal(
-                                        $pedido->total +
-
-                                        $items->reduce(function ($carry, $item) {
-                                        return $carry + $item['iva'] * $item['cantidad'];
-                                        }) +
-                                        $items->reduce(function ($carry, $item) {
-                                        return $carry + $item['recargo'] * $item['cantidad'];
-                                        }),
-                                        ) }}
-                                        €</th>
+                                        {{ $pedido->total }} €
+                                    </th>
                                 </tr>
-
-                                {{-- <tr>
-                                    <th>( Impuestos no incluidos )</th>
-                                </tr> --}}
                             </tbody>
                         </table>
                     </div>
                     <!-- end table-responsive -->
-
                 </div>
             </div>
         </div> <!-- end col -->
     </div>
     <!-- end row -->
 
-
     <div class="row">
         <div class="col-lg-5">
             <div class="card">
                 <div class="card-body">
                     <h4 class="mb-3 header-title">Información del Cliente</h4>
-
                     <h5>{{ $user->name }}</h5>
-
                     <address class="mb-0 font-14 address-lg">
                         {{ $pedido->env_direccion }}<br>
                         {{ $pedido->env_cp }} - {{ $pedido->env_poblacion }} - {{ $pedido->env_pais_txt }}<br>
                         <abbr title="Phone">Teléfonos:</abbr> {{ $pedido->env_tfno_1 }} - {{ $pedido->env_tfno_2 }}
                         <br />
-                        {{-- <abbr title="email">Mail:</abbr> {{ $pedido->env_email }} --}}
                     </address>
-
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-body">
                     <h4 class="mb-3 header-title">Información de la Empresa</h4>
-
                     <h5>{{ config('app.name') }}</h5>
-
                     <address class="mb-0 font-14 address-lg">
                         {{ config('app.direccion') }}<br>
-                        <abbr title="Phone">Teléfono:</abbr> {{ config('app.telefono') }}<br />
+                        <abbr title="Phone">Teléfono:</abbr> {{ config('app.telefono') }} <br />
                         <abbr title="email">Mail:</abbr> {{ config('mail.cc') }}
                     </address>
-
                 </div>
             </div>
         </div> <!-- end col -->
@@ -242,14 +211,12 @@
         <div class="col-lg-7">
             <div class="card">
                 <div class="card-body">
-
                     <table id="tablaPedidos" class="table table-centered w-100 dt-responsive nowrap">
                         <thead class="table-light">
                             TODOS LOS PEDIDOS
                         </thead>
                         <tbody></tbody>
                     </table>
-
                 </div>
             </div>
         </div> <!-- end col -->
