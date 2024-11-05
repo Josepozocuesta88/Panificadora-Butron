@@ -148,6 +148,11 @@
 </div>
 
 
+@endsection
+
+@push('scripts')
+<script src="{{ asset('js/Ajax/dashboard.js') }}"></script>
+
 @if(session('success'))
 <script>
     showToast("{{ session('success') }}", "success");
@@ -158,15 +163,8 @@
 </script>
 @endif
 
-
-@endsection
-
-@push('scripts')
-<script src="{{ asset('js/Ajax/dashboard.js') }}"></script>
 <script>
     ajaxGraph();
-
-
 
     function showToast(message) {
         const toastContainer = document.createElement('div');
