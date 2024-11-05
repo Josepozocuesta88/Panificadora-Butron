@@ -158,7 +158,9 @@
                                     <td class="ps-0">
                                         {{ \App\Services\FormatoNumeroService::convertirADecimal(
                                             $items->reduce(function ($carry, $item) { 
-                                                return $carry + $item['recargo'] * $item['cantidad'];
+                                                $total = round($item['precio'] * $item['cantidad'], 2);
+                                                Auth::user()->usuivacod === "S" ? $carry = $total * ($item['recargo_porcentaje'] / 100) : $carry = 0;
+                                                return $carry;
                                             }),
                                         ) }} €
                                     </td>

@@ -76,13 +76,15 @@ class PedidoController extends Controller
         $newItems = $itemDetails->toArray();
         for ($i = 0; $i < count($newItems); $i++) {
             $articulo = $articulos->firstWhere('artcod', $newItems[$i]['artcod']);
-            $newItems[$i]['iva'] = $articulo->precioTarifa * $articulo->artivapor / 100;
+            $newItems[$i]['iva'] = $articulo->precioTarifa * ($articulo->artivapor / 100);
             $newItems[$i]['iva_porcentaje'] = $articulo->artivapor;
-            $newItems[$i]['recargo'] = $articulo->precioTarifa * $articulo->artrecpor / 100;
-            $newItems[$i]['recargo_porcentaje'] = $articulo->artrecpor;
+
             if (Auth::user()->usuivacod == 'N') {
                 $newItems[$i]['recargo'] = 0;
                 $newItems[$i]['recargo_porcentaje'] = 0;
+            } else {
+                $newItems[$i]['recargo'] = $articulo->precioTarifa * ($articulo->artrecpor / 100);
+                $newItems[$i]['recargo_porcentaje'] = $articulo->artrecpor;
             }
         }
 
