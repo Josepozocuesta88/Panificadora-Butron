@@ -178,31 +178,14 @@
                     <!-- Elementos del Carrusel -->
                     <div class="carousel-inner">
                         <!-- usar cuando hay imagenes del baner -->
-
-                        <!-- @foreach ($ofertasPer as $image)
+                        @foreach ($ofertasPer as $image)
                         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                             <a href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
                                 <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill" alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
                             </a>
                         </div>
-                        @endforeach -->
-
-                        <!-- fin del baner principal -->
-                        <!-- usar esto cuando no hay imagenes del banner quitar cuando existan y usar la de arriba -->
-                        @foreach ($articulosOfertaPer as $ofertaArticuloPer)
-                        @if ($ofertaArticuloPer->imagenes->isNotEmpty())
-                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}  max-w-50">
-                            <a href="{{ route('info', ['artcod' => $ofertaArticuloPer->artcod]) }}" class="d-block">
-                                <img src="{{ asset('images/articulos/' . $ofertaArticuloPer->imagenes->first()->imanom) }}" class="d-block w-100 mx-auto" alt="banner publicitario" style="object-fit: contain;  width: 100%; height: auto;  aspect-ratio: 3/1;" title="{{ $ofertaArticuloPer->artnom }}" onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
-                            </a>
-                            @else
-                            <img src="{{ asset('images/articulos/noimage.jpg') }}" class="d-block w-100 mx-auto" style="object-fit: contain; width: 100%; height: auto; aspect-ratio: 3/1;" alt="no hay imagen" title="No hay imagen">
-                            @endif
-                        </div>
                         @endforeach
-                        <!-- fin de uso cuando no hay imagenes de banner -->
                     </div>
-
                     <!-- Controles del Carrusel -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
