@@ -1,54 +1,10 @@
 # Deploy a Producción
-# name: Deploy Laravel to Hostinger
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up PHP
-#         uses: shivammathur/setup-php@v2
-#         with:
-#           php-version: "8.1"
-
-#       - name: Setup SSH
-#         uses: webfactory/ssh-agent@v0.5.3
-#         with:
-#           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-#       - name: Install dependencies
-#         run: |
-#           if [ ! -d vendor ]; then
-#             composer install --no-interaction --prefer-dist --optimize-autoloader
-#           fi
-
-#       - name: Deploy to Hostinger
-#         run: |
-#           ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 << 'EOF'
-#             cd public_html/congelados-florys &&
-#             git pull origin main &&
-#             php artisan cache:clear &&
-#             php artisan config:cache
-#           EOF
-
-# //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-# deploy a test
-
-name: Deploy Laravel to Hostinger Subdomain (Test)
+name: Deploy Laravel to Hostinger
 
 on:
   push:
     branches:
-      - test # Cambia esto a la rama que deseas utilizar para despliegue
+      - main
 
 jobs:
   deploy:
@@ -74,11 +30,55 @@ jobs:
             composer install --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Deploy to Hostinger Subdomain (Test)
+      - name: Deploy to Hostinger
         run: |
           ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 << 'EOF'
-            cd public_html/test/congelados-florys &&  # Cambia esto a la ruta de tu subdominio
-            git pull origin test &&  # Realiza pull de la rama test
+            cd public_html/congelados-florys &&
+            git pull origin main &&
             php artisan cache:clear &&
             php artisan config:cache
           EOF
+
+# //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# deploy a test
+
+# name: Deploy Laravel to Hostinger Subdomain (Test)
+
+# on:
+#   push:
+#     branches:
+#       - test # Cambia esto a la rama que deseas utilizar para despliegue
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: "8.1"
+
+#       - name: Setup SSH
+#         uses: webfactory/ssh-agent@v0.5.3
+#         with:
+#           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+#       - name: Install dependencies
+#         run: |
+#           if [ ! -d vendor ]; then
+#             composer install --no-interaction --prefer-dist --optimize-autoloader
+#           fi
+
+#       - name: Deploy to Hostinger Subdomain (Test)
+#         run: |
+#           ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u348037785@178.16.128.34 << 'EOF'
+#             cd public_html/test/congelados-florys &&  # Cambia esto a la ruta de tu subdominio
+#             git pull origin test &&  # Realiza pull de la rama test
+#             php artisan cache:clear &&
+#             php artisan config:cache
+#           EOF
