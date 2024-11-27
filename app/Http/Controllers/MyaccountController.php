@@ -8,40 +8,40 @@ use Illuminate\Validation\Rule;
 
 class MyaccountController extends Controller
 {
-    /**
-     * Update the user's profile.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-        $user = $request->user();
+  /**
+   * Update the user's profile.
+   *
+   * @param  Request  $request
+   * @return Response
+   */
+  public function update(Request $request)
+  {
+    $user = $request->user();
 
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-        ]);
+    $data = $request->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'email' => [
+        'required',
+        'string',
+        'email',
+        'max:255',
+        Rule::unique('users')->ignore($user->id),
+      ],
+      'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+    ]);
 
-        $user->fill([
-            'name' => $data['name'],
-            'email' => $data['email'],
-        ]);
+    $user->fill([
+      'name' => $data['name'],
+      'email' => $data['email'],
+    ]);
 
-        if ($data['password']) {
-            $user->password = Hash::make($data['password']);
-        }
-
-        $user->save();
-
-        return back()->with('status', 'Perfil actualizado con éxito');
+    if ($data['password']) {
+      $user->password = Hash::make($data['password']);
+      $user->usnuevo = 0;
     }
-}
 
+    $user->save();
+
+    return back()->with('status', 'Perfil actualizado con éxito');
+  }
+}
