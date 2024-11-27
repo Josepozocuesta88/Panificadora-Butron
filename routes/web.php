@@ -58,7 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/account-logout', [AccountsController::class, 'stopImpersonate'])->name('account.logout');
     // fichero logs usuario (modo administrador)
     Route::get('/download-file', [UserLogController::class, 'downloadFile'])->name('userlog.downloadFile');
-});
 
 // reporte de errores por usuarios
 Route::view('/support', 'pages.cuenta.support.form-report')->name('form-report')->middleware('auth');
@@ -183,6 +182,7 @@ Route::view('/politica-de-redes', 'pages.legal.redes')->name('redes');
 // aviso legal
 Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 
+});
 // TEMPORALES
 Route::get('/clear-all-caches', function () {
     Artisan::call('cache:clear');

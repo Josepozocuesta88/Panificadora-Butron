@@ -30,7 +30,18 @@ $(document).ready(function ajaxDashboard() {
             data: "docimp",
             className: "text-end",
             render: function (data, type, row) {
-                return data.toLocaleString("es-ES") + " €";
+                console.log(data)
+                
+                let formattedData = new Intl.NumberFormat('de-DE', {
+                  style: "currency",
+                  currency: "EUR",
+                    minimumFractionDigits: 2, // Fuerza siempre dos decimales
+  maximumFractionDigits: 2
+                }).format(data);
+                console.log(formattedData)
+                return formattedData;
+                
+                // return data.toLocaleString("es-ES") + " €";
             },
         },
         {
