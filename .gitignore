@@ -21,3 +21,5 @@ yarn-error.log
 public/images.zip
 /node_modules
 /images
+/vendor
+/public
