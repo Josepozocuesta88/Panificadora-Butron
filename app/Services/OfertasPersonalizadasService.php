@@ -15,8 +15,7 @@ class OfertasPersonalizadasService implements OfertaServiceInterface
         $usuofecod  = Auth::user()->usuofecod;
         $ofertas    = OfertaC::with('articulo')->whereDate('ofcfecfin', '>=', $today)
             ->where(function ($query) use ($usuofecod) {
-                $query->where('ofccod', $usuofecod)
-                    ->orWhere('ofccod', '');
+                $query->where('ofccod', $usuofecod);
             })
             ->orderByRaw("CASE WHEN ofccod = ? THEN 1 ELSE 2 END", [$usuofecod])
             ->get();
@@ -36,8 +35,7 @@ class OfertasPersonalizadasService implements OfertaServiceInterface
         $usuofecod  = $user ? $user->usuofecod : null;
         $articulos  = OfertaC::with('articulo')->whereDate('ofcfecfin', '>=', $today)
             ->where(function ($query) use ($usuofecod) {
-                $query->where('ofccod', $usuofecod)
-                    ->orWhere('ofccod', '');
+                $query->where('ofccod', $usuofecod);
             })
             ->orderByRaw("CASE WHEN ofccod = ? THEN 1 ELSE 2 END", [$usuofecod])
             ->get()
