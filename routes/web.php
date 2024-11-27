@@ -188,5 +188,6 @@ Route::get('/clear-all-caches', function () {
   Artisan::call('config:clear');
   Artisan::call('route:clear');
   Artisan::call('view:clear');
+  Artisan::call('optimize');
   return response()->json(['message' => 'All caches cleared']);
 });
