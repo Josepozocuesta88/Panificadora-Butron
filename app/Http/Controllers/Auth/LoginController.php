@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Login Controller
     |--------------------------------------------------------------------------
@@ -22,79 +22,97 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+  use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
+  /**
+   * Where to redirect users after login.
+   *
+   * @var string
+   */
+  protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
+  /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct()
+  {
+    $this->middleware('guest')->except('logout');
+  }
 
-    // AÑADIDOS PARA CAMBIAR CONTRASEÑAS
-    /**
-     * Attempt to log the user into the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request)
-    {
-        $credentials = $this->credentials($request);
-        $user = $this->guard()->getProvider()->retrieveByCredentials($credentials);
-    
-        if ($user) {
-            $storedPassword = $user->getAuthPassword();
-    
-            // Verificar si el hash almacenado es un hash Bcrypt
-            if(!empty($credentials['password'])) {
+  // AÑADIDOS PARA CAMBIAR CONTRASEÑAS
+  /**
+   * Attempt to log the user into the application.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return bool
+   */
+  protected function attemptLogin(Request $request)
+  {
+    $credentials = $this->credentials($request);
+    $user = $this->guard()->getProvider()->retrieveByCredentials($credentials);
 
-                if (strlen($storedPassword) === 60) {
-                    // Intentar la verificación con Bcrypt
-                    if (Hash::check($credentials['password'], $storedPassword)) {
-                        $this->guard()->login($user, $request->filled('remember'));
-                        return true;
-                    }
-                } elseif (md5($credentials['password']) === $storedPassword) {
-                    // Hash MD5 coincidente, actualizar a Bcrypt
-                    $user->password = Hash::make($credentials['password']);
-                    $user->save();
-                    $this->guard()->login($user, $request->filled('remember'));
-                    return true;
-                }
-                
-            }
+    if ($user) {
+      $storedPassword = $user->getAuthPassword();
+
+      // Verificar si el hash almacenado es un hash Bcrypt
+      if (!empty($credentials['password'])) {
+
+        if (strlen($storedPassword) === 60) {
+          // Intentar la verificación con Bcrypt
+          if (Hash::check($credentials['password'], $storedPassword)) {
+            $this->guard()->login($user, $request->filled('remember'));
+            // return true;
+            return $user->usunuevo == 1 || $user->usunuevo == null ? 'new_user' : true;
+          }
+        } elseif (md5($credentials['password']) === $storedPassword) {
+          // Hash MD5 coincidente, actualizar a Bcrypt
+          $user->password = Hash::make($credentials['password']);
+          $user->save();
+          $this->guard()->login($user, $request->filled('remember'));
+          return true;
         }
-    
-        // Contraseña incorrecta o usuario no encontrado
-        return false;
+      }
     }
-    
-    
-    
 
-    /**
-     * Verifica la contraseña del usuario.
-     *
-     * @param string $plainPassword
-     * @param string $hashedPassword
-     * @return bool
-     */
-    private function miMetodoDeVerificacion($plainPassword, $hashedPassword)
-    {
-        // Aquí implementas tu lógica de verificación. 
-        // Por ejemplo, si las contraseñas están en MD5 (no recomendado por seguridad):
-        return md5($plainPassword) === $hashedPassword;
+    // Contraseña incorrecta o usuario no encontrado
+    return false;
+  }
+
+  //lleva a myaccount si es la primera vez que inicia sesion
+
+  public function login(Request $request)
+  {
+    $loginResult = $this->attemptLogin($request);
+
+    if ($loginResult === 'new_user') {
+      return redirect('myaccount')->with('error', 'Debe cambiar su contraseña');
+    } elseif ($loginResult === true) {
+      return redirect()->intended($this->redirectPath());
+    } else {
+      return redirect()->back()
+        ->withInput($request->only('email', 'remember'))
+        ->withErrors([
+          'email' => __('auth.failed'),
+        ]);
     }
-    
+  }
+
+
+
+
+  /**
+   * Verifica la contraseña del usuario.
+   *
+   * @param string $plainPassword
+   * @param string $hashedPassword
+   * @return bool
+   */
+  private function miMetodoDeVerificacion($plainPassword, $hashedPassword)
+  {
+    // Aquí implementas tu lógica de verificación. 
+    // Por ejemplo, si las contraseñas están en MD5 (no recomendado por seguridad):
+    return md5($plainPassword) === $hashedPassword;
+  }
 }

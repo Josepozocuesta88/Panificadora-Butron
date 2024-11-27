@@ -46,18 +46,18 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Mi cuenta
 Route::middleware(['auth'])->group(function () {
-    Route::view('/myaccount', 'pages.cuenta.myaccount')->name('myaccount')->middleware('auth');
-    Route::put('/myaccount', [MyaccountController::class, 'update'])->name('myaccount.update');
+  Route::view('/myaccount', 'pages.cuenta.myaccount')->name('myaccount')->middleware('auth');
+  Route::put('/myaccount', [MyaccountController::class, 'update'])->name('myaccount.update');
 });
 
 // cambiar de usuario (modo administrador)
 Route::middleware('auth')->group(function () {
-    Route::view('/accounts', 'pages.cuenta.accounts')->name('accounts');
-    Route::get('/account-change', [AccountsController::class, 'index'])->name('account.change');
-    Route::get('/account-login/{id}', [AccountsController::class, 'impersonate'])->name('account.login');
-    Route::get('/account-logout', [AccountsController::class, 'stopImpersonate'])->name('account.logout');
-    // fichero logs usuario (modo administrador)
-    Route::get('/download-file', [UserLogController::class, 'downloadFile'])->name('userlog.downloadFile');
+  Route::view('/accounts', 'pages.cuenta.accounts')->name('accounts');
+  Route::get('/account-change', [AccountsController::class, 'index'])->name('account.change');
+  Route::get('/account-login/{id}', [AccountsController::class, 'impersonate'])->name('account.login');
+  Route::get('/account-logout', [AccountsController::class, 'stopImpersonate'])->name('account.logout');
+  // fichero logs usuario (modo administrador)
+  Route::get('/download-file', [UserLogController::class, 'downloadFile'])->name('userlog.downloadFile');
 });
 
 // reporte de errores por usuarios
@@ -140,9 +140,9 @@ Route::get('/documentos/download/{filename}', [DocumentoController::class, 'desc
 Route::get('/documentos/{doctip?}', [DocumentoController::class, 'getDocumentos'])->name('get.documentos')->middleware('auth');
 // ver documento
 Route::get('/documentos/ver/{filename}', [DocumentoController::class, 'verDocumento'])
-    ->where('filename', '.*')
-    ->name('documentos.ver')
-    ->middleware('auth');
+  ->where('filename', '.*')
+  ->name('documentos.ver')
+  ->middleware('auth');
 
 //descargar archivos temporales
 Route::get('local/temp/{path}', [DocumentoController::class, 'verArchivoTemporal'])->name('local.temp');
@@ -185,9 +185,9 @@ Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 
 // TEMPORALES
 Route::get('/clear-all-caches', function () {
-    Artisan::call('cache:clear');
-    Artisan::call('config:clear');
-    Artisan::call('route:clear');
-    Artisan::call('view:clear');
-    return response()->json(['message' => 'All caches cleared']);
+  Artisan::call('cache:clear');
+  Artisan::call('config:clear');
+  Artisan::call('route:clear');
+  Artisan::call('view:clear');
+  return response()->json(['message' => 'All caches cleared']);
 });
