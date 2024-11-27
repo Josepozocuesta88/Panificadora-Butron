@@ -13,6 +13,7 @@ class OfertasPersonalizadasService implements OfertaServiceInterface
     {
         $today      = Carbon::now();
         $usuofecod  = Auth::user()->usuofecod;
+
         $ofertas    = OfertaC::with('articulo')->whereDate('ofcfecfin', '>=', $today)
             ->where(function ($query) use ($usuofecod) {
                 $query->where('ofccod', $usuofecod);

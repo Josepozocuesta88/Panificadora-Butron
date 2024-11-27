@@ -34,6 +34,8 @@ class OfertaCController extends Controller
         $ofertasPer         = $ofertasServicePer->obtenerOfertas();
         $articulosOfertaPer = $ofP->obtenerArticulosEnOferta();
 
+        Auth::user()->usuofecod == null ? $existeOferta = 0 : $existeOferta = 1;
+
         if (Auth::user()) {
             $usutarcod              = Auth::user()->usutarcod;
 
@@ -53,7 +55,8 @@ class OfertaCController extends Controller
             'articulosOferta',
             'favoritos',
             'articulosOfertaPer',
-            'ofertasPer'
+            'ofertasPer',
+            'existeOferta',
         ));
     }
 }
