@@ -22,4 +22,4 @@ public/images.zip
 /node_modules
 /images
 /vendor
-/public
+/public/*
