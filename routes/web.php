@@ -163,25 +163,25 @@ Route::middleware('auth')->group(function () {
   Route::get('/historicoPuntos', [PuntosController::class, 'getPoints'])->name('get.points')->middleware('auth');
   // Route::get('/historicoPuntosAgrupado', [PuntosController::class, 'getPointsGroup'])->name('get.pointsGroup')->middleware('auth');
 
-  // ==============================================================
-  //   Todas las rutas relacionadas con: LEGAL (FOOTER)
-  // ==============================================================
-  // contactanos
-  Route::view('/contacto', 'pages.contacto.formulario')->name('contacto.formulario');
-  Route::post('/contacto/email', [SupportController::class, 'contactoEmail'])->name('contacto.email');
-
-  // politica de privacidad
-  Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
-
-  // politica de cookies
-  Route::view('/politica-de-cookies', 'pages.legal.cookies')->name('cookies');
-
-  // politica de privacidad redes sociales
-  Route::view('/politica-de-redes', 'pages.legal.redes')->name('redes');
-
-  // aviso legal
-  Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 });
+// ==============================================================
+//   Todas las rutas relacionadas con: LEGAL (FOOTER)
+// ==============================================================
+// contactanos
+Route::view('/contacto', 'pages.contacto.formulario')->name('contacto.formulario');
+Route::post('/contacto/email', [SupportController::class, 'contactoEmail'])->name('contacto.email');
+
+// politica de privacidad
+Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
+
+// politica de cookies
+Route::view('/politica-de-cookies', 'pages.legal.cookies')->name('cookies');
+
+// politica de privacidad redes sociales
+Route::view('/politica-de-redes', 'pages.legal.redes')->name('redes');
+
+// aviso legal
+Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 // TEMPORALES
 Route::get('/clear-all-caches', function () {
   Artisan::call('cache:clear');
