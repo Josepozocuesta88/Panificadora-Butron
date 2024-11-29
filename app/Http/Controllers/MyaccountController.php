@@ -37,7 +37,7 @@ class MyaccountController extends Controller
 
     if ($data['password']) {
       $user->password = Hash::make($data['password']);
-      $user->usunuevo = 0;
+      $user->usunuevo = 1;
     }
 
     $user->save();

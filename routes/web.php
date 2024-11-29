@@ -182,6 +182,7 @@ Route::middleware('auth')->group(function () {
   Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 });
 Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
+Route::get('/productsnologin', [ArticuloController::class, 'productsnoLogin'])->name('productsnologin');
 // TEMPORALES
 Route::get('/clear-all-caches', function () {
   Artisan::call('cache:clear');

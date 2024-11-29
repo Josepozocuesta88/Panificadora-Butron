@@ -64,7 +64,7 @@ class LoginController extends Controller
           if (Hash::check($credentials['password'], $storedPassword)) {
             $this->guard()->login($user, $request->filled('remember'));
             // return true;
-            return $user->usunuevo == 1 || $user->usunuevo == null ? 'new_user' : true;
+            return $user->usunuevo == 0 || $user->usunuevo == null ? 'new_user' : true;
           }
         } elseif (md5($credentials['password']) === $storedPassword) {
           // Hash MD5 coincidente, actualizar a Bcrypt
