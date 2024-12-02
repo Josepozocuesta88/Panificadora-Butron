@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Ssheduardo\Redsys\Facades\Redsys;
-
 use App\Models\Documento;
 use App\Models\DocumentoFichero;
+use Illuminate\Support\Facades\DB;
 
 use ZipArchive;
 use File;
@@ -20,6 +20,27 @@ use Carbon\Carbon;
 class DocumentoController extends Controller
 {
     //
+    public function getDocumentos347()
+    {
+        $documents = Documento::select(
+            DB::raw('YEAR(docfec) as anio'),
+            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 1 THEN docimptot ELSE 0 END) as trimestre_1'),
+            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 2 THEN docimptot ELSE 0 END) as trimestre_2'),
+            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 3 THEN docimptot ELSE 0 END) as trimestre_3'),
+            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 4 THEN docimptot ELSE 0 END) as trimestre_4'),
+            DB::raw('SUM(docimptot) as total')
+        )
+            ->groupBy(DB::raw('YEAR(docfec)'))
+            ->orderBy('anio', 'DESC')
+            ->get();
+        return view('pages.documentos.document347', compact('documents'));
+    }
+
+
+
+
+
+
     public function getDocumentos(Request $request, $doctip = null)
     {
         if ($request->ajax()) {
@@ -201,7 +222,7 @@ class DocumentoController extends Controller
             $path = storage_path('app/' . $filename);
 
             // $path = base_path('/../../../../facturas/' . $filename);
-            
+
             Log::info('Intentando obtener el documento en la ruta: ' . $path);
 
             if (!File::exists($path)) {
