@@ -53,7 +53,7 @@
             @endif
         </div>
         <div class="">
-            <button type="button" id="r347" name="r347" class="btn btn-primary">Resumen 347</button>
+            <a href="{{ route('documentos.347') }}" id="r347" name="r347" class="btn btn-primary">Resumen 347</a>
         </div>
     </div>
 

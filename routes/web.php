@@ -137,6 +137,8 @@ Route::middleware('auth')->group(function () {
   Route::get('/documentos/download/{filename}', [DocumentoController::class, 'descargarDocumento'])->name('descargar.documento')->middleware('auth');
   // ruta para obtener los documentos (AJAX DATATABLES)
   Route::get('/documentos/{doctip?}', [DocumentoController::class, 'getDocumentos'])->name('get.documentos')->middleware('auth');
+  // resumen 347
+  Route::get('/documentos/resumen/347', [DocumentoController::class, 'getDocumentos347'])->name('documentos.347');
   // ver documento
   Route::get('/documentos/ver/{filename}', [DocumentoController::class, 'verDocumento'])
     ->where('filename', '.*')
