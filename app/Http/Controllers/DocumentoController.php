@@ -36,11 +36,6 @@ class DocumentoController extends Controller
         return view('pages.documentos.document347', compact('documents'));
     }
 
-
-
-
-
-
     public function getDocumentos(Request $request, $doctip = null)
     {
         if ($request->ajax()) {
@@ -263,38 +258,31 @@ class DocumentoController extends Controller
         $order_compuesta = (string)$id . "_" . (string)$order;
 
         try {
-            //             
-            // $key = config('redsys.key');
-            $key = ("sq7HjrUOBfKmC576ILgskD5srU870gJ7");
-            $code = config('redsys.merchantcode');
-
             Redsys::setAmount($importe_completo);
             Redsys::setOrder($order_compuesta);
-            Redsys::setMerchantcode($code); //Reemplazar por el código que proporciona el banco
-            Redsys::setCurrency('978');
+            Redsys::setMerchantcode(config('redsys.merchantcode'));
+            Redsys::setCurrency(config('redsys.currency'));
             Redsys::setTransactiontype('0');
-            Redsys::setTerminal('1');
-            Redsys::setMethod('T'); //Solo pago con tarjeta, no mostramos iupay
-            Redsys::setNotification(config('redsys.url_notification')); //Url de notificacion
-            Redsys::setUrlOk(config('redsys.url_ok')); //Url OK
-            Redsys::setUrlKo(config('redsys.url_ko')); //Url KO
-            Redsys::setVersion('HMAC_SHA256_V1');
-            Redsys::setTradeName('Congelados Florys');
+            Redsys::setTerminal(config('redsys.terminal'));
+            Redsys::setMethod('T');
+            Redsys::setNotification(config('redsys.url_notification'));
+            Redsys::setUrlOk(config('redsys.url_ok'));
+            Redsys::setUrlKo(config('redsys.url_ko'));
+            Redsys::setVersion(config('redsys.signatured'));
+            Redsys::setTradeName('PROF CONGELADO 2015 SL');
             Redsys::setTitular('Javier');
             Redsys::setProductDescription('Pago Facturas');
-            Redsys::setEnviroment('test'); //Entorno test
+            Redsys::setEnviroment(config('redsys.enviroment'));
 
-            $signature = Redsys::generateMerchantSignature($key);
+            $signature = Redsys::generateMerchantSignature(config('redsys.key'));
             Redsys::setMerchantSignature($signature);
 
             $form = Redsys::createForm();
-            // Verificar la respuesta de Redsys
             return response()->json([
                 'success' => true,
                 'form' => $form
             ]);
         } catch (\Exception $e) {
-            // Manejar excepciones
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
