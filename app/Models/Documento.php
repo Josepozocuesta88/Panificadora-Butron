@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Documento extends Model
 {
@@ -37,7 +38,13 @@ class Documento extends Model
     protected $dates = ['docfec'];
 
 
-    public function ficheros() {
+    public function ficheros()
+    {
         return $this->hasMany(DocumentoFichero::class, 'qdocumento_id', 'doccon');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'usuclicod', 'docclicod');
     }
 }
