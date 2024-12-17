@@ -61,7 +61,7 @@
       <div class="page-title-box">
         <div class="page-title-right">
           <ol class="m-0 breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Inicio</a></li>
             <!-- <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li> -->
             <li class="breadcrumb-item active">Productos</li>
           </ol>
