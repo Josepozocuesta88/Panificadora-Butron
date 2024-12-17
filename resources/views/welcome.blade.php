@@ -65,7 +65,7 @@
 
       <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto; width:100vw;" alt="navbar">
       <div class="justify-content-center d-flex mt-5">
-        <a href="{{ route('productsnologin') }}" class="btn btn-primary">VER NUESTRO CATALOGO</a>
+        <a href="{{ route('productsnologin') }}" class="btn btn-primary">VER CATALOGO</a>
       </div>
     </div>
     <div>
