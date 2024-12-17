@@ -31,16 +31,16 @@ $(document).ready(function ajaxDashboard() {
             className: "text-end",
             render: function (data, type, row) {
                 console.log(data)
-                
+
                 let formattedData = new Intl.NumberFormat('de-DE', {
-                  style: "currency",
-                  currency: "EUR",
+                    style: "currency",
+                    currency: "EUR",
                     minimumFractionDigits: 2, // Fuerza siempre dos decimales
-  maximumFractionDigits: 2
+                    maximumFractionDigits: 2
                 }).format(data);
                 console.log(formattedData)
                 return formattedData;
-                
+
                 // return data.toLocaleString("es-ES") + " €";
             },
         },
@@ -176,72 +176,61 @@ $(document).ready(function ajaxDashboard() {
         },
     });
 
-
-
-    // pasarela de pago
-
+    // Pasarela de pago
     $(document).on('click', '.btn-enviar', function (e) {
         e.preventDefault();
 
-        // Obtener los datos desde los atributos "data-" del enlace
         let id = $(this).data('id');
         let numero = $(this).data('order');
         let importe = $(this).data('mount');
-        let test = 1;
 
         // Realizar la solicitud a la API
         $.ajax({
-            url: '/documentos/payment', // Cambia esta URL a tu API
+            url: '/documentos/payment',
             method: 'POST',
             data: {
                 id: id,
                 numero: numero,
                 importe: importe,
-                test: test
-                // estado: estado
             },
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Para Laravel, si es necesario
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
                 console.log('Datos enviados exitosamente', response);
                 if (response.success) {
                     Swal.fire({
                         title: '¿Pagar Factura?',
-                        html: response.form, // El formulario de Redsys se insertará aquí
+                        html: response.form,
                         showCancelButton: true,
                         confirmButtonText: 'Enviar',
                         cancelButtonText: 'Salir',
                         preConfirm: () => {
                             const form = Swal.getHtmlContainer().querySelector('form');
                             return new Promise((resolve, reject) => {
-                                // Enviar el formulario directamente
-                                form.submit(); // Esto enviará el formulario al action especificado
+                                form.submit();
 
                                 Swal.fire('Vamos!', '', 'success');
-                                //actualizamos el status de la factura a pendiente
-                                // Enviar un dato al controlador para cambiar el estado de la factura a Pendiente
                                 $.ajax({
-                                    url: '/documentos/payment/update/', // Cambia esta URL a la ruta de tu controlador
+                                    url: '/documentos/payment/update/',
                                     method: 'POST',
                                     data: {
-                                        id: id/* Aquí el ID de la factura */,
+                                        id: id,
                                         status: 'Procesando'
                                     },
                                     headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Para Laravel, si es necesario
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
                                     success: function (response) {
                                         console.log('Estado de la factura actualizado:', response);
-                                        // Puedes mostrar otro mensaje de éxito o realizar alguna acción adicional
                                     },
                                     error: function (xhr, status, error) {
                                         console.error('Error al actualizar el estado de la factura:', error);
                                         Swal.fire('Error', 'No se pudo actualizar el estado de la factura.', 'error');
                                     }
                                 });
-                                // end estatus
-                                resolve(); // Resuelve la promesa para continuar
+
+                                resolve();
 
                             });
                         }
