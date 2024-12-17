@@ -22,16 +22,18 @@ class DocumentoController extends Controller
     //
     public function getDocumentos347()
     {
-        $documents = Documento::select(
-            DB::raw('YEAR(docfec) as anio'),
-            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 1 THEN docimptot ELSE 0 END) as trimestre_1'),
-            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 2 THEN docimptot ELSE 0 END) as trimestre_2'),
-            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 3 THEN docimptot ELSE 0 END) as trimestre_3'),
-            DB::raw('SUM(CASE WHEN QUARTER(docfec) = 4 THEN docimptot ELSE 0 END) as trimestre_4'),
-            DB::raw('SUM(docimptot) as total')
-        )
+        $documents = Documento::where('docclicod', Auth::user()->usuclicod)
+            ->where('doctip', 'FC')
+            ->select([
+                DB::raw('YEAR(docfec) as anio'),
+                DB::raw('SUM(CASE WHEN QUARTER(docfec) = 1 THEN docimptot ELSE 0 END) as trimestre_1'),
+                DB::raw('SUM(CASE WHEN QUARTER(docfec) = 2 THEN docimptot ELSE 0 END) as trimestre_2'),
+                DB::raw('SUM(CASE WHEN QUARTER(docfec) = 3 THEN docimptot ELSE 0 END) as trimestre_3'),
+                DB::raw('SUM(CASE WHEN QUARTER(docfec) = 4 THEN docimptot ELSE 0 END) as trimestre_4'),
+                DB::raw('SUM(docimptot) as total')
+            ])
             ->groupBy(DB::raw('YEAR(docfec)'))
-            ->orderBy('anio', 'DESC')
+            ->orderByDesc(DB::raw('YEAR(docfec)'))
             ->get();
         return view('pages.documentos.document347', compact('documents'));
     }
