@@ -175,6 +175,6 @@ class ArticuloController extends Controller
   {
     $articulos = Articulo::with('imagenes')->where('artsit', 'C')->paginate(12);
 
-    return view('pages.ecommerce.productos.productsnoLogin', compact('articulos')); //productos sin login
+    return view('pages.ecommerce.productos.productsnologin', compact('articulos')); //productos sin login
   }
 }
