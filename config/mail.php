@@ -100,7 +100,7 @@ return [
     */
 
   'from' => [
-    'address' => env('MAIL_FROM_ADDRESS', 'no-reply@congeladosfloryspanel.com'),
+    'address' => env('MAIL_FROM_ADDRESS', 'no-reply@congeladosflorys.com'),
     'name' => env('MAIL_FROM_NAME', 'Example'),
   ],
   'cc' => env('MAIL_CC_ADDRESS', 'web.arturo@redesycomponentes.com'),
