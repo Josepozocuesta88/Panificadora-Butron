@@ -25,20 +25,20 @@
         <div class="row justify-content-center">
             @foreach($categorias as $category)
             <div class="categoria col-2 d-block position-relative p-0 m-2">
-                <a href="{{ route('categories', ['catcod' => $category->id]) }}" title="" onclick="irAProductos()">
-                    <img src="{{ asset('images/categorias/' . $category->imagen) }}"
-                        class="object-fit-fill border rounded" alt="{{ $category->nombre_es }}"
+                <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
+                    <img src="{{ asset('images/categorias/' . $category->catima) }}"
+                        class="object-fit-fill border rounded" alt="{{ $category->catnom }}"
                         style="height:200px; width:100%;"
                         onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
                 </a>
                 <div class="nombre-categoria bg-primary text-center">
                     <h5>
-                        <a href="{{route('categories', ['catcod' => $category->id])}}" class="text-white"
+                        <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
                             onclick="irAProductos()">
-                            {{ $category->nombre_es }}
+                            {{ $category->catnom }}
                         </a>
                     </h5>
-                    <a href="{{route('categories', ['catcod' => $category->id])}}" onclick="irAProductos()"
+                    <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
                         class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
