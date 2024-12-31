@@ -82,11 +82,6 @@
     </div>
     <section class="py-5" id="productos">
       <div class="container">
-        @isset($catnom)
-        <h3 class="pb-2 text-primary">{{$catnom}}</h3>
-        @else
-        <h3>Todos los Productos</h3>
-        @endisset
         <div class="gap-3 pb-3 d-flex justify-content-end">
           <!-- Ver todos los productos -->
           @isset($catnom)
