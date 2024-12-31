@@ -174,7 +174,37 @@ class ArticuloController extends Controller
   public function productsnoLogin()
   {
     $articulos = Articulo::with('imagenes')->where('artsit', 'C')->paginate(12);
+    $categorias = Category::all();
+    return view('pages.ecommerce.productos.productsnologin', compact('articulos', 'categorias')); //productos sin login
+  }
 
-    return view('pages.ecommerce.productos.productsnologin', compact('articulos')); //productos sin login
+  public function searchNoLogin(Request $request)
+  {
+    session(['search' => $request->get('query')]);
+    $keywords = explode(' ', $request->get('query'));
+    $articulos = Articulo::situacion('C')->search($keywords)
+      ->restrictions()
+      ->with(['imagenes', 'cajas'])
+      ->paginate(12);
+    $categorias = Category::all();
+
+    return view('pages.ecommerce.productos.productsnologin', compact('articulos', 'categorias'));
+  }
+
+  public function showByCategoryLogout($catcod)
+  {
+    $categorias = Category::all();
+    $categoria = Category::where('catcod', $catcod)->firstOrFail();
+    $articulos = $categoria->articulos()->where(function ($query) {
+      $query->where('artsolcli', '<>', 1)
+        ->orWhereNull('artsolcli');
+    })
+      ->where('artsit', 'C')
+      ->where('artcatcodw1', $catcod)
+      ->paginate(12);
+
+
+    session()->forget('search');
+    return view('pages.ecommerce.productos.productsnologin', compact('articulos', 'categorias'));
   }
 }

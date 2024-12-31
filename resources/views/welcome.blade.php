@@ -4,31 +4,79 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
   <title>{{ config('app.name', 'Laravel') }}</title>
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
   <!-- App favicon -->
   <link rel="shortcut icon" href="{{ asset(config('app.logo')) }}">
-
   <!-- Theme Config Js -->
   <script src="{{asset('js/hyper-config.js')}}"></script>
-
-  <!-- App css -->
-  <!-- <link href="{{asset('css/app-saas.min.css')}}" rel="stylesheet" type="text/css" id="app-style" /> -->
-
   <!-- Iconos -->
   <link href="{{asset('css/icons.css') }}" rel="stylesheet" type="text/css" />
   <!-- Css personalizado -->
   <link href="{{asset('css/css.css') }}" rel="stylesheet" type="text/css" />
   <link href="{{asset('build/assets/app-7f9c8fa3.css') }}" rel="stylesheet" type="text/css" />
 
-  <!-- Scripts -->
-  <!-- vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
+
+  <style>
+    .etiqueta {
+      display: inline-block;
+      background: #fff;
+      color: #007bff;
+      padding: 6px 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border: 2px solid #007bff;
+      border-bottom-width: 4px;
+      /* Borde inferior más pronunciado */
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: -4px;
+      /* Para unir visualmente con el botón */
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      z-index: 0;
+      /* Colocamos la etiqueta detrás del botón */
+    }
+
+    .btn-catalogo {
+      display: inline-block;
+      padding: 12px 50px;
+      /* Botón más grande a los lados */
+      font-size: 1.2rem;
+      color: #fff;
+      background: linear-gradient(90deg, #007bff, #00d4ff);
+      border: 2px solid #007bff;
+      border-radius: 0 0 12px 12px;
+      font-weight: 500;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-catalogo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .d-flex-column-centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .margen-abajo {
+      margin-top: 200px;
+    }
+  </style>
+
 </head>
 
 <body class="bg-white">
@@ -62,10 +110,12 @@
           </div>
         </div>
       </nav>
-
-      <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto; width:100vw;" alt="navbar">
-      <div class="justify-content-center d-flex mt-5">
-        <a href="{{ route('productsnologin') }}" class="btn btn-primary">VER CATALOGO</a>
+      <div>
+        <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto; width:100vw;" alt="navbar">
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center margen-abajo">
+        <div class="etiqueta">¿Aún no eres cliente?</div>
+        <a href="{{ route('productsnologin') }}" class=" btn-catalogo"> Visite nuestro catálogo</a>
       </div>
     </div>
     <div>
@@ -73,8 +123,6 @@
         style="width:100vw; height:100vh; object-fit: cover; object-position: bottom;" alt="Imagen principal">
     </div>
   </section>
-
-
 
   <div class="container pb-3 position-relative" style="top: -400px;">
     <!-- novedades y ofertas -->

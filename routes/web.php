@@ -183,6 +183,10 @@ Route::middleware('auth')->group(function () {
   // aviso legal
   Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 });
+
+
+Route::get('/categorias/preview/{catcod}', [ArticuloController::class, 'showByCategoryLogout'])->name('categoriesNoLogin');
+Route::get('/articles/search/preview', [ArticuloController::class, 'searchNoLogin'])->name('searchNoLogin');
 Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
 Route::get('/productsnologin', [ArticuloController::class, 'productsnoLogin'])->name('productsnologin');
 // TEMPORALES
