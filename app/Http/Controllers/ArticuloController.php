@@ -27,7 +27,7 @@ class ArticuloController extends Controller
   {
     $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
     $ofertas        = $ofertasService->obtenerOfertas();
-    $categoria      = Category::where('id', $catcod)->firstOrFail();
+    $categoria      = Category::where('catcod', $catcod)->firstOrFail();
 
     if (Auth::user()) {
       $articulos = $categoria->articulos()
