@@ -26,44 +26,43 @@
       display: inline-block;
       background: #fff;
       color: #007bff;
-      padding: 6px 20px;
-      font-size: 0.9rem;
+      padding: 0.4em 1.5em;
+      font-size: 0.8rem;
+      /* Usar rem para escalabilidad */
       font-weight: bold;
       border: 2px solid #007bff;
       border-bottom-width: 4px;
-      /* Borde inferior más pronunciado */
-      border-radius: 20px 20px 0 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin-bottom: -4px;
-      /* Para unir visualmente con el botón */
+      border-radius: 1.25em 1.25em 0 0;
+      box-shadow: 0 0.125em 0.3125em rgba(0, 0, 0, 0.1);
+      margin-bottom: -0.25em;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.05em;
       text-align: center;
       z-index: 0;
-      /* Colocamos la etiqueta detrás del botón */
     }
 
     .btn-catalogo {
       display: inline-block;
-      padding: 12px 50px;
-      /* Botón más grande a los lados */
-      font-size: 1.2rem;
+      padding: 0.75em 2.5em;
+      /* Ajustar con em para que escale */
+      font-size: 1rem;
+      /* Responsivo con rem */
       color: #fff;
       background: linear-gradient(90deg, #007bff, #00d4ff);
       border: 2px solid #007bff;
-      border-radius: 0 0 12px 12px;
+      border-radius: 0 0 0.75em 0.75em;
       font-weight: 500;
       text-transform: capitalize;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.03em;
       cursor: pointer;
       position: relative;
       z-index: 1;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .btn-catalogo:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0.375em 0.75em rgba(0, 0, 0, 0.15);
     }
 
     .d-flex-column-centered {
@@ -73,24 +72,26 @@
     }
 
     .margen-abajo {
-      margin-top: 200px;
+      margin-top: -60vh;
+      margin-bottom: 10vh;
+      /* Usar vh para un margen dinámico según la altura de la pantalla */
     }
   </style>
 
 </head>
 
 <body class="bg-white">
-  <section class="position-relative">
+  <section class="position-stick">
     <div class="position-absolute top-0">
       <nav class="navbar navbar-expand-lg navbar-light bg-primary pt-3">
-        <div class="container-fluid px-3 d-flex justify-content-between align-items-center">
+        <div class="container-fluid flex-row-reverse">
           <!-- Logo pequeño visible solo en pantallas pequeñas -->
           <a class="navbar-brand d-block d-md-none" href="#">
             <img src="{{ asset(config('app.logo')) }}" alt="Logo pequeño" width="100">
           </a>
 
           <!-- Logo grande visible solo en pantallas medianas y superiores -->
-          <div class="d-none d-md-flex justify-content-center flex-grow-1 ps-5">
+          <div class="position-absolute top-50 start-50 translate-middle">
             <a class="d-md-block" href="#" style="margin-bottom: -71px;">
               <img src="{{ asset(config('app.logo')) }}" alt="Logo" width="220">
             </a>
@@ -113,38 +114,35 @@
       <div>
         <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto; width:100vw;" alt="navbar">
       </div>
-      <div class="d-flex flex-column justify-content-center align-items-center margen-abajo">
-        <div class="etiqueta">¿Aún no eres cliente?</div>
-        <a href="{{ route('productsnologin') }}" class=" btn-catalogo"> Visite nuestro catálogo</a>
-      </div>
     </div>
     <div>
       <img src="{{ asset(config('app.hero_index')) }}"
         style="width:100vw; height:100vh; object-fit: cover; object-position: bottom;" alt="Imagen principal">
     </div>
   </section>
-
-  <div class="container pb-3 position-relative" style="top: -400px;">
+  <div class="container pb-3" style="top:-400px; bottom:0%;">
+    <div class="d-flex flex-column justify-content-center align-items-center margen-abajo">
+      <div class="etiqueta">¿Aún no eres cliente?</div>
+      <a href="{{ route('productsnologin') }}" class=" btn-catalogo"> Visite nuestro catálogo</a>
+    </div>
     <!-- novedades y ofertas -->
-    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-      <li class="nav-item">
+    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
+      <li class="nav-item bg-white">
         <a href="#novedades" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
           <i class="bi bi-lightbulb d-md-none d-block"></i>
           <h2 class="d-none d-md-block">Novedades</h2>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item bg-white">
         <a href="#ofertas" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0">
           <i class="bi bi-percent d-md-none d-block"></i>
           <h2 class="d-none d-md-block">Ofertas</h2>
         </a>
       </li>
-
     </ul>
 
     <div class="tab-content pb-5">
       <div class="tab-pane show active" id="novedades">
-
         <!-- novedades -->
         <x-novedades :novedades="$novedades" />
         <!-- fin novedades -->
@@ -214,11 +212,8 @@
       @endforeach
     </div>
   </div>
-  <!--fin categorias disponibles -->
-  </div>
 
-
-  <div class="row pt-5 pe-0 mx-0">
+  <div class="row pe-0 mx-0">
     <div class="col-12 bg-light pe-0 pt-1">
       <iframe src="{{ config('app.maps') }}" height="400" style="width: 100%; border: 0;" allowfullscreen=""
         loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
