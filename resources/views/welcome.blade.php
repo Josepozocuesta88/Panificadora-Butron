@@ -83,16 +83,16 @@
 <body class="bg-white">
   <section class="position-stick">
     <div class="position-absolute top-0">
-      <nav class="navbar navbar-expand-lg navbar-light bg-primary pt-3">
-        <div class="container-fluid flex-row-reverse">
+      <nav class="navbar navbar-expand-2xl navbar-light bg-primary pt-3">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
           <!-- Logo pequeño visible solo en pantallas pequeñas -->
           <a class="navbar-brand d-block d-md-none" href="#">
             <img src="{{ asset(config('app.logo')) }}" alt="Logo pequeño" width="100">
           </a>
 
           <!-- Logo grande visible solo en pantallas medianas y superiores -->
-          <div class="position-absolute top-50 start-50 translate-middle">
-            <a class="d-md-block" href="#" style="margin-bottom: -71px;">
+          <div class="d-none d-md-flex justify-content-center flex-grow-1">
+            <a class="" href="#" style="margin-bottom: -71px; margin-left:8rem">
               <img src="{{ asset(config('app.logo')) }}" alt="Logo" width="220">
             </a>
           </div>
