@@ -8,24 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $table        = 'cat_categorias';
-    protected $primaryKey   = 'id';
+    protected $table        = 'qcategoria';
+    protected $primaryKey   = 'catcod';
     protected $keyType      = 'string';
 
 
     protected $fillable = [
-        'nombre_es',
-        'imagen',
-        'catsolcli',
+        'catnom',
+        'catcatcod',
+        'catima',
     ];
     public function articulos()
     {
-        return $this->hasMany(Articulo::class, 'artcatcodw1', 'id');
+        return $this->hasMany(Articulo::class, 'artcatcodw1', 'catcod');
     }
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class, 'qanet_clientecategoria', 'catcod', 'clicod', 'id', 'usuclicod');
+        return $this->belongsToMany(User::class, 'qanet_clientecategoria', 'catcod', 'clicod', 'catcod', 'usuclicod');
     }
 
     public function getCatcodAttribute($value)

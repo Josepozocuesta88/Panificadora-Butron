@@ -190,6 +190,10 @@ Route::middleware('auth')->group(function () {
 
   Route::post('/updateLogo', [LogoController::class, 'updateLogo'])->name('updateLogo');
 });
+
+
+Route::get('/categorias/preview/{catcod}', [ArticuloController::class, 'showByCategoryLogout'])->name('categoriesNoLogin');
+Route::get('/articles/search/preview', [ArticuloController::class, 'searchNoLogin'])->name('searchNoLogin');
 Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
 Route::get('/productsnologin', [ArticuloController::class, 'productsnoLogin'])->name('productsnologin');
 // TEMPORALES

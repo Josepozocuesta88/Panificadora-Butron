@@ -4,46 +4,95 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
   <title>{{ config('app.name', 'Laravel') }}</title>
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
   <!-- App favicon -->
   <link rel="shortcut icon" href="{{ asset(config('app.logo')) }}">
-
   <!-- Theme Config Js -->
   <script src="{{asset('js/hyper-config.js')}}"></script>
-
-  <!-- App css -->
-  <!-- <link href="{{asset('css/app-saas.min.css')}}" rel="stylesheet" type="text/css" id="app-style" /> -->
-
   <!-- Iconos -->
   <link href="{{asset('css/icons.css') }}" rel="stylesheet" type="text/css" />
   <!-- Css personalizado -->
   <link href="{{asset('css/css.css') }}" rel="stylesheet" type="text/css" />
   <link href="{{asset('build/assets/app-7f9c8fa3.css') }}" rel="stylesheet" type="text/css" />
 
-  <!-- Scripts -->
-  <!-- vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
+
+  <style>
+    .etiqueta {
+      display: inline-block;
+      background: #fff;
+      color: #007bff;
+      padding: 0.4em 1.5em;
+      font-size: 0.8rem;
+      /* Usar rem para escalabilidad */
+      font-weight: bold;
+      border: 2px solid #007bff;
+      border-bottom-width: 4px;
+      border-radius: 1.25em 1.25em 0 0;
+      box-shadow: 0 0.125em 0.3125em rgba(0, 0, 0, 0.1);
+      margin-bottom: -0.25em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+      z-index: 0;
+    }
+
+    .btn-catalogo {
+      display: inline-block;
+      padding: 0.75em 2.5em;
+      /* Ajustar con em para que escale */
+      font-size: 1rem;
+      /* Responsivo con rem */
+      color: #fff;
+      background: linear-gradient(90deg, #007bff, #00d4ff);
+      border: 2px solid #007bff;
+      border-radius: 0 0 0.75em 0.75em;
+      font-weight: 500;
+      text-transform: capitalize;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-catalogo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0.375em 0.75em rgba(0, 0, 0, 0.15);
+    }
+
+    .d-flex-column-centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .margen-abajo {
+      margin-top: -60vh;
+      margin-bottom: 10vh;
+      /* Usar vh para un margen dinámico según la altura de la pantalla */
+    }
+  </style>
+
 </head>
 
 <body class="bg-white">
-  <section class="position-relative">
+  <section class="position-stick">
     <div class="position-absolute top-0">
-      <nav class="navbar navbar-expand-lg navbar-light bg-primary pt-3">
-        <div class="container-fluid px-3 d-flex justify-content-between align-items-center">
+      <nav class="navbar navbar-expand-2xl navbar-light bg-primary pt-3">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
           <!-- Logo pequeño visible solo en pantallas pequeñas -->
           <a class="navbar-brand d-block d-md-none" href="#">
             <img src="{{ asset(config('app.logo')) }}" alt="Logo pequeño" width="100">
           </a>
 
           <!-- Logo grande visible solo en pantallas medianas y superiores -->
-          <div class="d-none d-md-flex justify-content-center flex-grow-1 ps-5">
-            <a class="d-md-block" href="#" style="margin-bottom: -71px;">
+          <div class="d-none d-md-flex justify-content-center flex-grow-1">
+            <a class="" href="#" style="margin-bottom: -71px; margin-left:8rem">
               <img src="{{ asset(config('app.logo')) }}" alt="Logo" width="220">
             </a>
           </div>
@@ -62,10 +111,8 @@
           </div>
         </div>
       </nav>
-
-      <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto; width:100vw;" alt="navbar">
-      <div class="justify-content-center d-flex mt-5">
-        <a href="{{ route('productsnologin') }}" class="btn btn-primary">VER CATALOGO</a>
+      <div>
+        <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto; width:100vw;" alt="navbar">
       </div>
     </div>
     <div>
@@ -73,30 +120,29 @@
         style="width:100vw; height:100vh; object-fit: cover; object-position: bottom;" alt="Imagen principal">
     </div>
   </section>
-
-
-
-  <div class="container pb-3 position-relative" style="top: -400px;">
+  <div class="container pb-3" style="top:-400px; bottom:0%;">
+    <div class="d-flex flex-column justify-content-center align-items-center margen-abajo">
+      <div class="etiqueta">¿Aún no eres cliente?</div>
+      <a href="{{ route('productsnologin') }}" class=" btn-catalogo"> Visite nuestro catálogo</a>
+    </div>
     <!-- novedades y ofertas -->
-    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-      <li class="nav-item">
+    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
+      <li class="nav-item bg-white">
         <a href="#novedades" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
           <i class="bi bi-lightbulb d-md-none d-block"></i>
           <h2 class="d-none d-md-block">Novedades</h2>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item bg-white">
         <a href="#ofertas" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0">
           <i class="bi bi-percent d-md-none d-block"></i>
           <h2 class="d-none d-md-block">Ofertas</h2>
         </a>
       </li>
-
     </ul>
 
     <div class="tab-content pb-5">
       <div class="tab-pane show active" id="novedades">
-
         <!-- novedades -->
         <x-novedades :novedades="$novedades" />
         <!-- fin novedades -->
@@ -148,29 +194,26 @@
     <div class="row justify-content-center">
       @foreach($categories as $category)
       <div class="categoria col-4 col-sm-3 d-block position-relative p-0 m-2">
-        <a href="{{ route('categories', ['catcod' => $category->id]) }}" title="" onclick="irAProductos()">
-          <img src="{{ asset('images/categorias/' . $category->imagen) }}" class="object-fit-fill border rounded"
-            alt="{{ $category->nombre_es }}" style="height:300px; width:100%;"
+        <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
+          <img src="{{ asset('images/categorias/' . $category->catima) }}" class="object-fit-fill border rounded"
+            alt="{{ $category->catnom }}" style="height:300px; width:100%;"
             onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
         </a>
         <div class="nombre-categoria bg-primary text-center">
           <h3>
-            <a href="{{route('categories', ['catcod' => $category->id])}}" class="text-white" onclick="irAProductos()">
-              {{ $category->nombre_es }}
+            <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white" onclick="irAProductos()">
+              {{ $category->catnom }}
             </a>
           </h3>
-          <a href="{{route('categories', ['catcod' => $category->id])}}" onclick="irAProductos()"
+          <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
             class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
       @endforeach
     </div>
   </div>
-  <!--fin categorias disponibles -->
-  </div>
 
-
-  <div class="row pt-5 pe-0 mx-0">
+  <div class="row pe-0 mx-0">
     <div class="col-12 bg-light pe-0 pt-1">
       <iframe src="{{ config('app.maps') }}" height="400" style="width: 100%; border: 0;" allowfullscreen=""
         loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
