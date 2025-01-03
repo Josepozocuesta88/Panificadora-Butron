@@ -19,6 +19,7 @@ use App\Http\Controllers\UserLogController;
 use App\Http\Controllers\PedidoController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\LogoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -182,6 +183,12 @@ Route::middleware('auth')->group(function () {
 
   // aviso legal
   Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
+
+  Route::get('/corporate-form', function () {
+    return view('pages.corporate_images.corporateForm');
+  })->name('corporate-form');
+
+  Route::post('/updateLogo', [LogoController::class, 'updateLogo'])->name('updateLogo');
 });
 Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
 Route::get('/productsnologin', [ArticuloController::class, 'productsnoLogin'])->name('productsnologin');
