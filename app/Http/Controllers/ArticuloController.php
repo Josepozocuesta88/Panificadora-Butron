@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Precio;
 use App\Services\ArticleService;
 use App\Contracts\OfertaServiceInterface;
+use App\Models\ClienteArticulo;
+use App\Models\ClienteCategoria;
 use App\Services\OfertasGeneralesService;
 use App\Services\OfertasPersonalizadasService;
 
@@ -72,14 +74,16 @@ class ArticuloController extends Controller
     ]);
   }
 
-  public function search(Request $request, OfertasGeneralesService $ofG)
+  public function search(Request $request, OfertasGeneralesService $ofG, OfertasPersonalizadasService $ofP)
   {
     session(['search' => $request->get('query')]);
     $keywords = explode(' ', $request->get('query'));
 
-    if (!Auth::user()) {
+    if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
+      $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
       $articulos = Articulo::situacion('C')->search($keywords)
         ->restrictions()
+        ->whereNotIn('artcod', $excluidos)
         ->with(['imagenes', 'cajas'])
         ->paginate(12);
     } else {
@@ -89,11 +93,17 @@ class ArticuloController extends Controller
         ->paginate(12);
     }
 
+    // generales
     $ofertasService     = app(\App\Contracts\OfertaServiceInterface::class);
     $ofertas            = $ofertasService->obtenerOfertas();
     $articulosOferta    = $ofG->obtenerArticulosEnOferta();
 
-    return $this->prepareView($articulos, null, $ofertas, $articulosOferta);
+    // personalizadas
+    $ofertasServicePer  = app(\App\Contracts\OfertaServiceInterface::class);
+    $ofertasPer         = $ofertasServicePer->obtenerOfertas();
+    $articulosOfertaPer = $ofP->obtenerArticulosEnOferta();
+
+    return $this->prepareView($articulos, null, $ofertas, $articulosOferta, $ofertasPer, $articulosOfertaPer);
   }
 
   public function filters(Request $request, $catnom = null)
@@ -155,20 +165,35 @@ class ArticuloController extends Controller
     return $this->prepareView($articulos, $catnom, $ofertas, $articulosOferta);
   }
 
-  private function prepareView($articulos, $catnom = null, $ofertas = null, $articulosOferta = null)
+  private function prepareView($articulos, $catnom = null, $ofertas = null, $articulosOferta = null,  $ofertasPer = null, $articulosOfertaPer = null)
   {
     $favoritos  = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
-    $categorias = Category::all();
+
+    if (ClienteCategoria::where('clicod', Auth::user()->usuclicod)->exists()) {
+      $excluidos = ClienteCategoria::where('clicod', Auth::user()->usuclicod)->pluck('catcod');
+      $categorias = Category::whereNotIn('catcod', $excluidos)->get();
+    } else {
+      $categorias = Category::all();
+    }
 
     if (Auth::user()) {
       $usutarcod          = Auth::user()->usutarcod;
       $usuofecod          = Auth::user()->usuofecod;
       $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
-      if ($articulosOferta)
+      // generales
+      if ($articulosOferta) {
         $this->articleService->calculatePrices($articulosOferta, $usutarcod);
+      }
+      // Personalizadas
+      $articulosConPrecioPer  = $this->articleService->calculatePrices($articulos, $usutarcod);
+      if ($articulosOfertaPer) {
+        $this->articleService->calculatePrices($articulosOfertaPer, $usutarcod);
+      }
+
+      $existeOferta = $ofertasPer->isEmpty() ? 0 : 1;
     }
 
-    return view('pages.ecommerce.productos.products', compact('categorias', 'articulosOferta', 'articulos', 'catnom', 'favoritos', 'ofertas'));
+    return view('pages.ecommerce.productos.products', compact('categorias', 'articulosOferta', 'articulosOfertaPer', 'articulos', 'catnom', 'favoritos', 'ofertas', 'ofertasPer', 'existeOferta'));
   }
 
   public function productsnoLogin()

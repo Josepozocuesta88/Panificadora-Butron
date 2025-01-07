@@ -6,9 +6,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Articulo;
 use App\Contracts\OfertaServiceInterface;
+use App\Models\ClienteArticulo;
+use App\Models\ClienteCategoria;
+use App\Models\User;
 use App\Services\ArticleService;
 use App\Services\OfertasGeneralesService;
 use App\Services\OfertasPersonalizadasService;
+
+use function PHPUnit\Framework\isEmpty;
 
 class OfertaCController extends Controller
 {
@@ -25,20 +30,31 @@ class OfertaCController extends Controller
         // Generales
         $ofertasService     = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas            = $ofertasService->obtenerOfertas();
-        $categorias         = Category::all();
-        $novedades          = Articulo::orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
         $articulosOferta    = $ofG->obtenerArticulosEnOferta();
+
+        if (ClienteCategoria::where('clicod', Auth::user()->usuclicod)->exists()) {
+            $excluidos = ClienteCategoria::where('clicod', Auth::user()->usuclicod)->pluck('catcod');
+            $categorias = Category::whereNotIn('catcod', $excluidos)->get();
+        } else {
+            $categorias = Category::all();
+        }
+
+        if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
+            $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
+            $novedades = Articulo::whereNotIn('artcod', $excluidos)->orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
+        } else {
+            $novedades  = Articulo::orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
+        }
 
         // Personalizas
         $ofertasServicePer  = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertasPer         = $ofertasServicePer->obtenerOfertas();
         $articulosOfertaPer = $ofP->obtenerArticulosEnOferta();
 
-        Auth::user()->usuofecod == null ? $existeOferta = 0 : $existeOferta = 1;
+        $existeOferta = $ofertasPer->isEmpty() ? 0 : 1;
 
         if (Auth::user()) {
             $usutarcod              = Auth::user()->usutarcod;
-
             // Generales
             $articulosConPrecio     = $articleService->calculatePrices($novedades, $usutarcod);
             $articleService->calculatePrices($articulosOferta, $usutarcod);
@@ -48,6 +64,7 @@ class OfertaCController extends Controller
             $articleService->calculatePrices($articulosOfertaPer, $usutarcod);
         }
         $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
+
         return view('index', compact(
             'categorias',
             'ofertas',

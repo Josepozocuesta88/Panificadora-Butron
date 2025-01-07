@@ -59,9 +59,13 @@ class User extends Authenticatable
 
     public function categorias()
     {
-        // dd($this->belongsToMany(Category::class, 'qanet_clientecategoria', 'catcod', 'clicod', 'usuclicod', 'id'));
         return $this->belongsToMany(Category::class, 'qanet_clientecategoria', 'clicod', 'catcod', 'usuclicod', 'id');
     }
+
+    // public function categorias()
+    // {
+    //     return $this->hasManyThrough(Category::class, ClienteCategoria::class, 'clicod',  'catcod', 'usuclicod', 'catcod');
+    // }
 
     public function accessibleArticles()
     {
