@@ -27,43 +27,45 @@ class OfertaCController extends Controller
     // ademas de mostrarse según el cliente. Sino se ha asignado ningún cliente al banner, este se mostrara a todos los clientes
     public function index(ArticleService $articleService, OfertasGeneralesService $ofG, OfertasPersonalizadasService $ofP)
     {
+        $usutarcod              = Auth::user()->usutarcod;
+
         // Generales
         $ofertasService     = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas            = $ofertasService->obtenerOfertas();
         $articulosOferta    = $ofG->obtenerArticulosEnOferta();
 
         if (ClienteCategoria::where('clicod', Auth::user()->usuclicod)->exists()) {
-            $excluidos = ClienteCategoria::where('clicod', Auth::user()->usuclicod)->pluck('catcod');
+            $excluidos  = ClienteCategoria::where('clicod', Auth::user()->usuclicod)->pluck('catcod');
             $categorias = Category::whereNotIn('catcod', $excluidos)->get();
         } else {
             $categorias = Category::all();
         }
 
         if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
-            $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
-            $novedades = Articulo::whereNotIn('artcod', $excluidos)->orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
+            $excluidos  = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
+            $novedades  = Articulo::whereNotIn('artcod', $excluidos)->orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
         } else {
             $novedades  = Articulo::orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
         }
 
-        // Personalizas
-        $ofertasServicePer  = app(\App\Contracts\OfertaServiceInterface::class);
-        $ofertasPer         = $ofertasServicePer->obtenerOfertas();
-        $articulosOfertaPer = $ofP->obtenerArticulosEnOferta();
+        // Generales
+        $articulosConPrecio     = $articleService->calculatePrices($novedades, $usutarcod);
+        // $articleService->calculatePrices($articulosOferta, $usutarcod);
 
+        // Personalizas
+        $ofertasServicePer      = app(\App\Contracts\OfertaServiceInterface::class);
+        $ofertasPer             = $ofertasServicePer->obtenerOfertas();
+        $articulosOfertaPer     = $ofP->obtenerArticulosEnOferta();
+        $articulosConPrecioPer  = $articleService->calculatePrices($novedades, $usutarcod);
+        // $articleService->calculatePrices($articulosOfertaPer, $usutarcod);
+
+        $favoritos    = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
         $existeOferta = $ofertasPer->isEmpty() ? 0 : 1;
 
-        if (Auth::user()) {
-            $usutarcod              = Auth::user()->usutarcod;
-            // Generales
-            $articulosConPrecio     = $articleService->calculatePrices($novedades, $usutarcod);
-            $articleService->calculatePrices($articulosOferta, $usutarcod);
 
-            // Personalizadas
-            $articulosConPrecioPer  = $articleService->calculatePrices($novedades, $usutarcod);
-            $articleService->calculatePrices($articulosOfertaPer, $usutarcod);
-        }
-        $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
+        // dd($ofertasPer->toArray());
+        // dd($articulosOfertaPer);
+
 
         return view('index', compact(
             'categorias',

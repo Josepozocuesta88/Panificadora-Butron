@@ -35,9 +35,7 @@ class OfertasPersonalizadasService implements OfertaServiceInterface
         $user       = Auth::user();
         $usuofecod  = $user ? $user->usuofecod : null;
         $articulos  = OfertaC::with('articulo')->whereDate('ofcfecfin', '>=', $today)
-            ->where(function ($query) use ($usuofecod) {
-                $query->where('ofccod', $usuofecod);
-            })
+            ->where('ofccod', $usuofecod)
             ->orderByRaw("CASE WHEN ofccod = ? THEN 1 ELSE 2 END", [$usuofecod])
             ->get()
             ->pluck('articulo')
