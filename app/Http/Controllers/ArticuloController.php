@@ -191,10 +191,7 @@ class ArticuloController extends Controller
       }
     }
 
-
-    // dd($articulosOfertaPer);
-
-    $existeOferta = $articulosOfertaPer === null  ? 0 : 1;
+    $existeOferta = $articulosOfertaPer->isEmpty()  ? 0 : 1;
 
     return view('pages.ecommerce.productos.products', compact('categorias', 'articulosOferta', 'articulosOfertaPer', 'articulos', 'catnom', 'favoritos', 'ofertas', 'ofertasPer', 'existeOferta'));
   }

@@ -31,6 +31,10 @@
                     <h2 class="d-none d-md-block">Ofertas generales</h2>
                 </a>
             </li>
+
+
+
+
             @if($existeOferta == 1)
             <li class="nav-item">
                 <a href="#carrouselOfertas" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 ">
