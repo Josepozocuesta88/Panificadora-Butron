@@ -60,7 +60,7 @@ class OfertaCController extends Controller
         // $articleService->calculatePrices($articulosOfertaPer, $usutarcod);
 
         $favoritos    = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
-        $existeOferta = $articulosOfertaPer->isEmpty() ? 0 : 1;
+        $existeOferta = $articulosOfertaPer === null ||  $articulosOfertaPer->isEmpty() ? 0 : 1;
 
         return view('index', compact(
             'categorias',
