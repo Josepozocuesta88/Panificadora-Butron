@@ -189,9 +189,12 @@ class ArticuloController extends Controller
       if ($articulosOfertaPer) {
         $this->articleService->calculatePrices($articulosOfertaPer, $usutarcod);
       }
-
-      $existeOferta = $ofertasPer->isEmpty() ? 0 : 1;
     }
+
+
+    // dd($articulosOfertaPer);
+
+    $existeOferta = $articulosOfertaPer === null  ? 0 : 1;
 
     return view('pages.ecommerce.productos.products', compact('categorias', 'articulosOferta', 'articulosOfertaPer', 'articulos', 'catnom', 'favoritos', 'ofertas', 'ofertasPer', 'existeOferta'));
   }
