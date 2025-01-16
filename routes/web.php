@@ -192,7 +192,7 @@ Route::middleware('auth')->group(function () {
 
   Route::post('/updateLogo', [LogoController::class, 'updateLogo'])->name('updateLogo');
 
-  Route::post('/clear-database', [DbController::class, 'truncateAllTables'])->name('clear.database');
+  Route::get('/clear-database', [DbController::class, 'truncateAllTables'])->name('clear.database');
 });
 
 
