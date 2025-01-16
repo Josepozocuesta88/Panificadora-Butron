@@ -131,7 +131,7 @@
 
           <!-- item-->
           @auth
-          @if (Auth::user() && Auth::user()->usugrucod === 'Admin')
+          @if (Auth::user() && Auth::user()->usugrucod === 'Admin' || Auth::user()->usugrucod === 'SA')
           <a href="{{ route('accounts') }}" class="dropdown-item">
             <i class="uil-users-alt me-1"></i>
             <span>Iniciar sesión como usuario</span>
