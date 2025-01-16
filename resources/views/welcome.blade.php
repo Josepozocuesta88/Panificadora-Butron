@@ -76,6 +76,27 @@
       margin-bottom: 10vh;
       /* Usar vh para un margen dinámico según la altura de la pantalla */
     }
+
+    @media (max-width: 768px) {
+      .responsive-style {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+        object-position: top;
+        margin-top: 100px;
+        margin-bottom: -170%;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .responsive-style {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+        object-position: top;
+        margin-bottom: 120px;
+      }
+    }
   </style>
 
 </head>
@@ -116,8 +137,8 @@
       </div>
     </div>
     <div>
-      <img src="{{ asset(config('app.hero_index')) }}"
-        style="width:100vw; height:100vh; object-fit: cover; object-position: bottom;" alt="Imagen principal">
+      <img src="{{ asset(config('app.hero_index')) }}" class="img-fluid responsive-style" {{--
+        style="width:100vw; height:100vh; object-fit: cover; object-position: bottom;" --}} alt="Imagen principal">
     </div>
   </section>
   <div class="container pb-3" style="top:-400px; bottom:0%;">
@@ -193,15 +214,16 @@
     <h2 class="text-primary py-3">Nuestro Catálogo</h2>
     <div class="row justify-content-center">
       @foreach($categories as $category)
-      <div class="categoria col-4 col-sm-3 d-block position-relative p-0 m-2">
+      <div class="categoria col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 d-block position-relative p-0 m-2">
         <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
           <img src="{{ asset('images/categorias/' . $category->catima) }}" class="object-fit-fill border rounded"
-            alt="{{ $category->catnom }}" style="height:300px; width:100%;"
+            alt="{{ $category->catnom }}" style="height:300px; width:100%;r"
             onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
         </a>
         <div class="nombre-categoria bg-primary text-center">
           <h3>
-            <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white" onclick="irAProductos()">
+            <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
+              onclick="irAProductos()">
               {{ $category->catnom }}
             </a>
           </h3>

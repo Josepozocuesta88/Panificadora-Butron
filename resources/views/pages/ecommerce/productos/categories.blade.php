@@ -2,49 +2,48 @@
 
 @section('content')
 <div class="container-fluid bg-light pb-3">
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-                        <!-- <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li> -->
-                        <li class="breadcrumb-item active">Categorías</li>
-                    </ol>
-                </div>
-                <h4 class="page-title">Categorías Disponibles</h4>
-            </div>
+  <!-- start page title -->
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+            <!-- <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li> -->
+            <li class="breadcrumb-item active">Categorías</li>
+          </ol>
         </div>
+        <h4 class="page-title">Categorías Disponibles</h4>
+      </div>
     </div>
-    <!-- end page title -->
+  </div>
+  <!-- end page title -->
 
+  <!-- categorias disponibles -->
+  <div class="card p-3">
     <!-- categorias disponibles -->
-    <div class="card p-3">
-        <!-- categorias disponibles -->
-        <div class="row justify-content-center">
-            @foreach($categorias as $category)
-            <div class="categoria col-2 d-block position-relative p-0 m-2">
-                <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
-                    <img src="{{ asset('images/categorias/' . $category->catima) }}"
-                        class="object-fit-fill border rounded" alt="{{ $category->catnom }}"
-                        style="height:200px; width:100%;"
-                        onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
-                </a>
-                <div class="nombre-categoria bg-primary text-center">
-                    <h5>
-                        <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
-                            onclick="irAProductos()">
-                            {{ $category->catnom }}
-                        </a>
-                    </h5>
-                    <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
-                        class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-            @endforeach
+    <div class="row justify-content-center">
+      @foreach($categorias as $category)
+      <div class="categoria col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 d-block position-relative p-0 m-2">
+        <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
+          <img src="{{ asset('images/categorias/' . $category->catima) }}" class="object-fit-fill border rounded"
+            alt="{{ $category->catnom }}" style="height:200px; width:100%;"
+            onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
+        </a>
+        <div class="nombre-categoria bg-primary text-center">
+          <h5>
+            <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
+              onclick="irAProductos()">
+              {{ $category->catnom }}
+            </a>
+          </h5>
+          <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
+            class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
         </div>
+      </div>
+      @endforeach
     </div>
+  </div>
 
 
 </div>
