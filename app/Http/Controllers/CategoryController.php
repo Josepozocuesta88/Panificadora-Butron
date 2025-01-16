@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Category;
 use App\Models\Articulo;
-
+use App\Models\ClienteArticulo;
+use App\Models\ClienteCategoria;
 use App\Services\ArticleService;
 
 
@@ -22,7 +23,6 @@ class CategoryController extends Controller
 
     public function index()
     {
-
         $categories = Category::all();
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
@@ -31,21 +31,35 @@ class CategoryController extends Controller
         return view('welcome', compact('categories', 'ofertas', 'novedades'));
     }
 
-    public function show() {
-        $categorias = Category::all();
+    public function show()
+    {
+        if (ClienteCategoria::where('clicod', Auth::user()->usuclicod)->exists()) {
+            $excluidos = ClienteCategoria::where('clicod', Auth::user()->usuclicod)->pluck('catcod');
+            $categorias = Category::whereNotIn('catcod', $excluidos)->get();
+        } else {
+            $categorias = Category::all();
+        }
+
         return view('pages.ecommerce.productos.categories', compact('categorias'));
     }
 
     public function searchCategory(Request $request)
-    {   
+    {
         $query = $request->get('query');
 
-        $categorias = Category::where('nombre_es', 'like', "%{$query}%")->get();
-        
-        $articulos = Articulo::with('imagenes')->paginate(12);
-        
-        $favoritos = Auth::user()? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
-        
+        $categorias = Category::where('catnom', 'like', "%{$query}%")->get();
+
+        if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
+            $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
+            $articulos = Articulo::whereNotIn('artcod', $excluidos)
+                ->with('imagenes')
+                ->paginate(12);
+        } else {
+            $articulos = Articulo::with('imagenes')->paginate(12);
+        }
+
+        $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
+
         $ofertasService = app(\App\Contracts\OfertaServiceInterface::class);
         $ofertas = $ofertasService->obtenerOfertas();
 

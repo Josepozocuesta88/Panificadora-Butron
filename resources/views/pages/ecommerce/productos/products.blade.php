@@ -31,12 +31,18 @@
                     <h2 class="d-none d-md-block">Ofertas generales</h2>
                 </a>
             </li>
+
+
+
+
+            @if($existeOferta == 1)
             <li class="nav-item">
                 <a href="#carrouselOfertas" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 ">
                     <i class="bi bi-lightbulb d-md-none d-block"></i>
                     <h2 class="d-none d-md-block">Ofertas personalizadas</h2>
                 </a>
             </li>
+            @endif
         </ul>
     </div>
 
