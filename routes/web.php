@@ -1,25 +1,27 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OfertaCController;
-use App\Http\Controllers\ArticuloController;
-use App\Http\Controllers\FavoritoController;
-use App\Http\Controllers\RecomendadosController;
-use App\Http\Controllers\MyaccountController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\SupportController;
-use App\Http\Controllers\DocumentoController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PuntosController;
 use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\UserLogController;
-use App\Http\Controllers\PedidoController;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\ArticuloController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DbController;
+use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\FavoritoController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LogoController;
+use App\Http\Controllers\MyaccountController;
+use App\Http\Controllers\OfertaCController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PuntosController;
+use App\Http\Controllers\RecomendadosController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\UserLogController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -189,6 +191,8 @@ Route::middleware('auth')->group(function () {
   })->name('corporate-form');
 
   Route::post('/updateLogo', [LogoController::class, 'updateLogo'])->name('updateLogo');
+
+  Route::post('/clear-database', [DbController::class, 'truncateAllTables'])->name('clear.database');
 });
 
 

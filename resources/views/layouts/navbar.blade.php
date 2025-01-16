@@ -158,10 +158,16 @@
             <span>Mi Cuenta</span>
           </a>
 
-          @if(Auth::user()->usugrucod === 'Admin')
+          @if(Auth::user()->usugrucod === 'Admin' || Auth::user()->usugrucod === 'SA')
           <a href="{{ route('corporate-form') }}" class="dropdown-item">
             <i class="mdi mdi-account-circle me-1"></i>
             <span>Imágenes Corporativas</span>
+          </a>
+          @endif
+          @if(Auth::user()->usugrucod === 'SA')
+          <a href="" class="dropdown-item" id="clear-database">
+            <i class="mdi mdi-account-circle me-1"></i>
+            <span>Limpiar Base de datos</span>
           </a>
           @endif
 
