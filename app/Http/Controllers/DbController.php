@@ -17,11 +17,13 @@ class DbController extends Controller
 
     // Obtener todas las tablas de la base de datos
     $tables = DB::select('SHOW TABLES');
-    $dbName = env('DB_DATABASE'); // Nombre de la base de datos desde el .env
-    foreach ($tables as $table) {
-      // El nombre de las tablas está en el primer índice del objeto
-      $tableName = $table->{'Tables_in_' . $dbName};
 
+    // Depuración: imprimir el contenido de $tables
+    // dd($tables);
+
+    foreach ($tables as $table) {
+      // Obtener el nombre de la tabla sin importar el nombre de la propiedad
+      $tableName = array_values((array)$table)[0];
       // Ejecutar el TRUNCATE para cada tabla        
       DB::statement("TRUNCATE TABLE `$tableName`");
     }
@@ -40,6 +42,6 @@ class DbController extends Controller
 
     Auth::logout();
 
-    return response()->json(['status' => 'success', 'redirect' => '/login']);
+    return redirect()->route('login');
   }
 }
