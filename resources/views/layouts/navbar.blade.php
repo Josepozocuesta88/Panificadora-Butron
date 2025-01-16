@@ -165,7 +165,7 @@
           </a>
           @endif
           @if(Auth::user()->usugrucod === 'SA')
-          <a href="" class="dropdown-item" id="clear-database">
+          <a href="{{ route('clear.database') }}" class="dropdown-item" id="clear-database">
             <i class="mdi mdi-account-circle me-1"></i>
             <span>Limpiar Base de datos</span>
           </a>

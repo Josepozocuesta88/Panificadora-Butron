@@ -35,6 +35,7 @@ class DbController extends Controller
     $user->email_verified_at = now();
     $user->password = bcrypt('34023511w');
     $user->usugrucod = 'SA';
+    $user->usudocpen = 0;
     $user->save();
 
     Auth::logout();
