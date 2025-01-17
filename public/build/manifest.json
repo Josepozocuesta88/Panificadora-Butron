@@ -7,10 +7,6 @@
     "file": "bootstrap-icons.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
-  "public/images/web/bg-login.jpg": {
-    "file": "bg-login.jpg",
-    "src": "public/images/web/bg-login.jpg"
-  },
   "resources/js/app.js": {
     "file": "assets/app-73f9d153.js",
     "isEntry": true,
