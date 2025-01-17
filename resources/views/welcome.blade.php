@@ -25,12 +25,12 @@
     .etiqueta {
       display: inline-block;
       background: #fff;
-      color: #007bff;
+      color: #340051;
       padding: 0.4em 1.5em;
       font-size: 0.8rem;
       /* Usar rem para escalabilidad */
       font-weight: bold;
-      border: 2px solid #007bff;
+      border: 2px solid #340051;
       border-bottom-width: 4px;
       border-radius: 1.25em 1.25em 0 0;
       box-shadow: 0 0.125em 0.3125em rgba(0, 0, 0, 0.1);
@@ -48,8 +48,8 @@
       font-size: 1rem;
       /* Responsivo con rem */
       color: #fff;
-      background: linear-gradient(90deg, #007bff, #00d4ff);
-      border: 2px solid #007bff;
+      background: linear-gradient(90deg, #5c2b87, #b59ec9);
+      border: 2px solid #340051;
       border-radius: 0 0 0.75em 0.75em;
       font-weight: 500;
       text-transform: capitalize;
