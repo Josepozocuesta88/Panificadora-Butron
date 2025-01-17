@@ -11,12 +11,12 @@ class LogoController extends Controller
     $request->validate([
       'logo' => 'nullable|image|mimes:png|max:2048',
       'bglogin' => 'nullable|image|mimes:png|max:2048',
-      'bgprincipal' => 'nullable|image|mimes:png|max:2048',
+      'bgprincipal' => 'nullable',
     ]);
 
     $pathLogo = public_path('images/web/logo.png');
     $pathBgLogin = public_path('images/web/bglogin.png');
-    $pathBgPrincipal = public_path('images/web/bgprincipal.png');
+    $pathBgPrincipal = public_path('images/web/hero-index.png');
 
     if ($request->hasFile('logo')) {
       if (file_exists($pathLogo)) {
@@ -36,7 +36,9 @@ class LogoController extends Controller
       if (file_exists($pathBgPrincipal)) {
         unlink($pathBgPrincipal);
       }
-      $request->file('bgprincipal')->move(dirname($pathBgPrincipal), 'bgprincipal.png');
+      $request->file('bgprincipal')->move(dirname($pathBgPrincipal), 'hero-index.png');
     }
+
+    return redirect()->back()->with('success', 'Logo actualizado correctamente');
   }
 }
