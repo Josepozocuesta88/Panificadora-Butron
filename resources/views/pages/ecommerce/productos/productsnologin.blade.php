@@ -63,7 +63,7 @@
       </div>
     </nav>
     <div>
-      <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto; width:100vw;" alt="navbar">
+      <img src="{{ asset('images/web/navbar.png') }}" style="margin:-2px; width:100vw;" alt="navbar">
     </div>
   </div>
   <div class="pb-3 container">
