@@ -21,6 +21,7 @@ return array(
     'App\\Http\\Controllers\\CategoryController' => $baseDir . '/app/Http/Controllers/CategoryController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DashboardController' => $baseDir . '/app/Http/Controllers/DashboardController.php',
+    'App\\Http\\Controllers\\DbController' => $baseDir . '/app/Http/Controllers/DbController.php',
     'App\\Http\\Controllers\\DocumentoController' => $baseDir . '/app/Http/Controllers/DocumentoController.php',
     'App\\Http\\Controllers\\FavoritoController' => $baseDir . '/app/Http/Controllers/FavoritoController.php',
     'App\\Http\\Controllers\\HistoryController' => $baseDir . '/app/Http/Controllers/HistoryController.php',

@@ -615,6 +615,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Http\\Controllers\\CategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/CategoryController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
+        'App\\Http\\Controllers\\DbController' => __DIR__ . '/../..' . '/app/Http/Controllers/DbController.php',
         'App\\Http\\Controllers\\DocumentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/DocumentoController.php',
         'App\\Http\\Controllers\\FavoritoController' => __DIR__ . '/../..' . '/app/Http/Controllers/FavoritoController.php',
         'App\\Http\\Controllers\\HistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/HistoryController.php',
