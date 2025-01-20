@@ -17,9 +17,9 @@ class OfertasGeneralesService implements OfertaServiceInterface
 
         if (Auth::user() && ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
             $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
-            $ofertas    = OfertaC::whereHas(['articulo' => function ($q) use ($excluidos) {
+            $ofertas    = OfertaC::whereHas('articulo', function ($q) use ($excluidos) {
                 $q->whereNotIn('artcod', $excluidos);
-            }])->with('articulo')->where('ofccod', '=', '')
+            })->with('articulo',)->where('ofccod', '=', '')
                 ->whereDate('ofcfecini', '<=', $today)
                 ->whereDate('ofcfecfin', '>=', $today)
                 ->get();
