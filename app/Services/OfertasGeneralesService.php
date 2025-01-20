@@ -14,6 +14,8 @@ class OfertasGeneralesService implements OfertaServiceInterface
     {
         $today  = Carbon::now();
 
+
+
         if (Auth::user() && ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
             $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
             $ofertas    = OfertaC::whereHas('articulo', function ($q) use ($excluidos) {
