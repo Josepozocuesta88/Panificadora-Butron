@@ -33,7 +33,7 @@ jobs:
       - name: Deploy to Hostinger
         run: |
           ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u583081103@46.202.172.45 << 'EOF'
-            cd domains/florys.es/public_html/Reposteria-florys &&
+            cd domains/florys.es/public_html/reposteria-florys &&
             git pull origin main &&
             php artisan cache:clear &&
             php artisan config:cache
