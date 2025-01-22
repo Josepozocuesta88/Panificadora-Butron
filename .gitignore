@@ -22,4 +22,5 @@ yarn-error.log
 node_modules/
 images/
 vendor/
-#public/
+public/images
+public/storage
