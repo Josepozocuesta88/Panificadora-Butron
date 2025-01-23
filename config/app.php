@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
@@ -16,9 +16,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'PROFESIONAL CONGELADOS FLORY´S'),
+  'name' => env('APP_NAME', 'PROFESIONAL REPOSTERIA FLORY´S'),
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Modificaciones para el index
     |--------------------------------------------------------------------------
@@ -31,26 +31,26 @@ return [
     |
     */
 
-    'title' => 'Profesional Congelados Florys | Baena (Córdoba)',
+  'title' => 'Profesional Repostería Florys | Baena (Córdoba)',
 
-    'favicon' => 'images/web/logo.png',
+  'favicon' => 'images/web/logo.png',
 
-    'hero_index' => 'images/web/hero-index.png',
+  'hero_index' => 'images/web/hero-index.png',
 
-    'hero_gift' => 'images/web/gift.jpg',
+  'hero_gift' => 'images/web/gift.jpg',
 
 
-    'logo' => 'images/web/logo.png',
+  'logo' => 'images/web/logo.png',
 
-    'caja' => 'si',
+  'caja' => 'si',
 
-    'telefono' => '957 690 508',
+  'telefono' => '957 690 508',
 
-    'direccion' => 'Pol. Ind. Quiebracostillas II, Pintor Vicente Piernagorda, 76, 14850 Baena, Córdoba',
+  'direccion' => 'Pol. Ind. Quiebracostillas II, Pintor Vicente Piernagorda, 76, 14850 Baena, Córdoba',
 
-    'maps' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5314.670080159421!2d-4.320885096624687!3d37.62282415144168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6da169080e0c1b%3A0x6c102c3e0ae2d77d!2zUmVwb3N0ZXLDrWEgRmxvcnnCtHM!5e0!3m2!1ses!2ses!4v1700727311088!5m2!1ses!2ses',
+  'maps' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5314.670080159421!2d-4.320885096624687!3d37.62282415144168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6da169080e0c1b%3A0x6c102c3e0ae2d77d!2zUmVwb3N0ZXLDrWEgRmxvcnnCtHM!5e0!3m2!1ses!2ses!4v1700727311088!5m2!1ses!2ses',
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Modificaciones para el login
     |--------------------------------------------------------------------------
@@ -59,9 +59,9 @@ return [
     |
     */
 
-    // 'bg_img' => 'en_US',
+  // 'bg_img' => 'en_US',
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Modificaciones generales de la web
     |--------------------------------------------------------------------------
@@ -71,11 +71,11 @@ return [
     |
     */
 
-    // 'color' => '#3490dc',
-    'points' => 'Flory`s coins',
-    // --color-principal: {{ config('app.color') }};
+  // 'color' => '#3490dc',
+  'points' => 'Flory`s coins',
+  // --color-principal: {{ config('app.color') }};
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
@@ -86,9 +86,9 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+  'env' => env('APP_ENV', 'production'),
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------
@@ -99,9 +99,9 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+  'debug' => (bool) env('APP_DEBUG', false),
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
@@ -112,11 +112,11 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+  'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL'),
+  'asset_url' => env('ASSET_URL'),
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
@@ -127,9 +127,9 @@ return [
     |
     */
 
-    'timezone' => 'Europe/Madrid',
+  'timezone' => 'Europe/Madrid',
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
@@ -140,9 +140,9 @@ return [
     |
     */
 
-    'locale' => 'es',
+  'locale' => 'es',
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
     |--------------------------------------------------------------------------
@@ -153,9 +153,9 @@ return [
     |
     */
 
-    'fallback_locale' => 'es',
+  'fallback_locale' => 'es',
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Faker Locale
     |--------------------------------------------------------------------------
@@ -166,9 +166,9 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+  'faker_locale' => 'en_US',
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
@@ -179,11 +179,11 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+  'key' => env('APP_KEY'),
 
-    'cipher' => 'AES-256-CBC',
+  'cipher' => 'AES-256-CBC',
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------
@@ -196,12 +196,12 @@ return [
     |
     */
 
-    'maintenance' => [
-        'driver' => 'file',
-        // 'store' => 'redis',
-    ],
+  'maintenance' => [
+    'driver' => 'file',
+    // 'store' => 'redis',
+  ],
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
@@ -212,24 +212,24 @@ return [
     |
     */
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
+  'providers' => ServiceProvider::defaultProviders()->merge([
+    /*
          * Package Service Providers...
          */
 
-        /*
+    /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\OfertaServiceProvider::class,
-        Ssheduardo\Redsys\RedsysServiceProvider::class
-    ])->toArray(),
+    App\Providers\AppServiceProvider::class,
+    App\Providers\AuthServiceProvider::class,
+    // App\Providers\BroadcastServiceProvider::class,
+    App\Providers\EventServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
+    App\Providers\OfertaServiceProvider::class,
+    Ssheduardo\Redsys\RedsysServiceProvider::class
+  ])->toArray(),
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Class Aliases
     |--------------------------------------------------------------------------
@@ -240,9 +240,9 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
-        'Redsys'    => Ssheduardo\Redsys\Facades\Redsys::class,
-    ])->toArray(),
+  'aliases' => Facade::defaultAliases()->merge([
+    // 'Example' => App\Facades\Example::class,
+    'Redsys'    => Ssheduardo\Redsys\Facades\Redsys::class,
+  ])->toArray(),
 
 ];
