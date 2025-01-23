@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\OrderEmailFromAppController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+  return $request->user();
 });
+
+Route::get('/send-order-email-from-app/{pedidoId}', [OrderEmailFromAppController::class, 'sendOrderEmailFromApp']);
