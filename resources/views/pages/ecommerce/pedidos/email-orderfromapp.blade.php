@@ -56,7 +56,7 @@
         </td>
         <td>{{ $linea->cantidad }}</td>
         <td>{{ number_format($linea->precio, 2) }} €</td>
-        <td>{{ number_format($linea->iva, 2) }} €</td>
+        <td>{{ number_format($linea->totalIva, 2) }} €</td>
         <td>{{ number_format($linea->recargo, 2) }} €</td>
         <td>{{ number_format($linea->total, 2) }} €</td>
       </tr>

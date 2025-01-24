@@ -23,12 +23,14 @@ class OrderEmailFromAppController extends Controller
     // Agregar imágenes y cálculos a las líneas del pedido
     foreach ($lineas as $linea) {
       $linea->image = Articulo_imagen::where('imaartcod', $linea->producto_ref)->first()->imanom ?? null;
-      $linea->total = ($linea->cantidad * $linea->precio) + $linea->iva + $linea->recargo;
+      $linea->totalIva = $linea->cantidad * $linea->iva;
+      $linea->total = $linea->cantidad * $linea->precio + $linea->totalIva + $linea->recargo;
     }
 
-    $emailPrueba = 'javier.reina@redesycomponentes.com';
-    $subtotal = $lineas->sum('total');
-    $totalIVA = $lineas->sum('iva');
+    $emailPrueba = 'web.arturo@redesycomponentes.com';
+    // $subtotal = $lineas->sum('total');
+    $subtotal = $pedido->subtotal;
+    $totalIVA = $lineas->sum('totalIva');
     $totalRecargo = $lineas->sum('recargo');
     $total = $pedido->total;
 
