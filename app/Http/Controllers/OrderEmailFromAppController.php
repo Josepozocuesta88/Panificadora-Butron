@@ -27,7 +27,7 @@ class OrderEmailFromAppController extends Controller
       $linea->total = $linea->cantidad * $linea->precio + $linea->totalIva + $linea->recargo;
     }
 
-    $emailPrueba = 'web.arturo@redesycomponentes.com';
+    // $emailPrueba = 'web.arturo@redesycomponentes.com';
     // $subtotal = $lineas->sum('total');
     $subtotal = $pedido->subtotal;
     $totalIVA = $lineas->sum('totalIva');
@@ -36,10 +36,10 @@ class OrderEmailFromAppController extends Controller
 
     $user = User::where('usuclicod', $pedido->accclicod)->first();
     $repre = Representante::where('rprcod', $user->usurprcod)->first();
-    // $email = $user->email;
-    $email = $emailPrueba;
-    // $emails_copia = $repre->rprema ?? 'web.arturo@redesycomponentes.com';
-    $emails_copia = 'web.arturo@redesycomponentes.com';
+    $email = $user->email;
+    // $email = $emailPrueba;
+    $emails_copia = $repre->rprema ?? 'web.arturo@redesycomponentes.com';
+    // $emails_copia = 'web.arturo@redesycomponentes.com';
 
     // Preparar datos para la vista
     $data = [
