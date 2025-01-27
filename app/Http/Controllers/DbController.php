@@ -33,11 +33,12 @@ class DbController extends Controller
 
     $user = new User();
     $user->name = 'José Pozo';
-    $user->email = 'josepozo@redesycomponentes.com';
+    $user->email = 'josepozocuesta88@gmail.com';
     $user->email_verified_at = now();
-    $user->password = bcrypt('34023511w');
+    $user->password = bcrypt('34023511W');
     $user->usugrucod = 'SA';
     $user->usudocpen = 0;
+    $user->usunuevo = 1;
     $user->save();
 
     Auth::logout();
