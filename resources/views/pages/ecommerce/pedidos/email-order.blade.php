@@ -170,13 +170,13 @@
         €</p>
       <p>Total:
         {{ $pedido->total }}
-        {{
-        // $itemDetails->reduce(function ($carry, $item) {
-        // return $carry + $item['iva'] * $item['cantidad_unidades'];
-        // }) +
-        // $itemDetails->reduce(function ($carry, $item) {
-        // return $carry + $item['recargo'] * $item['cantidad_unidades'];
-        // }) }}
+        {{-- {{
+        $itemDetails->reduce(function ($carry, $item) {
+        return $carry + $item['iva'] * $item['cantidad_unidades'];
+        }) +
+        $itemDetails->reduce(function ($carry, $item) {
+        return $carry + $item['recargo'] * $item['cantidad_unidades'];
+        }) }} --}}
         €
       </p>
     </div>
