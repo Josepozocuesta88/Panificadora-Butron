@@ -85,7 +85,8 @@ class ArticuloController extends Controller
         ->restrictions()
         ->whereNotIn('artcod', $excluidos)
         ->with(['imagenes', 'cajas'])
-        ->paginate(12);
+        ->paginate(12)
+        ->appends($request->all());
     } else {
       $articulos = Articulo::situacion('C')->search($keywords)
         ->restrictions()
@@ -198,7 +199,7 @@ class ArticuloController extends Controller
 
   public function productsnoLogin()
   {
-    $articulos = Articulo::with('imagenes')->where('artsit', 'C')->paginate(12);
+    $articulos = Articulo::with('imagenes')->where('artsit', 'C')->restrictions()->paginate(12);
     $categorias = Category::all();
     return view('pages.ecommerce.productos.productsnologin', compact('articulos', 'categorias')); //productos sin login
   }
