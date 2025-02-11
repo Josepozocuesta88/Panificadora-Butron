@@ -157,19 +157,19 @@
   <div style="display: flex; text-align: left; padding: 20px 0;">
     <div class="totals" style="display: inline-block; vertical-align: top; width: 45%;">
       <h4>Resumen del Pedido:</h4>
-      <p>Subtotal: {{ $subtotal }} €</p>
+      <p>Subtotal: {{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €</p>
       <p>Total IVA:
-        {{ $itemDetails->reduce(function ($carry, $item) {
+        {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->reduce(function ($carry, $item) {
         return $carry + $item['iva'] * $item['cantidad_unidades'];
-        }) }}
+        })) }}
         €</p>
       <p>Total Recargo:
-        {{ $itemDetails->reduce(function ($carry, $item) {
+        {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->reduce(function ($carry, $item) {
         return $carry + $item['recargo'] * $item['cantidad_unidades'];
-        }) }}
+        })) }}
         €</p>
       <p>Total:
-        {{ $pedido->total }}
+        {{ \App\Services\FormatoNumeroService::convertirADecimal($pedido->total) }}
         {{-- {{
         $itemDetails->reduce(function ($carry, $item) {
         return $carry + $item['iva'] * $item['cantidad_unidades'];
