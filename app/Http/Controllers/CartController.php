@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
+use App\Models\Caja;
+use App\Models\Cart;
 use App\Models\Pedido;
 use App\Models\Pedido_linea;
-use App\Models\Cart;
-use App\Models\Caja;
+use App\Models\Representante;
+use App\Services\ArticleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use App\Services\ArticleService;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -235,7 +236,9 @@ class CartController extends Controller
 
 
     $email = $user->email;
-    $email_copia = config('mail.cc');
+    $repre = Representante::where('rprcod', $user->usurprcod)->first();
+
+    $email_copia = $repre->rprema ?? 'web.arturo@redesycomponentes.com';
 
     $pedido = new Pedido;
     $pedido->cliente_id = $user->id;
