@@ -133,6 +133,7 @@ class CartController extends Controller
     $artivapor = $itemDetails->sum('artivapor');
     $artrecpor = $itemDetails->sum('artrecpor');
     $artsigimp = $itemDetails->sum('artsigimp');
+    Log::info('recargo: ' . $artrecpor);
 
     $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
 
@@ -221,6 +222,7 @@ class CartController extends Controller
     $shippingCost = 0.00;
     $artivapor = $itemDetails->sum('artivapor');
     $artrecpor = $itemDetails->sum('artrecpor');
+    Log::info('recargo: ' . $artrecpor);
     $artsigimp = $itemDetails->sum('artsigimp');
     $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
 
@@ -233,6 +235,8 @@ class CartController extends Controller
     } else {
       $total = $subtotal + $artivapor + $artrecpor + $artsigimp;
     }
+
+    Log::info('total: ' . $total);
 
 
     $email = $user->email;
@@ -327,8 +331,10 @@ class CartController extends Controller
         $total = round($price * $totalUnits, 2);
         $artivapor = $total * ($item->articulo->artivapor / 100);
         $iva_porcentaje = $item->articulo->artivapor;
-        Auth::user()->usuivacod === "S" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
+        // Auth::user()->usuivacod === "R" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
+        Auth::user()->usuivacod !== "N" && Auth::user()->usuivacod !== "E" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
         $artsigimp = $total * ($item->articulo->artsigimp / 100);
+        // Log::info('recargo desde calculateItemDetails: ' . $item->articulo->artrecpor);
 
         return [
           'ivaPorcentaje' => $iva_porcentaje,

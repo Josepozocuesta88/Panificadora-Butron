@@ -222,9 +222,6 @@
                           <td class="ps-0">
                             {{ \App\Services\FormatoNumeroService::convertirADecimal($artivapor) }}
                             €
-                            <script>
-                              console.log({{ $artivapor }});
-                            </script>
                           </td>
                         </tr>
                         <tr>
@@ -232,6 +229,9 @@
                           <td class="ps-0" id="td-recargo" data-recargo="{{ $artrecpor }}">
                             {{ \App\Services\FormatoNumeroService::convertirADecimal($artrecpor) }}
                             €
+                            <script>
+                              console.log({{ $artrecpor }});
+                            </script>
                           </td>
                         </tr>
                         @if ($artsigimp > 0)
