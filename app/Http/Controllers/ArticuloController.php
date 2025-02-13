@@ -80,7 +80,7 @@ class ArticuloController extends Controller
     $keywords = explode(' ', $request->get('query'));
 
     if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
-      $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
+      $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod')->toArray();
       $articulos = Articulo::situacion('C')->search($keywords)
         ->restrictions()
         ->whereNotIn('artcod', $excluidos)
