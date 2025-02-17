@@ -231,9 +231,11 @@ class CartController extends Controller
       $subtotal = $subtotal - $descuento;
       $artivapor = $subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
       $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
-      $total = $subtotal + $artivapor + $artrecpor + $artsigimp;
+      $total = $subtotal + $artivapor + $artrecpor + $artsigimp; //artrecpor no se suma!! -> MIRAR ESTO
+      // Log::info('total ' . '=' . $subtotal . '+' . $artivapor . '+' . $artrecpor . '+' . $artsigimp); // ---> Desglose del valor de las variables que conforman $total
     } else {
       $total = $subtotal + $artivapor + $artrecpor + $artsigimp;
+      Log::info('total ' . '=' . $subtotal . '+' . $artivapor . '+' . $artrecpor . '+' . $artsigimp); // ---> Desglose del valor de las variables que conforman $total
     }
 
     Log::info('total: ' . $total);
