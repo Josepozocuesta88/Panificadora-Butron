@@ -299,7 +299,7 @@
         const comentario = document.getElementById('comentario').value; // Obtener el comentario
 
         // Obtenemos el valor del atributo data-recargo
-        var recargoValue = document.getElementById('td-recargo').getAttribute('data-recargo');
+        let recargoValue = document.getElementById('td-recargo').getAttribute('data-recargo');
 
         const formData = new FormData(); // Crear un objeto FormData
         formData.append('direccionId', direccionId); // Agregar el ID de dirección

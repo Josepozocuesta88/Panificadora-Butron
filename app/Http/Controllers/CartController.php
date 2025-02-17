@@ -137,11 +137,15 @@ class CartController extends Controller
 
     $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
 
+    Log::info('usudes: ' . $user->usudes1);
+    Log::info('total usudes es 0 = ' . $subtotal . '+' . $shippingCost . '+' . $artivapor . '+' . $artrecpor . '+' . $artsigimp);
+
     if ($user->usudes1 != 0) {
       $descuento = $subtotal * ($user->usudes1 / 100);
       $nuevo_subtotal = $subtotal - $descuento;
       $artivapor = $nuevo_subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
       $total = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+      Log::info('total usudes != 0 = ' . $subtotal . '+' . $shippingCost . '+' . $artivapor . '+' . $artrecpor . '+' . $artsigimp);
     }
 
     return view('pages.ecommerce.carrito.cart', [
@@ -201,6 +205,7 @@ class CartController extends Controller
 
   public function makeOrder()
   {
+    Log::info('makeOrder');
     $user = auth()->user();
     $items = $this->getItems($user->id);
 
@@ -222,9 +227,9 @@ class CartController extends Controller
     $shippingCost = 0.00;
     $artivapor = $itemDetails->sum('artivapor');
     $artrecpor = $itemDetails->sum('artrecpor');
-    Log::info('recargo: ' . $artrecpor);
     $artsigimp = $itemDetails->sum('artsigimp');
     $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
+
 
     if (Auth::user()->usudes1 != 0) {
       $descuento = $subtotal * (Auth::user()->usudes1 / 100);
@@ -232,14 +237,9 @@ class CartController extends Controller
       $artivapor = $subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
       $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
       $total = $subtotal + $artivapor + $artrecpor + $artsigimp; //artrecpor no se suma!! -> MIRAR ESTO
-      // Log::info('total ' . '=' . $subtotal . '+' . $artivapor . '+' . $artrecpor . '+' . $artsigimp); // ---> Desglose del valor de las variables que conforman $total
     } else {
       $total = $subtotal + $artivapor + $artrecpor + $artsigimp;
-      Log::info('total ' . '=' . $subtotal . '+' . $artivapor . '+' . $artrecpor . '+' . $artsigimp); // ---> Desglose del valor de las variables que conforman $total
     }
-
-    Log::info('total: ' . $total);
-
 
     $email = $user->email;
     $repre = Representante::where('rprcod', $user->usurprcod)->first();
