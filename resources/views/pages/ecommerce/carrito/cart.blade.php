@@ -1,7 +1,10 @@
 <!-- ======================================================================================= -->
 <!-- CLIENTE o TODOS: Carrito de compra -->
 <!-- ======================================================================================= -->
-
+@php
+use App\Models\QanetParametro2;
+$minSubtotal = QanetParametro2::where('connom', 'QCLOUDVENTAMINIMA')->first();
+@endphp
 @extends('layouts.app')
 
 @section('content')
@@ -21,6 +24,19 @@
           </div>
           <h4 class="page-title">Carrito de Compras</h4>
         </div>
+        @if(Auth::user()->usudiareparto !== null)
+        <div class="alert alert-info text-center mb-0">
+          Día de reparto habitual: {{ Auth::user()->usudiareparto }}
+        </div>
+        @endif
+        @if($subtotal)
+        @if($minSubtotal->condoble !== null)
+        <div>
+          Para poder realizar el pedido, el importe debe ser de un mínimo de: {{ $minSubtotal->condoble }} € (Base
+          imponible)
+        </div>
+        @endif
+        @endif
       </div>
     </div>
     <!-- end page title -->
@@ -115,9 +131,11 @@
                         <td>
                           {{ \App\Services\FormatoNumeroService::convertirADecimal($item['price']) }}
                           €
+                          @if(Auth::user()->usudistribuidor !== 1)
                           @if ($item['isOnOffer'])
                           <small class="text-decoration-line-through">{{
                             \App\Services\FormatoNumeroService::convertirADecimal($item['tarifa']) }} €</small>
+                          @endif
                           @endif
                         </td>
                         <!-- total -->
@@ -186,9 +204,11 @@
                       <a onclick="window.location.href='/articles/search?query=';" class="btn btn-info">
                         <i class="mdi mdi-arrow-left"></i> Continuar comprando
                       </a>
+                      @if($minSubtotal->condoble === null || $subtotal >= $minSubtotal->condoble)
                       <button class="btn btn-danger" id="procesarPedido">
                         <i class="mdi mdi-cart-plus me-1"></i> Procesar el pedido
                       </button>
+                      @endif
                     </div>
                   </div> <!-- end col -->
                 </div> <!-- end row-->

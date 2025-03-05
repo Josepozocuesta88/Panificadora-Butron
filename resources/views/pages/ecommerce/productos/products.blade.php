@@ -111,6 +111,7 @@
                     </div>
                     <div class="text-end">
                       @if ($ofertaArticulo->precioOferta)
+                      @if(Auth::user()->usudistribuidor !== 1)
                       <h5>
                         <span class="badge badge-danger-lighten">
                           OFERTA
@@ -119,18 +120,21 @@
                           @endif
                         </span>
                       </h5>
+                      @endif
                       <span class="font-18 text-danger fw-bolder">
                         {{
                         \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioOferta)
                         }}
                         €
                       </span>
+                      @if(Auth::user()->usudistribuidor !== 1)
                       <span class="text-decoration-line-through font-14">
                         {{
                         \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa)
                         }}
                         €
                       </span>
+                      @endif
                       @elseif(isset($ofertaArticulo->precioTarifa))
                       <span class="font-18">
                         {{
@@ -444,6 +448,7 @@
 
                 <div class="text-end">
                   @if ($articulo->precioOferta)
+                  @if(Auth::user()->usudistribuidor !== 1)
                   <h5>
                     <span class="badge badge-danger-lighten">
                       OFERTA
@@ -452,18 +457,21 @@
                       @endif
                     </span>
                   </h5>
-                  <span class="font-18 text-danger fw-bolder">
+                  @endif
+                  <span class="font-18 {{ Auth::user()->usudistribuidor == 1 ? 'text-danger fw-bolder' : '' }}">
                     {{
                     \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta)
                     }}
                     €
                   </span>
+                  @if(Auth::user()->usudistribuidor !== 1)
                   <span class="text-decoration-line-through font-14">
                     {{
                     \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa)
                     }}
                     €
                   </span>
+                  @endif
                   @elseif(isset($articulo->precioTarifa))
                   <span class="font-18">
                     {{
