@@ -298,7 +298,7 @@
                         €
                       </span>
                       <span class="text-decoration-line-through font-14">
-                        {{ \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa) }}
+                        {{ \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticuloPer->precioTarifa) }}
                         €
                       </span>
                       @elseif(isset($ofertaArticuloPer->precioTarifa))
