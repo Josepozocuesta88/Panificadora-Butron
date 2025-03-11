@@ -36,7 +36,8 @@ jobs:
             cd domains/florys.es/public_html/reposteria-florys &&
             git pull origin main &&
             php artisan cache:clear &&
-            php artisan config:cache
+            php artisan config:cache &&
+            php artisan optimize:clear
           EOF
 
 #
