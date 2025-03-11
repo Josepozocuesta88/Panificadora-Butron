@@ -187,6 +187,7 @@
         <div id="carouselExampleIndicators" class="pb-5 carousel slide" data-bs-ride="carousel">
           <!-- Indicadores del Carrusel -->
           <div class="carousel-indicators">
+
             @foreach ($ofertas as $index => $image)
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $index }}"
               class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}"

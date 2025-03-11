@@ -29,7 +29,7 @@ $minSubtotal = QanetParametro2::where('connom', 'QCLOUDVENTAMINIMA')->first();
           Día de reparto habitual: {{ Auth::user()->usudiareparto }}
         </div>
         @endif
-        @if($subtotal)
+        @if(isset($subtotal))
         @if($minSubtotal->condoble !== null)
         <div>
           Para poder realizar el pedido, el importe debe ser de un mínimo de: {{ $minSubtotal->condoble }} € (Base
