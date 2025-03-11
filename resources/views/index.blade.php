@@ -201,7 +201,7 @@
             <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
               <a
                 href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
-                <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block fill"
+                <img src="{{ asset('images/articulos/' . trim($image->ofcartcod). 'jpg') }}" class="d-block fill"
                   alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
               </a>
             </div>

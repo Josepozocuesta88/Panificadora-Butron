@@ -3,8 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="description"
-    content="Creada en 1985, Repostería Flory´s distribuye en toda Andalucía una amplia gama de productos de Pastelería, Granel tradicional, Granel envuelto, Aperitivos y Productos integral sin azúcar.">
+  <meta name="description" content="Creada en 1985, Repostería Flory´s distribuye en toda Andalucía una amplia gama de productos de Pastelería, Granel tradicional, Granel envuelto, Aperitivos y Productos integral sin azúcar.">
   <meta name="keywords" content="florys, respoteria, baena, dulces">
   <meta name="Author" content="gabinetetic.com">
   <meta name="copyright" content="gabinetetic.com">
@@ -22,20 +21,15 @@
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
   <!-- App favicon -->
   <link rel="shortcut icon" href="{{ asset(config('app.favicon')) }}">
 
-
-
   <!-- Datatables css -->
-  <link href="{{asset('vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"
-    type="text/css" />
-  <link href="{{asset('vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css')}}" rel="stylesheet"
-    type="text/css" />
-  <link href="{{asset('vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css')}}" rel="stylesheet"
-    type="text/css" />
-  <link href="{{asset('vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css')}}" rel="stylesheet"
-    type="text/css" />
+  <link href="{{asset('vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
 
   <!-- Theme Config Js -->
   <script src="{{asset('js/hyper-config.js')}}"></script>
@@ -50,7 +44,7 @@
 
   <link href="{{asset('css/css.css') }}" rel="stylesheet" type="text/css" />
 
-  <!-- vite(['resources/sass/app.scss']) -->
+  @vite()
   @stack('header')
 </head>
 

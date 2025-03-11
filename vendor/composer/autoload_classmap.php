@@ -70,6 +70,7 @@ return array(
     'App\\Models\\Pedido_linea' => $baseDir . '/app/Models/Pedido_linea.php',
     'App\\Models\\Precio' => $baseDir . '/app/Models/Precio.php',
     'App\\Models\\Puntos' => $baseDir . '/app/Models/Puntos.php',
+    'App\\Models\\QanetParametro2' => $baseDir . '/app/Models/QanetParametro2.php',
     'App\\Models\\Representante' => $baseDir . '/app/Models/Representante.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\UserLog' => $baseDir . '/app/Models/UserLog.php',
