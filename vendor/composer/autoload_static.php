@@ -623,6 +623,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Http\\Controllers\\LogoController' => __DIR__ . '/../..' . '/app/Http/Controllers/LogoController.php',
         'App\\Http\\Controllers\\MyaccountController' => __DIR__ . '/../..' . '/app/Http/Controllers/MyaccountController.php',
         'App\\Http\\Controllers\\OfertaCController' => __DIR__ . '/../..' . '/app/Http/Controllers/OfertaCController.php',
+        'App\\Http\\Controllers\\OrderEmailFromAppController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderEmailFromAppController.php',
         'App\\Http\\Controllers\\PedidoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PedidoController.php',
         'App\\Http\\Controllers\\PuntosController' => __DIR__ . '/../..' . '/app/Http/Controllers/PuntosController.php',
         'App\\Http\\Controllers\\RecomendadosController' => __DIR__ . '/../..' . '/app/Http/Controllers/RecomendadosController.php',

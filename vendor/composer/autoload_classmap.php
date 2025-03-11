@@ -29,6 +29,7 @@ return array(
     'App\\Http\\Controllers\\LogoController' => $baseDir . '/app/Http/Controllers/LogoController.php',
     'App\\Http\\Controllers\\MyaccountController' => $baseDir . '/app/Http/Controllers/MyaccountController.php',
     'App\\Http\\Controllers\\OfertaCController' => $baseDir . '/app/Http/Controllers/OfertaCController.php',
+    'App\\Http\\Controllers\\OrderEmailFromAppController' => $baseDir . '/app/Http/Controllers/OrderEmailFromAppController.php',
     'App\\Http\\Controllers\\PedidoController' => $baseDir . '/app/Http/Controllers/PedidoController.php',
     'App\\Http\\Controllers\\PuntosController' => $baseDir . '/app/Http/Controllers/PuntosController.php',
     'App\\Http\\Controllers\\RecomendadosController' => $baseDir . '/app/Http/Controllers/RecomendadosController.php',
