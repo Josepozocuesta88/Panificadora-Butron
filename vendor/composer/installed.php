@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'f7c3ea821e45e1d8bceedf8a69a3ac17aa7f883a',
+        'reference' => 'cce5502fdd1b0cba15031e01fc424140bf8c1eca',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -364,15 +364,6 @@
                 0 => 'v10.48.22',
             ),
         ),
-        'innocenzi/laravel-vite' => array(
-            'pretty_version' => 'v0.3.1',
-            'version' => '0.3.1.0',
-            'reference' => '29279b499562dcee161bc10a15790efc21f674ba',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../innocenzi/laravel-vite',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -391,7 +382,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'f7c3ea821e45e1d8bceedf8a69a3ac17aa7f883a',
+            'reference' => 'cce5502fdd1b0cba15031e01fc424140bf8c1eca',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -793,8 +784,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '3.0.0',
-                1 => '1.0|2.0|3.0',
+                0 => '1.0|2.0|3.0',
+                1 => '3.0.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1005,7 +996,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/backtrace',
             'aliases' => array(),
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'spatie/error-solutions' => array(
             'pretty_version' => '1.1.1',
@@ -1014,7 +1005,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/error-solutions',
             'aliases' => array(),
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'spatie/flare-client-php' => array(
             'pretty_version' => '1.8.0',
@@ -1023,7 +1014,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/flare-client-php',
             'aliases' => array(),
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'spatie/ignition' => array(
             'pretty_version' => '1.15.0',
@@ -1032,7 +1023,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/ignition',
             'aliases' => array(),
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'spatie/laravel-cookie-consent' => array(
             'pretty_version' => '3.2.4',

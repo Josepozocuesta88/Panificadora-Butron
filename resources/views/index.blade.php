@@ -199,10 +199,8 @@
             <!-- usar cuando hay imagenes del baner -->
             @foreach ($ofertasPer as $image)
             <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-              <a
-                href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
-                <img src="{{ asset('images/articulos/' . trim($image->ofcartcod). '.jpg') }}" class="d-block object-fit-scale"
-                  alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
+              <a href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
+                <img src="{{ asset('images/articulos/' . trim($image->ofcartcod). '.jpg') }}" class="d-block object-fit-scale" alt="banner publicitario" style="width: 100%; height: auto; aspect-ratio: 3/1;">
               </a>
             </div>
             @endforeach
