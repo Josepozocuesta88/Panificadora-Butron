@@ -203,9 +203,9 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'Yajra\\DataTables\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
             1 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
-            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
+            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
             3 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
             4 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
         ),
@@ -347,13 +347,13 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
-            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
+            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
+            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/ignition/src',
-            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
+            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
+            1 => __DIR__ . '/..' . '/spatie/ignition/src',
         ),
         'Spatie\\FlareClient\\' => 
         array (
