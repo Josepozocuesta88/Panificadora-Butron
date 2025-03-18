@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name', 'Laravel') }}</title>
 
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -145,15 +144,15 @@
 
           <!-- Iconos de navegación -->
           <div class="d-flex" style="height: 50px;">
-            {{-- <a class="nav-link pe-2" href="{{ route('search') }}">
-              <i class="bi bi-search text-white font-25"></i>
+            <a class="nav-link pe-2" href="{{ route('search') }}">
+            <i class="bi bi-search text-white font-25"></i>
             </a>
             <a class="nav-link pe-2" href="{{ route('login') }}">
               <i class="bi bi-person-circle text-white font-25"></i>
             </a>
             <a class="nav-link pe-2" href="{{ route('cart.show') }}">
               <i class="bi bi-cart3 text-white font-25"></i>
-            </a> --}}
+            </a>
           </div>
         </div>
       </nav>
@@ -172,12 +171,8 @@
       <a href="{{ route('productsnologin') }}" class=" btn-catalogo">Contacta con nosotros</a>
     </div>
 
-    <div class="construction-message mb-5">
-      <h1>PÁGINA EN CONSTRUCCIÓN</h1>
-      <p>Estamos trabajando para ofrecerte una mejor experiencia. ¡Vuelve pronto!</p>
-    </div>
     <!-- novedades y ofertas -->
-    {{-- <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
+   <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
       <li class="nav-item bg-white">
         <a href="#novedades" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
           <i class="bi bi-lightbulb d-md-none d-block"></i>
@@ -190,9 +185,9 @@
           <h2 class="d-none d-md-block">Ofertas</h2>
         </a>
       </li>
-    </ul> --}}
+    </ul>
 
-    {{-- <div class="tab-content pb-5">
+     <div class="tab-content pb-5">
       <div class="tab-pane show active" id="novedades">
         <!-- novedades -->
         <x-novedades :novedades="$novedades" />
@@ -205,65 +200,65 @@
           <div class="carousel-indicators">
             @foreach($ofertas as $index => $image)
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $index }}"
-              class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}"
-              aria-label="Slide {{ $index + 1 }}"></button>
-            @endforeach
-          </div>
+    class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}"
+    aria-label="Slide {{ $index + 1 }}"></button>
+    @endforeach
+  </div>
 
-          <!-- Elementos del Carrusel -->
-          <div class="carousel-inner pb-3">
-            @foreach($ofertas as $image)
-            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-              <a
-                href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
-                <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block w-100 fill"
-                  alt="banner publicitario">
-              </a>
-            </div>
-            @endforeach
-          </div>
+  <!-- Elementos del Carrusel -->
+  <div class="carousel-inner pb-3">
+    @foreach($ofertas as $image)
+    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+      <a
+        href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
+        <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block w-100 fill"
+          alt="banner publicitario">
+      </a>
+    </div>
+    @endforeach
+  </div>
 
-          <!-- Controles del Carrusel -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-        <!-- fin ofertas -->
+  <!-- Controles del Carrusel -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+  </div>
+  <!-- fin ofertas -->
+  </div>
+  </div>
+  <!-- fin novedades y ofertas -->
+
+  <!-- categorias disponibles -->
+  <h2 class="text-primary py-3">Nuestro Catálogo</h2>
+  <div class="row justify-content-center">
+    @foreach($categories as $category)
+    <div class="categoria col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 d-block position-relative p-0 m-2">
+      <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
+        <img src="{{ asset('images/categorias/' . $category->catima) }}" class="object-fit-fill border rounded"
+          alt="{{ $category->catnom }}" style="height:300px; width:100%;r"
+          onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
+      </a>
+      <div class="nombre-categoria bg-primary text-center">
+        <h3>
+          <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
+            onclick="irAProductos()">
+            {{ $category->catnom }}
+          </a>
+        </h3>
+        <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
+          class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
       </div>
     </div>
-    <!-- fin novedades y ofertas -->
-
-    <!-- categorias disponibles -->
-    <h2 class="text-primary py-3">Nuestro Catálogo</h2>
-    <div class="row justify-content-center">
-      @foreach($categories as $category)
-      <div class="categoria col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 d-block position-relative p-0 m-2">
-        <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
-          <img src="{{ asset('images/categorias/' . $category->catima) }}" class="object-fit-fill border rounded"
-            alt="{{ $category->catnom }}" style="height:300px; width:100%;r"
-            onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
-        </a>
-        <div class="nombre-categoria bg-primary text-center">
-          <h3>
-            <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
-              onclick="irAProductos()">
-              {{ $category->catnom }}
-            </a>
-          </h3>
-          <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
-            class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
-        </div>
-      </div>
-      @endforeach
-    </div>
-  </div> --}}
+    @endforeach
+  </div>
+  </div> 
 
   <div class="row pe-0 mx-0">
     <div class="col-12 bg-light pe-0 pt-1">
@@ -271,7 +266,6 @@
         loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
-
 
   <div class=" bg-light py-4">
     <div class="container">
@@ -287,7 +281,6 @@
             </div>
           </div>
         </div>
-
 
         <div class="col-sm-6 col-lg-4">
           <div class="d-flex justify-content-center align-items-center">
@@ -338,9 +331,7 @@
 
         <div class="col-sm-6 col-lg-3 p-3">
           <div class="widget">
-
             <h4 class="widget-title">Legal</h4>
-
             <ul class="widget-list">
               <li><a href="{{ route('privacidad') }}">Política de Privacidad</a></li>
               <li><a href="{{ route('avisoLegal') }}">Aviso Legal</a></li>
@@ -352,12 +343,8 @@
 
         <div class="col-sm-6 col-lg-3 p-3">
           <div class="widget">
-
-
             <h4 class="widget-title">Información</h4>
-
             <ul class="widget-list">
-
               <li><a href="7-vc-quienes-somos.html">Quiénes Somos</a></li>
               <li><a href="10-vc-pago-seguro.html">Pago Seguro</a></li>
               <li><a href="12-vc-devoluciones.html">Devoluciones</a></li>
@@ -365,15 +352,10 @@
             </ul>
           </div>
         </div>
-
         <div class="col-sm-6 col-lg-3 p-3">
           <div class="widget">
-
-
             <h4 class="widget-title">Clientes</h4>
-
             <ul class="widget-list">
-
               <li><a href="{{ route('contacto.formulario') }}">Contacto</a></li>
             </ul>
           </div>

@@ -34,7 +34,14 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 // index
-Route::get('/', [CategoryController::class, 'index'])->name('welcome');
+
+// Welcome del proyecto desactivado
+// Route::get('/', [CategoryController::class, 'index'])->name('welcome');
+
+
+//ruta a commingSon
+Route::view('/', 'commingSon')->name('commingSon');
+
 
 // método que registra todas las rutas necesarias para las funciones de autenticación
 Auth::routes();
