@@ -1,11 +1,78 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sermepa\Tpv;
 
+use ReflectionClass;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 class TpvTest extends PHPUnitTestCase
 {
+
+    private $isEmptyMethod;
+    private $redsys;
+
+    protected function setUp(): void
+    {
+        $this->redsys = new Tpv();
+        $reflection = new ReflectionClass(Tpv::class);
+        $this->isEmptyMethod = $reflection->getMethod('isEmpty');
+        $this->isEmptyMethod->setAccessible(true);
+    }
+
+    /**
+     * Data provider for the isEmpty method
+     *
+     * @return array Array of empty values
+     */
+    public function emptyValuesProvider()
+    {
+        return [
+            'null value' => [null],
+            'empty string' => [''],
+            'whitespace string' => ['   '],
+            'tabs' => ["\t\t"],
+            'newlines' => ["\n\r"],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider emptyValuesProvider
+     */
+    public function isEmpty_should_handle_empty_values($value)
+    {
+        $result = $this->isEmptyMethod->invoke($this->redsys, $value);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Data provider for the isEmpty method
+     *
+     * @return array Array of empty values
+     */
+    public function nonEmptyValuesProvider()
+    {
+        return [
+            'boolean true' => [true],
+            'boolean false' => [false],
+            'empty array' => [[]],
+            'zero as string' => ['0'],
+            'zero as integer' => [0],
+            'normal string' => ['test'],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider nonEmptyValuesProvider
+     */
+    public function isEmpty_returns_false_for_non_empty_values($value)
+    {
+        $result = $this->isEmptyMethod->invoke($this->redsys, $value);
+        $this->assertFalse($result);
+    }
 
     /** @test */
     public function identifier_by_default_required()
@@ -629,5 +696,120 @@ class TpvTest extends PHPUnitTestCase
         $this->expectException(\Sermepa\Tpv\TpvException::class);
         $redsys = new Tpv();
         $redsys->getJsPath($environment, $version);
+    }
+
+    public function cofIniProvider()
+    {
+        return [
+            ['S'],
+            ['N'],
+        ];
+    }
+
+    /**
+     *
+     * @dataProvider cofIniProvider
+     */
+    public function test_should_validate_a_merchant_cof_ini($cofIni)
+    {
+        $redsys = new Tpv();
+        $redsys->setMerchantCofIni($cofIni);
+        $parameters = $redsys->getParameters();
+        $this->assertArrayHasKey('DS_MERCHANT_COF_INI', $parameters);
+        $this->assertContains($parameters['DS_MERCHANT_COF_INI'], [$cofIni]);
+    }
+
+    public function invalidSetMerchantCofIni()
+    {
+        return [
+            [''],
+            ['B'],
+            ['-1'],
+            ['G'],
+            [0],
+            ['Del']
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider invalidSetMerchantCofIni
+     */
+    public function throw_when_set_method_merchnant_cof_ini_is_invalid($cofIni)
+    {
+        $this->expectExceptionMessage("Set Merchant COF INI valid options");
+        $this->expectException(\Sermepa\Tpv\TpvException::class);
+        $redsys = new Tpv();
+        $redsys->setMerchantCofIni($cofIni);
+    }
+
+    /**
+     * Data provider for the createOrderNumber method
+     *
+     * @return array Array of different lengths for order numbers
+     */
+    public function orderNumberLengthsProvider()
+    {
+        return [
+            'length 12' => [12],
+            'length 10' => [10],
+            'length 8' => [8],
+            'length 6' => [6],
+            'length 4' => [4],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider orderNumberLengthsProvider
+     */
+    public function createOrderNumber_generates_valid_order_number($length)
+    {
+        $orderNumber = $this->redsys->createOrderNumber($length);
+
+        // Verify that the order number has the correct length
+        $this->assertEquals($length, strlen($orderNumber));
+
+        // Verify that the first 4 characters are numeric
+        $this->assertMatchesRegularExpression('/^[0-9]{4}/', $orderNumber);
+
+        // Verify that the remaining characters are alphanumeric
+        $this->assertMatchesRegularExpression('/^[0-9A-Za-z]*$/', substr($orderNumber, 4));
+    }
+
+    /**
+     * Data provider for the createOrderNumber method with invalid inputs
+     *
+     * @return array Array of different invalid inputs for order numbers
+     */
+    public function invalidOrderNumberInputsProvider()
+    {
+        return [
+            'length 20' => [20],
+            'length 100' => [100],
+            'length 23' => [23],
+            'length 1' => [1],
+            'length 3' => [3],
+            'null value' => [null],
+            'string "5"' => ['5'],
+            'string "xxx"' => ['xxx'],
+            'float value' => [5.5],
+            'boolean true' => [true],
+            'boolean false' => [false],
+        ];
+    }
+
+    /**
+     * Test that createOrderNumber throws an exception for invalid inputs
+     *
+     * @test
+     * @dataProvider invalidOrderNumberInputsProvider
+     */
+    public function createOrderNumber_throws_exception_for_invalid_input($input)
+    {
+        $this->expectException(\Sermepa\Tpv\TpvException::class);
+
+        // Call the createOrderNumber method with an invalid input
+        $this->redsys->createOrderNumber($input);
     }
 }
