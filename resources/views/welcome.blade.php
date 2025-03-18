@@ -147,7 +147,7 @@
       <a href="{{ route('productsnologin') }}" class=" btn-catalogo"> Visite nuestro catálogo</a>
     </div>
     <!-- novedades y ofertas -->
-    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
+    {{-- <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
       <li class="nav-item bg-white">
         <a href="#novedades" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
           <i class="bi bi-lightbulb d-md-none d-block"></i>
@@ -160,14 +160,14 @@
           <h2 class="d-none d-md-block">Ofertas</h2>
         </a>
       </li>
-    </ul>
+    </ul> --}}
 
     <div class="tab-content pb-5">
-      <div class="tab-pane show active" id="novedades">
+      {{-- <div class="tab-pane show active" id="novedades">
         <!-- novedades -->
         <x-novedades :novedades="$novedades" />
         <!-- fin novedades -->
-      </div>
+      </div> --}}
       <div class="tab-pane" id="ofertas">
         <!-- ofertas -->
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
