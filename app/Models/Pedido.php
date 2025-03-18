@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Pedido_linea;
 
-class pedido extends Model
+class Pedido extends Model
 {
     use HasFactory;
     protected $table = 'pedidos';

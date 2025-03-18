@@ -3,11 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-<<<<<<< HEAD
-        'reference' => '8b2e663303eff210d6429241488798e49165adea',
-=======
-        'reference' => 'dd875c12ef42e544c7c690c00aab68593686677d',
->>>>>>> b129ce8405e738f2f3279189a6ab717322ce5359
+        'reference' => '4715b02936914179c43693e0a047a6d72893d2a9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -99,9 +95,9 @@
             'dev_requirement' => true,
         ),
         'filp/whoops' => array(
-            'pretty_version' => '2.17.0',
-            'version' => '2.17.0.0',
-            'reference' => '075bc0c26631110584175de6523ab3f1652eb28e',
+            'pretty_version' => '2.18.0',
+            'version' => '2.18.0.0',
+            'reference' => 'a7de6c3c6c3c022f5cfc337f8ede6a14460cf77e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../filp/whoops',
             'aliases' => array(),
@@ -386,20 +382,16 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-<<<<<<< HEAD
-            'reference' => '8b2e663303eff210d6429241488798e49165adea',
-=======
-            'reference' => 'dd875c12ef42e544c7c690c00aab68593686677d',
->>>>>>> b129ce8405e738f2f3279189a6ab717322ce5359
+            'reference' => '4715b02936914179c43693e0a047a6d72893d2a9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
-            'pretty_version' => 'v1.21.1',
-            'version' => '1.21.1.0',
-            'reference' => 'c44bffbb2334e90fba560933c45948fa4a3f3e86',
+            'pretty_version' => 'v1.21.2',
+            'version' => '1.21.2.0',
+            'reference' => '370772e7d9e9da087678a0edf2b11b6960e40558',
             'type' => 'project',
             'install_path' => __DIR__ . '/../laravel/pint',
             'aliases' => array(),
@@ -592,9 +584,9 @@
             'dev_requirement' => false,
         ),
         'nunomaduro/collision' => array(
-            'pretty_version' => 'v7.11.0',
-            'version' => '7.11.0.0',
-            'reference' => '994ea93df5d4132f69d3f1bd74730509df6e8a05',
+            'pretty_version' => 'v7.12.0',
+            'version' => '7.12.0.0',
+            'reference' => '995245421d3d7593a6960822063bdba4f5d7cf1a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nunomaduro/collision',
             'aliases' => array(),
@@ -792,8 +784,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '3.0.0',
-                1 => '1.0|2.0|3.0',
+                0 => '1.0|2.0|3.0',
+                1 => '3.0.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -812,9 +804,9 @@
             ),
         ),
         'psy/psysh' => array(
-            'pretty_version' => 'v0.12.7',
-            'version' => '0.12.7.0',
-            'reference' => 'd73fa3c74918ef4522bb8a3bf9cab39161c4b57c',
+            'pretty_version' => 'v0.12.8',
+            'version' => '0.12.8.0',
+            'reference' => '85057ceedee50c49d4f6ecaff73ee96adb3b3625',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psy/psysh',
             'aliases' => array(),

@@ -67,6 +67,7 @@ return array(
     'App\\Models\\Historico' => $baseDir . '/app/Models/Historico.php',
     'App\\Models\\HistoricoAgrupado' => $baseDir . '/app/Models/HistoricoAgrupado.php',
     'App\\Models\\OfertaC' => $baseDir . '/app/Models/OfertaC.php',
+    'App\\Models\\Pedido' => $baseDir . '/app/Models/Pedido.php',
     'App\\Models\\Pedido_linea' => $baseDir . '/app/Models/Pedido_linea.php',
     'App\\Models\\Precio' => $baseDir . '/app/Models/Precio.php',
     'App\\Models\\Puntos' => $baseDir . '/app/Models/Puntos.php',

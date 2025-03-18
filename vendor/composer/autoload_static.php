@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
+class ComposerStaticInitf96b8ed166df94302083298b6142131b
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -200,9 +200,9 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'Yajra\\DataTables\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
             1 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
-            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
+            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
             3 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
             4 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
         ),
@@ -344,13 +344,13 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
-            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
-            1 => __DIR__ . '/..' . '/spatie/ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
         ),
         'Spatie\\FlareClient\\' => 
         array (
@@ -650,6 +650,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Models\\Historico' => __DIR__ . '/../..' . '/app/Models/Historico.php',
         'App\\Models\\HistoricoAgrupado' => __DIR__ . '/../..' . '/app/Models/HistoricoAgrupado.php',
         'App\\Models\\OfertaC' => __DIR__ . '/../..' . '/app/Models/OfertaC.php',
+        'App\\Models\\Pedido' => __DIR__ . '/../..' . '/app/Models/Pedido.php',
         'App\\Models\\Pedido_linea' => __DIR__ . '/../..' . '/app/Models/Pedido_linea.php',
         'App\\Models\\Precio' => __DIR__ . '/../..' . '/app/Models/Precio.php',
         'App\\Models\\Puntos' => __DIR__ . '/../..' . '/app/Models/Puntos.php',
@@ -6952,9 +6953,9 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9c491b8531eec05ba41a11d9276a5749::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9c491b8531eec05ba41a11d9276a5749::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit9c491b8531eec05ba41a11d9276a5749::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf96b8ed166df94302083298b6142131b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf96b8ed166df94302083298b6142131b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf96b8ed166df94302083298b6142131b::$classMap;
 
         }, null, ClassLoader::class);
     }
