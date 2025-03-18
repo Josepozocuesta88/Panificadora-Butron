@@ -81,7 +81,7 @@
     }
 
     .margen-abajo {
-      margin-top: -60vh;
+      margin-top: 20vh;
       margin-bottom: 10vh;
       /* Usar vh para un margen dinámico según la altura de la pantalla */
     }
