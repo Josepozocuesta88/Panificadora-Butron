@@ -4,22 +4,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ config('app.name', 'Laravel') }}</title>
+
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ config('app.name', 'Laravel') }}</title>
-  <!-- Fonts -->
-  <link rel="dns-prefetch" href="//fonts.bunny.net">
-  <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-  <!-- App favicon -->
-  <link rel="shortcut icon" href="{{ asset(config('app.logo')) }}">
-  <!-- Theme Config Js -->
-  <script src="{{asset('js/hyper-config.js')}}"></script>
-  <!-- Iconos -->
-  <link href="{{asset('css/icons.css') }}" rel="stylesheet" type="text/css" />
-  <!-- Css personalizado -->
-  <link href="{{asset('css/css.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('build/assets/app-7f9c8fa3.css') }}" rel="stylesheet" type="text/css" />
 
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="{{ asset(config('app.favicon')) }}">
+
+  <!-- Theme Config JS -->
+  <script src="{{asset('js/hyper-config.js')}}"></script>
+
+  <!-- Vendor CSS -->
+  <link href="{{ asset('css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
+
+  <!-- App CSS -->
+  <link href="{{asset('css/app-saas.css')}}" rel="stylesheet" type="text/css" id="app-style" />
+  <link href="{{asset('css/css.css')}}" rel="stylesheet" type="text/css" />
+
+  <!-- Iconos -->
+  <link href="{{asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
   <style>
     .etiqueta {
@@ -98,6 +107,9 @@
       }
     }
   </style>
+
+  <!-- Vite -->
+  @vite('resources/sass/app.scss')
 
 </head>
 
@@ -350,15 +362,20 @@
         </div>
       </div>
     </div>
+
+    <!-- Vendor js -->
+    <script src="{{asset('js/vendor.min.js')}}"></script>
+
+    <!-- App js -->
+    <script src="{{ asset('js/app.min.js') }}"></script>
+
+    <script src="{{asset('js/scrollbar.js')}}"></script>
+
+    <script src="{{ asset('js/scrollPositionSaver.js') }}"></script>
+
+
   </footer>
 
 </body>
-<script src="{{asset('js/scrollbar.js')}}"></script>
-<!-- Vendor js -->
-<script src="{{asset('js/vendor.min.js')}}"></script>
-
-<!-- App js -->
-<script src="{{ asset('js/app.min.js') }}"></script>
-<script src="{{ asset('js/scrollPositionSaver.js') }}"></script>
 
 </html>
