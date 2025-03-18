@@ -943,12 +943,19 @@ class Tpv
      * “S”: It is first COF transaction (store credentials)
      * “N”: It is not the first COF transaction
      *
+     * @param $value
+     *
      * @return $this
      * @throws Exception
      */
-    public function setMerchantCofIni($isFirstTransaction)
+    public function setMerchantCofIni($value)
     {
-        $this->_setParameters['DS_MERCHANT_COF_INI'] = $isFirstTransaction ? 'S' : 'N';
+        $validOptions = ['S', 'N'];
+        $value = strtoupper($value);
+        if (!in_array($value, $validOptions, true)) {
+            throw new TpvException('Set Merchant COF INI valid options');
+        }
+        $this->_setParameters['DS_MERCHANT_COF_INI'] = $value;
 
         return $this;
     }
@@ -991,6 +998,48 @@ class Tpv
         $this->_setParameters['DS_MERCHANT_COF_TXNID'] = $txid;
         }
         return $this;
+    }
+
+    /**
+     * Generates a Redsys order number following the recommended format.
+     * The first 4 characters must be numeric, and the remaining characters must be alphanumeric.
+     *
+     * @param int $length The total length of the order number (must be at least 4)
+     * @return string The generated order number
+     * @throws InvalidArgumentException If the length is less than 4
+     */
+    function createOrderNumber($length = 12)
+    {
+        // Verify that the length is an integer
+        if (!is_int($length)) {
+            throw new TpvException("The order number length must be an integer.");
+        }
+        
+        // Verify that the length is between 4 and 12
+        if ($length < 4 || $length > 12) {
+            throw new TpvException("The order number length must be between 4 and 12.");
+        }
+
+        // Generate the first 4 numeric digits
+        $numericPart = sprintf("%04d", rand(1000, 9999));
+
+        // Define the alphanumeric characters
+        $alphanumericCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Generate the remaining alphanumeric part
+        $alphanumericPart = substr(
+            str_shuffle(
+                str_repeat(
+                    $alphanumericCharacters,
+                    ceil($length / strlen($alphanumericCharacters))
+                )
+            ),
+            0,
+            $length - 4
+        );
+
+        // Combine the numeric and alphanumeric parts to form the order number
+        return $numericPart . $alphanumericPart;
     }
 
     // ******** UTILS ********
@@ -1069,7 +1118,11 @@ class Tpv
      */
     protected function isEmpty($value)
     {
-        return '' === trim($value);
+        if ($value === null) {
+            return true;
+        }
+
+        return is_string($value) && '' === trim($value);
     }
 
     /**
