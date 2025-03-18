@@ -106,6 +106,19 @@
         margin-bottom: 120px;
       }
     }
+
+    .construction-message {
+      text-align: center;
+    }
+
+    .construction-message h1 {
+      font-size: 3rem;
+      color: #5c2b87;
+    }
+
+    .construction-message p {
+      font-size: 1.5rem;
+    }
   </style>
 
   <!-- Vite -->
@@ -131,8 +144,8 @@
           </div>
 
           <!-- Iconos de navegación -->
-          <div class="d-flex">
-            <a class="nav-link pe-2" href="{{ route('search') }}">
+          <div class="d-flex" style="height: 50px;">
+            {{-- <a class="nav-link pe-2" href="{{ route('search') }}">
               <i class="bi bi-search text-white font-25"></i>
             </a>
             <a class="nav-link pe-2" href="{{ route('login') }}">
@@ -140,7 +153,7 @@
             </a>
             <a class="nav-link pe-2" href="{{ route('cart.show') }}">
               <i class="bi bi-cart3 text-white font-25"></i>
-            </a>
+            </a> --}}
           </div>
         </div>
       </nav>
@@ -155,8 +168,13 @@
   </section>
   <div class="container pb-3" style="top:-400px; bottom:0%;">
     <div class="d-flex flex-column justify-content-center align-items-center margen-abajo">
-      <div class="etiqueta">¿Aún no eres cliente?</div>
-      <a href="{{ route('productsnologin') }}" class=" btn-catalogo"> Visite nuestro catálogo</a>
+      <div class="etiqueta">Tlf: 957 690 508</div>
+      <a href="{{ route('productsnologin') }}" class=" btn-catalogo">Contacta con nosotros</a>
+    </div>
+
+    <div class="construction-message mb-5">
+      <h1>PÁGINA EN CONSTRUCCIÓN</h1>
+      <p>Estamos trabajando para ofrecerte una mejor experiencia. ¡Vuelve pronto!</p>
     </div>
     <!-- novedades y ofertas -->
     {{-- <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
@@ -174,12 +192,12 @@
       </li>
     </ul> --}}
 
-    <div class="tab-content pb-5">
-      {{-- <div class="tab-pane show active" id="novedades">
+    {{-- <div class="tab-content pb-5">
+      <div class="tab-pane show active" id="novedades">
         <!-- novedades -->
         <x-novedades :novedades="$novedades" />
         <!-- fin novedades -->
-      </div> --}}
+      </div>
       <div class="tab-pane" id="ofertas">
         <!-- ofertas -->
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -245,7 +263,7 @@
       </div>
       @endforeach
     </div>
-  </div>
+  </div> --}}
 
   <div class="row pe-0 mx-0">
     <div class="col-12 bg-light pe-0 pt-1">
