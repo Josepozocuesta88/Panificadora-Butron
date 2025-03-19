@@ -91,20 +91,36 @@
           <a class="navbar-brand d-md-none position-absolute  translate-middle-y" style="margin-top: 10vh;" href="#">
             <img src="{{ asset(config('app.logo')) }}" alt="Logo pequeño" width="100">
           </a>
-          <a class="d-none d-md-block text-center position-absolute translate-middle-y" style="margin-top: 20vh;" href="#">
+          <a class="d-none d-md-block text-center position-absolute translate-middle-y" style="margin-top: 20vh;"
+            href="#">
             <img src="{{ asset(config('app.logo')) }}" alt="Logo grande" width="220">
           </a>
+          <div class="d-flex" style="height: 50px;">
+            <a class="nav-link pe-2" href="{{ route('search') }}">
+              <i class="bi bi-search text-white font-25"></i>
+            </a>
+            <a class="nav-link pe-2" href="{{ route('login') }}">
+              <i class="bi bi-person-circle text-white font-25"></i>
+            </a>
+            <a class="nav-link pe-2" href="{{ route('cart.show') }}">
+              <i class="bi bi-cart3 text-white font-25"></i>
+            </a>
+          </div>
         </div>
       </nav>
       <div>
-        <img src="{{ asset('images/web/navbar.png') }}" class="w-100" style="margin-top: -2px; max-height: 6vh; min-height: 3vh;" alt="navbar">
+        <img src="{{ asset('images/web/navbar.png') }}" class="w-100"
+          style="margin-top: -2px; max-height: 6vh; min-height: 3vh;" alt="navbar">
       </div>
     </div>
 
     <div>
       <div class="">
-        <img src="{{ asset(config('app.hero_index')) }}" class="img-fluid w-100" style="height: 100vh; object-fit: cover; object-position: bottom;" alt="Imagen principal">
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: black; opacity: 0.75;"></div>
+        <img src="{{ asset(config('app.hero_index')) }}" class="img-fluid w-100"
+          style="height: 100vh; object-fit: cover; object-position: bottom;" alt="Imagen principal">
+        <div
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: black; opacity: 0.75;">
+        </div>
       </div>
     </div>
   </section>
