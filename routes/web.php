@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Storage;
 
 // Welcome del proyecto desactivado
 // Route::get('/', [CategoryController::class, 'index'])->name('welcome');
+Route::get('/welcome', [CategoryController::class, 'index'])->name('welcome');
 
 
 //ruta a commingSon
