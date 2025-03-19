@@ -91,10 +91,11 @@
           <a class="navbar-brand d-md-none position-absolute  translate-middle-y" style="margin-top: 10vh;" href="#">
             <img src="{{ asset(config('app.logo')) }}" alt="Logo pequeño" width="100">
           </a>
-          <a class="d-none d-md-block text-center position-absolute translate-middle-y" style="margin-top: 20vh;"
-            href="#">
-            <img src="{{ asset(config('app.logo')) }}" alt="Logo grande" width="220">
-          </a>
+          <div class="d-none d-md-flex justify-content-center flex-grow-1">
+            <a class="" style="margin-bottom: -71px; margin-left:11rem" href="#">
+              <img src="{{ asset(config('app.logo')) }}" alt="Logo grande" width="220">
+            </a>
+          </div>
           <div class="d-flex" style="height: 50px;">
             <a class="nav-link pe-2" href="{{ route('search') }}">
               <i class="bi bi-search text-white font-25"></i>
