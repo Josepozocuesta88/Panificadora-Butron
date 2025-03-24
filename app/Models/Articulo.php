@@ -30,6 +30,8 @@ class Articulo extends Model
         'artivapor',
         'artrecpor',
         'artsigimp',
+        'artgrucod',
+
     ];
 
     public function etiquetas()

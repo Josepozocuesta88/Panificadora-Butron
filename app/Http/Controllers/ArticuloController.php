@@ -12,6 +12,7 @@ use App\Services\ArticleService;
 use App\Contracts\OfertaServiceInterface;
 use App\Models\ClienteArticulo;
 use App\Models\ClienteCategoria;
+use App\Models\ClienteGrupo;
 use App\Services\OfertasGeneralesService;
 use App\Services\OfertasPersonalizadasService;
 
@@ -79,20 +80,21 @@ class ArticuloController extends Controller
     session(['search' => $request->get('query')]);
     $keywords = explode(' ', $request->get('query'));
 
-    if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
-      $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod')->toArray();
-      $articulos = Articulo::situacion('C')->search($keywords)
-        ->restrictions()
-        ->whereNotIn('artcod', $excluidos)
-        ->with(['imagenes', 'cajas'])
-        ->paginate(12)
-        ->appends($request->all());
-    } else {
-      $articulos = Articulo::situacion('C')->search($keywords)
-        ->restrictions()
-        ->with(['imagenes', 'cajas'])
-        ->paginate(12);
+    $usuarioCodigo = Auth::user()->usuclicod;
+    $query = Articulo::situacion('C')->search($keywords)->restrictions()->with(['imagenes', 'cajas']);
+
+    $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
+    $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+
+    if (!empty($excluidosArticulos)) {
+      $query->whereNotIn('artcod', $excluidosArticulos);
     }
+
+    if (!empty($excluidosGrupos)) {
+      $query->whereNotIn('artgrucod', $excluidosGrupos);
+    }
+
+    $articulos = $query->paginate(12)->appends($request->all());
 
     // generales
     $ofertasService     = app(\App\Contracts\OfertaServiceInterface::class);

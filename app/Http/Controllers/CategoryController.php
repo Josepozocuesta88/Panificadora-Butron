@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Articulo;
 use App\Models\ClienteArticulo;
 use App\Models\ClienteCategoria;
+use App\Models\ClienteGrupo;
 use App\Services\ArticleService;
 
 
@@ -49,14 +50,21 @@ class CategoryController extends Controller
 
         $categorias = Category::where('catnom', 'like', "%{$query}%")->get();
 
-        if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
-            $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
-            $articulos = Articulo::whereNotIn('artcod', $excluidos)
-                ->with('imagenes')
-                ->paginate(12);
-        } else {
-            $articulos = Articulo::with('imagenes')->paginate(12);
+        $usuarioCodigo = Auth::user()->usuclicod;
+        $query = Articulo::with('imagenes');
+
+        $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
+        $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+
+        if (!empty($excluidosArticulos)) {
+            $query->whereNotIn('artcod', $excluidosArticulos);
         }
+
+        if (!empty($excluidosGrupos)) {
+            $query->whereNotIn('artgrucod', $excluidosGrupos);
+        }
+
+        $articulos = $query->paginate(12);
 
         $favoritos = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
 

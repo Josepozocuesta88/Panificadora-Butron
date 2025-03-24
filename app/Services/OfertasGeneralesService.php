@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\OfertaServiceInterface;
 use App\Models\ClienteArticulo;
+use App\Models\ClienteGrupo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Models\OfertaC;
@@ -14,16 +15,32 @@ class OfertasGeneralesService implements OfertaServiceInterface
   {
     $today  = Carbon::now();
 
-    if (Auth::user() && !is_null(Auth::user()->usuofecod) && ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
-      $excluidos = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
-      $ofertas    = OfertaC::whereHas('articulo', function ($q) use ($excluidos) {
-        $q->whereNotIn('artcod', $excluidos);
-      })->with('articulo',)->where('ofccod', '=', '')
+    if (Auth::check() && !is_null(Auth::user()->usuofecod)) {
+      $usuarioCodigo = Auth::user()->usuclicod;
+      $query = OfertaC::with('articulo')
+        ->where('ofccod', '=', '')
         ->whereDate('ofcfecini', '<=', $today)
-        ->whereDate('ofcfecfin', '>=', $today)
-        ->get();
+        ->whereDate('ofcfecfin', '>=', $today);
+
+      $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
+      $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+
+      if (!empty($excluidosArticulos)) {
+        $query->whereHas('articulo', function ($q) use ($excluidosArticulos) {
+          $q->whereNotIn('artcod', $excluidosArticulos);
+        });
+      }
+
+      if (!empty($excluidosGrupos)) {
+        $query->whereHas('articulo', function ($q) use ($excluidosGrupos) {
+          $q->whereNotIn('artgrucod', $excluidosGrupos);
+        });
+      }
+
+      $ofertas = $query->get();
     } else {
-      $ofertas    = OfertaC::with('articulo')->where('ofccod', '=', '')
+      $ofertas = OfertaC::with('articulo')
+        ->where('ofccod', '=', '')
         ->whereDate('ofcfecini', '<=', $today)
         ->whereDate('ofcfecfin', '>=', $today)
         ->get();

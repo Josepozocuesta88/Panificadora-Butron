@@ -8,6 +8,7 @@ use App\Models\Articulo;
 use App\Contracts\OfertaServiceInterface;
 use App\Models\ClienteArticulo;
 use App\Models\ClienteCategoria;
+use App\Models\ClienteGrupo;
 use App\Models\User;
 use App\Services\ArticleService;
 use App\Services\OfertasGeneralesService;
@@ -41,12 +42,21 @@ class OfertaCController extends Controller
       $categorias = Category::all();
     }
 
-    if (ClienteArticulo::where('clicod', Auth::user()->usuclicod)->exists()) {
-      $excluidos  = ClienteArticulo::where('clicod', Auth::user()->usuclicod)->pluck('artcod');
-      $novedades  = Articulo::whereNotIn('artcod', $excluidos)->orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
-    } else {
-      $novedades  = Articulo::orderby('artfecrea', 'desc')->limit(15)->with('imagenes')->get();
+    $usuarioCodigo = Auth::user()->usuclicod;
+    $query = Articulo::with('imagenes')->orderby('artfecrea', 'desc')->limit(15);
+
+    $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
+    $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+
+    if (!empty($excluidosArticulos)) {
+      $query->whereNotIn('artcod', $excluidosArticulos);
     }
+
+    if (!empty($excluidosGrupos)) {
+      $query->whereNotIn('artgrucod', $excluidosGrupos);
+    }
+
+    $novedades = $query->get();
 
     // Generales
     $articulosConPrecio     = $articleService->calculatePrices($novedades, $usutarcod);
