@@ -7,13 +7,17 @@
     "file": "assets/bootstrap-icons-476adf42.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
+  "public/images/web/bg-login.jpg": {
+    "file": "assets/bg-login-3acfa447.jpg",
+    "src": "public/images/web/bg-login.jpg"
+  },
   "resources/js/app.js": {
     "file": "assets/app-d44d138d.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-c43520ff.css",
+    "file": "assets/app-35fd5e3c.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }
