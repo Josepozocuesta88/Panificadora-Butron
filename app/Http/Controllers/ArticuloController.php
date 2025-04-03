@@ -32,8 +32,21 @@ class ArticuloController extends Controller
     $ofertas        = $ofertasService->obtenerOfertas();
     $categoria      = Category::where('catcod', $catcod)->firstOrFail();
 
+    $usuarioCodigo = Auth::user()->usuclicod;
+
+    $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
+    $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+
     if (Auth::user()) {
-      $articulos = $categoria->articulos()
+      $articulos = $categoria->articulos()->where(function ($query) use ($excluidosArticulos, $excluidosGrupos) {
+        if (!empty($excluidosArticulos)) {
+          $query->whereNotIn('artcod', $excluidosArticulos);
+        }
+
+        if (!empty($excluidosGrupos)) {
+          $query->whereNotIn('artgrucod', $excluidosGrupos);
+        }
+      })
         ->where('artsit', 'C')
         ->where('artcatcodw1', $catcod)
         ->paginate(12);
@@ -183,6 +196,7 @@ class ArticuloController extends Controller
       $usutarcod          = Auth::user()->usutarcod;
       $usuofecod          = Auth::user()->usuofecod;
       $articulosConPrecio = $this->articleService->calculatePrices($articulos, $usutarcod);
+
       // generales
       if ($articulosOferta) {
         $this->articleService->calculatePrices($articulosOferta, $usutarcod);
