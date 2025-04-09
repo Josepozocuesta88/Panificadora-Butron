@@ -98,6 +98,7 @@ class ArticuloController extends Controller
 
     $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
     $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+    $excluidasCategorias = ClienteCategoria::where('clicod', $usuarioCodigo)->pluck('catcod')->toArray();
 
     if (!empty($excluidosArticulos)) {
       $query->whereNotIn('artcod', $excluidosArticulos);
@@ -105,6 +106,10 @@ class ArticuloController extends Controller
 
     if (!empty($excluidosGrupos)) {
       $query->whereNotIn('artgrucod', $excluidosGrupos);
+    }
+
+    if (!empty($excluidasCategorias)) {
+      $query->whereNotIn('artcatcodw1', $excluidasCategorias);
     }
 
     $articulos = $query->paginate(12)->appends($request->all());

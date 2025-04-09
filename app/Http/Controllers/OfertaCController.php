@@ -36,7 +36,7 @@ class OfertaCController extends Controller
     $articulosOferta    = $ofG->obtenerArticulosEnOferta();
 
     if (ClienteCategoria::where('clicod', Auth::user()->usuclicod)->exists()) {
-      $excluidos  = ClienteCategoria::where('clicod', Auth::user()->usuclicod)->pluck('catcod');
+      $excluidos  = ClienteCategoria::where('clicod', Auth::user()->usuclicod)->pluck('catcod')->toArray();
       $categorias = Category::whereNotIn('catcod', $excluidos)->get();
     } else {
       $categorias = Category::all();
@@ -47,6 +47,7 @@ class OfertaCController extends Controller
 
     $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
     $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+    $excluidasCategorias = ClienteCategoria::where('clicod', $usuarioCodigo)->pluck('catcod')->toArray();
 
     if (!empty($excluidosArticulos)) {
       $query->whereNotIn('artcod', $excluidosArticulos);
@@ -54,6 +55,10 @@ class OfertaCController extends Controller
 
     if (!empty($excluidosGrupos)) {
       $query->whereNotIn('artgrucod', $excluidosGrupos);
+    }
+
+    if (!empty($excluidasCategorias)) {
+      $query->whereNotIn('artcatcodw1', $excluidasCategorias);
     }
 
     $novedades = $query->get();
