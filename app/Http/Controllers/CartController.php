@@ -244,7 +244,7 @@ class CartController extends Controller
     $email = $user->email;
     $repre = Representante::where('rprcod', $user->usurprcod)->first();
 
-    $email_copia = $repre->rprema ?? 'web.arturo@redesycomponentes.com';
+    $email_copia = $repre->rprema ?? '';
 
     $pedido = new Pedido;
     $pedido->cliente_id = $user->id;
