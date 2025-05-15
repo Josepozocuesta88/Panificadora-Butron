@@ -103,8 +103,8 @@ return [
     'address' => env('MAIL_FROM_ADDRESS', 'pedidosweb@florys.es'),
     'name' => env('MAIL_FROM_NAME', 'Example'),
   ],
-  'cc' => env('MAIL_CC_ADDRESS', 'jesus@florys.es'),
-  // 'cc' => env('MAIL_CC_ADDRESS', 'administracion2@florys.es'),
+  // 'cc' => env('MAIL_CC_ADDRESS', 'jesus@florys.es'),
+  'cc' => env('MAIL_CC_ADDRESS', 'administracion2@florys.es'),
 
   /*
     |--------------------------------------------------------------------------

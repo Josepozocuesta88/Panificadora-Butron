@@ -36,7 +36,12 @@ class OrderEmailFromAppController extends Controller
     $repre = Representante::where('rprcod', $user->usurprcod)->first();
     $email = $user->email;
     // $email = $emailPrueba;
-    $emails_copia = $repre->rprema ?? '';
+
+    if ($user->usuWebPedRpr == 1) {
+      $emails_copia = $repre->rprema;
+    } else {
+      $emails_copia = array($repre->rprema, config('mail.cc'));
+    }
 
     // Preparar datos para la vista
     $data = [

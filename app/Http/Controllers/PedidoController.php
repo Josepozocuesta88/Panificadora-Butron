@@ -147,7 +147,13 @@ class PedidoController extends Controller
     $pedido->accclicod = $user->usuclicod;
     $pedido->acccencod = $user->usucencod;
     $pedido->observaciones = $data['comentario'];
-    $pedido->estado = 2;
+
+    if ($user->usuWebPedRpr == 1) {
+      $pedido->estado = 3;
+    } else {
+      $pedido->estado = 2;
+    }
+
     $pedido->fecha = date('Y-m-d H:i:s');
     $pedido->subtotal = $data['subtotal'];
     $pedido->descuento = $data['descuento'];
@@ -198,13 +204,12 @@ class PedidoController extends Controller
     $email = $user->email;
     $email_empresa = config('mail.cc');
     $representante = $user ? Representante::where('rprcod', $user->usurprcod)->first() : "";
-    if ($representante !== null && isset($representante->rprema)) {
-      $email_copia_rpr = $representante->rprema;
+
+    if ($user->usuWebPedRpr == 1) {
+      $emails_copia = $representante->rprema;
     } else {
-      // para prueba (modificar)
-      $email_copia_rpr = "Web.Jorge@redesycomponentes.com";
+      $emails_copia = array($representante->rprema, $email_empresa);
     }
-    $emails_copia = array($email_empresa, $email_copia_rpr);
 
     Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $emails_copia) {
       $message->to($email)
@@ -298,7 +303,6 @@ class PedidoController extends Controller
     $shippingCost = 0.00;
 
     $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
-
 
     if (Auth::user()->usudes1 != 0) {
       $descuento = $subtotal * (Auth::user()->usudes1 / 100);
