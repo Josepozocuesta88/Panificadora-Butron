@@ -202,6 +202,7 @@ class PedidoController extends Controller
   private function sendOrderEmail($data, $user)
   {
     $email = $user->email;
+    // $email = "web.arturo@redesycomponentes.com";
     $email_empresa = config('mail.cc');
     $representante = $user ? Representante::where('rprcod', $user->usurprcod)->first() : "";
 
