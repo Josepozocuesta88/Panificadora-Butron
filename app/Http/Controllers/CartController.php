@@ -236,7 +236,7 @@ class CartController extends Controller
       $subtotal = $subtotal - $descuento;
       $artivapor = $subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
       $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
-      $total = $subtotal + $artivapor + $artrecpor + $artsigimp; //artrecpor no se suma!! -> MIRAR ESTO
+      $total = $subtotal +  $artivapor +  $artrecpor + $artsigimp; //artrecpor no se suma!! -> MIRAR ESTO
     } else {
       $total = $subtotal + $artivapor + $artrecpor + $artsigimp;
     }

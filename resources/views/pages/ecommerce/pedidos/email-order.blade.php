@@ -108,7 +108,10 @@
     <li>Subtotal: {{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €</li>
     <li>Total IVA: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['iva'] * $item['cantidad_unidades'])) }} €</li>
     <li>Total Recargo: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['recargo'] * $item['cantidad_unidades'])) }} €</li>
-    <li>Total: {{ \App\Services\FormatoNumeroService::convertirADecimal($pedido->total) }} €</li>
+    @php
+    $totalSinRedondeo = floor(($pedido->total + $itemDetails->sum(fn($item) => $item['recargo'] * $item['cantidad_unidades'])) * 100) / 100;
+    @endphp
+    <li>Total: {{ number_format($totalSinRedondeo, 2, ',', '.') }} €</li>
   </ul>
 
   <h4>Dirección de envío:</h4>
@@ -130,5 +133,7 @@
     <p>{{ config('app.direccion') }}</p>
   </div>
 </body>
+
+@dd($itemDetails, $pedido)
 
 </html>
