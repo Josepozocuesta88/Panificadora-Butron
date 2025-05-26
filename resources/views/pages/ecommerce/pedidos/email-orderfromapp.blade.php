@@ -10,6 +10,7 @@
     .email-table {
       margin: 0 auto;
       border-collapse: collapse;
+      width: 90%;
     }
 
     .email-table th,

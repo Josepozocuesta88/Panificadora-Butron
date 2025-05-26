@@ -11,6 +11,7 @@
     .email-table {
       margin: 0 auto;
       border-collapse: collapse;
+      width: 90%;
     }
 
     .email-table th,
@@ -19,38 +20,22 @@
       padding: 8px;
     }
 
-    .totals {
-      text-align: left;
+    .totals,
+    .shipping {
       margin-top: 20px;
     }
 
-
-    .d-flex {
-      display: flex;
+    ul {
+      padding-left: 16px;
     }
 
-    .align-items-center {
-      align-items: center;
+    img {
+      vertical-align: middle;
+      margin-right: 6px;
     }
 
-    .line {
-      text-decoration: line-through;
-    }
-
-    .text-decoration-line-through {
-      text-decoration: line-through;
-    }
-
-    .me-1 {
-      margin-right: 4px;
-    }
-
-    .j-center {
-      justify-content: center;
-    }
-
-    .c-center {
-      place-content: center;
+    h4 {
+      margin-bottom: 6px;
     }
   </style>
 </head>
@@ -58,25 +43,25 @@
 <body>
   <div class="center">
     <h3>Estimad@ {{ $usuario['name'] }}</h3>
-    <p>Nos complace informarle que su pedido ha sido recibido y está siendo procesado. A continuación, encontrará
-      los detalles de su pedido:</p>
+    <p>Nos complace informarle que su pedido ha sido recibido y está siendo procesado. A continuación, encontrará los detalles de su pedido:</p>
   </div>
+
   <h4>Detalles del Cliente:</h4>
   <ul>
     <li>Nombre: {{ $usuario['name'] }}</li>
     <li>Correo Electrónico: {{ $usuario['email'] }}</li>
   </ul>
-  <br>
+
   <h4>Detalles del Pedido:</h4>
   <table class="email-table">
     <thead>
       <tr>
-        <th>Código de Artículo</th>
-        <th>Nombre</th>
+        <th>Código</th>
+        <th>Producto</th>
         @if(config('app.caja') == 'si')
         <th>Bulto</th>
         @endif
-        <th>Cantidad Uds.</th>
+        <th>Cantidad</th>
         <th>Precio</th>
         <th>IVA</th>
         <th>Recargo</th>
@@ -84,129 +69,66 @@
       </tr>
     </thead>
     <tbody>
-
       @foreach ($itemDetails as $detail)
       <tr>
-
         <td>{{ $detail['artcod'] }}</td>
-
         <td>
           @if (array_key_exists('image', $detail))
-          <img src="{{ asset('images/articulos/'. $detail['image'] ) }}" height="48" style="margin-right: 8px;" />
+          <img src="{{ asset('images/articulos/'. $detail['image']) }}" height="48" alt="Producto" />
           @endif
           {{ $detail['name'] ?? 'N/A' }}
         </td>
         @if(config('app.caja') == 'si')
-        <td style="text-align: right;">{{ $detail['cantidad_cajas'] }}</td>
+        <td>{{ $detail['cantidad_cajas'] }}</td>
         @endif
-        <td style="text-align: right;">{{ $detail['cantidad_unidades'] }}</td>
-
-        <td style="text-align: right;">
+        <td>{{ $detail['cantidad_unidades'] }}</td>
+        <td>
           {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['price']) }} €
           @if($detail['isOnOffer'])
-          <small class="text-decoration-line-through">{{
-            \App\Services\FormatoNumeroService::convertirADecimal($detail['tarifa']) }}
-            €</small>
+          <small style="text-decoration: line-through;">
+            {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['tarifa']) }} €
+          </small>
           @endif
         </td>
-        <td>
-          <div class="d-flex align-items-center center" style="justify-content: center; place-content:center">
-            <div class="me-1">
-              {{ $detail['iva_porcentaje'] }}% -
-              {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['iva']) }}
-            </div>
-            <div> €</div>
-          </div>
-        </td>
-        <td>
-          <div class="d-flex align-items-center center" style="justify-content: center; place-content:center">
-            <div class="me-1">
-              {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['recargo']) }}
-            </div>
-            <div> €</div>
-          </div>
-        </td>
-
-        <td>
-          <div class="d-flex align-items-center center" style="justify-content: center; place-content:center">
-            <div class="me-1">
-              {{ \App\Services\FormatoNumeroService::convertirADecimal(
-              $detail['total'] +
-              $detail['cantidad_unidades'] * ($detail['iva'] + $detail['recargo']),
-              ) }}
-            </div>
-            <div> €</div>
-          </div>
-        </td>
-
+        <td>{{ $detail['iva_porcentaje'] }}% - {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['iva']) }} €</td>
+        <td>{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['recargo']) }} €</td>
+        <td>{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['total'] + $detail['cantidad_unidades'] * ($detail['iva'] + $detail['recargo'])) }} €</td>
       </tr>
       @endforeach
-
     </tbody>
   </table>
-  <br>
 
   @if(isset($comentario))
-  <div class="comentario">
-    <h4>Comentarios sobre el pedido:</h4>
-    <p>{{ $comentario }}</p>
-  </div>
+  <h4>Comentarios sobre el pedido:</h4>
+  <p>{{ $comentario }}</p>
   @endif
-  <br>
 
-  <div style="display: flex; text-align: left; padding: 20px 0;">
-    <div class="totals" style="display: inline-block; vertical-align: top; width: 45%;">
-      <h4>Resumen del Pedido:</h4>
-      <p>Subtotal: {{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €</p>
-      <p>Total IVA:
-        {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->reduce(function ($carry, $item) {
-        return $carry + $item['iva'] * $item['cantidad_unidades'];
-        })) }}
-        €</p>
-      <p>Total Recargo:
-        {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->reduce(function ($carry, $item) {
-        return $carry + $item['recargo'] * $item['cantidad_unidades'];
-        })) }}
-        €</p>
-      <p>Total:
-        {{ \App\Services\FormatoNumeroService::convertirADecimal($pedido->total) }}
-        {{-- {{
-        $itemDetails->reduce(function ($carry, $item) {
-        return $carry + $item['iva'] * $item['cantidad_unidades'];
-        }) +
-        $itemDetails->reduce(function ($carry, $item) {
-        return $carry + $item['recargo'] * $item['cantidad_unidades'];
-        }) }} --}}
-        €
-      </p>
-    </div>
-    <div class="totals" style="display: inline-block; vertical-align: top; width: 45%;">
-      <h4>Dirección de envío</h4>
-      <p>Nombre: {{ $pedido->env_nombre }}</p>
-      <p>Apellidos: {{ $pedido->env_apellidos }}</p>
-      <p>Dirección: {{ $pedido->env_direccion }}</p>
-      <p>Población: {{ $pedido->env_poblacion }}</p>
-      <p>País: {{ $pedido->env_pais_txt }}</p>
-      <p>Código Postal: {{ $pedido->env_cp }}</p>
-      <p>Teléfono: {{ $pedido->env_tfno_1 }} - {{ $pedido->env_tfno_2 }}</p>
-    </div>
-  </div>
-  <br>
+  <h4>Resumen del Pedido:</h4>
+  <ul>
+    <li>Subtotal: {{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €</li>
+    <li>Total IVA: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['iva'] * $item['cantidad_unidades'])) }} €</li>
+    <li>Total Recargo: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['recargo'] * $item['cantidad_unidades'])) }} €</li>
+    <li>Total: {{ \App\Services\FormatoNumeroService::convertirADecimal($pedido->total) }} €</li>
+  </ul>
+
+  <h4>Dirección de envío:</h4>
+  <ul class="shipping">
+    <li>Nombre: {{ $pedido->env_nombre }} {{ $pedido->env_apellidos }}</li>
+    <li>Dirección: {{ $pedido->env_direccion }}</li>
+    <li>Población: {{ $pedido->env_poblacion }}</li>
+    <li>País: {{ $pedido->env_pais_txt }}</li>
+    <li>Código Postal: {{ $pedido->env_cp }}</li>
+    <li>Teléfonos: {{ $pedido->env_tfno_1 }} {{ $pedido->env_tfno_2 }}</li>
+  </ul>
 
   <div class="center">
-    <p>
-      Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros
-      llamando al {{ config('app.telefono') }}.
-    </p>
-    <p>¡Gracias por comprar con nosotros!</p>
+    <p>Gracias por su compra. Si tiene alguna duda, contáctenos en {{ config('app.telefono') }}.</p>
     <p>Atentamente,</p>
     <p>{{ config('app.name') }}</p>
-    <p><img src="{{ asset(config('app.logo')) }}" height="48" /></p>
+    <img src="{{ asset(config('app.logo')) }}" height="48" />
     <p>{{ config('mail.cc') }}</p>
-    <p>{{ config('app.telefono') }}</p>
     <p>{{ config('app.direccion') }}</p>
   </div>
-
 </body>
 
 </html>
