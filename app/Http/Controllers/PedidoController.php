@@ -54,7 +54,6 @@ class PedidoController extends Controller
 
       return  ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
     } catch (\RuntimeException  $th) {
-      Log::info('error: ' . $th->getMessage());
       // Capturar un error específico relacionado con argumentos inválidos
       error_log('Error en los datos del pedido: ' . $th->getMessage());
       return ['message' => 'Datos del pedido incorrectos.'];
@@ -67,8 +66,8 @@ class PedidoController extends Controller
 
       $user = Auth::user();
       Cart::where('cartusucod', $user->id)->delete();
-
-      return view('pages.dashboard.dashboard')->with(['success' => true, 'message' => '¡Su pedido se procesó correctamente!']);
+      session()->flash('success', '¡Su pedido se procesó correctamente!');
+      return view('pages.dashboard.dashboard');
     }
 
     return back()->with('Error', '¡Hubo un error al procesar su pedido!');
