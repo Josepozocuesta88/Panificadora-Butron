@@ -43,7 +43,8 @@
 <body>
   <div class="center">
     <h3>Estimad@ {{ $usuario['name'] }}</h3>
-    <p>Nos complace informarle que su pedido ha sido recibido y está siendo procesado. A continuación, encontrará los detalles de su pedido:</p>
+    <p>Nos complace informarle que su pedido ha sido recibido y está siendo procesado. A continuación, encontrará los
+      detalles de su pedido:</p>
   </div>
 
   <h4>Detalles del Cliente:</h4>
@@ -90,9 +91,11 @@
           </small>
           @endif
         </td>
-        <td>{{ $detail['iva_porcentaje'] }}% - {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['iva']) }} €</td>
+        <td>{{ $detail['iva_porcentaje'] }}% - {{ \App\Services\FormatoNumeroService::convertirADecimal($detail['iva'])
+          }} €</td>
         <td>{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['recargo']) }} €</td>
-        <td>{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['total'] + $detail['cantidad_unidades'] * ($detail['iva'] + $detail['recargo'])) }} €</td>
+        <td>{{ \App\Services\FormatoNumeroService::convertirADecimal($detail['total'] + $detail['cantidad_unidades'] *
+          ($detail['iva'] + $detail['recargo'])) }} €</td>
       </tr>
       @endforeach
     </tbody>
@@ -106,10 +109,13 @@
   <h4>Resumen del Pedido:</h4>
   <ul>
     <li>Subtotal: {{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €</li>
-    <li>Total IVA: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['iva'] * $item['cantidad_unidades'])) }} €</li>
-    <li>Total Recargo: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['recargo'] * $item['cantidad_unidades'])) }} €</li>
+    <li>Total IVA: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['iva']
+      * $item['cantidad_unidades'])) }} €</li>
+    <li>Total Recargo: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) =>
+      $item['recargo'] * $item['cantidad_unidades'])) }} €</li>
     @php
-    $totalSinRedondeo = floor(($pedido->total + $itemDetails->sum(fn($item) => $item['recargo'] * $item['cantidad_unidades'])) * 100) / 100;
+    $totalSinRedondeo = floor(($pedido->total + $itemDetails->sum(fn($item) => $item['recargo'] *
+    $item['cantidad_unidades'])) * 100) / 100;
     @endphp
     <li>Total: {{ number_format($totalSinRedondeo, 2, ',', '.') }} €</li>
   </ul>
@@ -133,7 +139,5 @@
     <p>{{ config('app.direccion') }}</p>
   </div>
 </body>
-
-@dd($itemDetails, $pedido)
 
 </html>

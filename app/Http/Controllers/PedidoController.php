@@ -44,7 +44,7 @@ class PedidoController extends Controller
       $this->articleService->calculatePrices($articulos, $user->usutarcod);
       $itemDetails = $this->calculateItemDetails($items);
       $itemDetails = $this->addTaxes($itemDetails, $articulos);
-      Log::info('itemDetails despues de addTaxes: ' . json_encode($itemDetails));
+      Log::info('itemDetails despues de addTaxes: ' . json_encode([$itemDetails]));
       $data = $this->prepareOrderData($user, $itemDetails, $comentario);
       $pedido = $this->createPedido($data, $user, $direccion);
       $data['pedido'] = $pedido;
@@ -54,7 +54,7 @@ class PedidoController extends Controller
 
       return  ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
     } catch (\RuntimeException  $th) {
-
+      Log::info('error: ' . $th->getMessage());
       // Capturar un error específico relacionado con argumentos inválidos
       error_log('Error en los datos del pedido: ' . $th->getMessage());
       return ['message' => 'Datos del pedido incorrectos.'];
