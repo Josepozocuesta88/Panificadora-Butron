@@ -54,7 +54,7 @@ $(document).ready(function () {
     });
 
     new Swiper(".mySwiper", {
-        slidesPerView: 1,
+        slidesPerView: 4,
         spaceBetween: 20,
         loop: true,
         pagination: {
@@ -66,7 +66,7 @@ $(document).ready(function () {
             prevEl: ".swiper-button-prev",
         },
         breakpoints: {
-            1024: { slidesPerView: 1 },
+            1024: { slidesPerView: 4 },
             768: { slidesPerView: 2 },
             480: { slidesPerView: 1 },
         },
