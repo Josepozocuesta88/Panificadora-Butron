@@ -1,7 +1,6 @@
 $(document).ready(function () {
-    var page = 1; 
-
-    var artcod = $(".categorias").data();
+    let page = 1;
+    let artcod = $("#categorias").data();
 
     $.ajax({
         url: "/recomendados",
@@ -11,54 +10,65 @@ $(document).ready(function () {
             artcod: artcod.artcod,
         },
         success: function (response) {
-            var categoriasDiv = $(".categorias");
-
             $.each(response, function (i, articulo) {
-                var div = $("<div/>", {
-                    class: "col d-flex flex-column align-content-between align-items-center",
+                let slide = $("<div/>", {
+                    class: "swiper-slide d-flex flex-column align-items-center text-center",
                 });
-                div.addClass("producto");
-                var imageUrl =
+
+                let imageUrl =
                     articulo.imagenes.length > 0
                         ? window.location.origin +
                           "/images/articulos/" +
                           articulo.imagenes[0].imanom
                         : "/images/articulos/noimage.jpg";
-                var artcod = articulo.artcod;
-                var url = "/articles/" + artcod;
 
-                var link = $("<a/>", {
-                    href: url,
-                    title: "",
-                });
-                var img = $("<img/>", {
+                let url = "/articles/" + articulo.artcod;
+
+                let img = $("<img/>", {
                     src: imageUrl,
-                    class: "img-fluid",
-                    alt: "",
-                    style: "width:200px;height:200px;",
+                    alt: articulo.artnom,
+                    class: "img-fluid mb-2",
+                    style: "width: 180px; height: 180px; object-fit: contain;",
                 });
-                link.append(img);
 
-                var h4 = $("<h4/>", {
-                    class: "text-center text-truncate w-75",
+                let title = $("<h6/>", {
+                    class: "text-truncate w-100 px-2",
                     title: articulo.artnom,
-                });
-                var h5 = $("<h5/>", {
-                    class: "text-center text-truncate w-75",
+                }).append(
+                    $("<a/>", {
+                        href: url,
+                        text: articulo.artnom,
+                        class: "text-decoration-none text-dark",
+                    })
+                );
+
+                let price = $("<div/>", {
+                    class: "fw-bold text-primary",
                     text: articulo.preimp + " €",
                 });
-                var titleLink = $("<a/>", {
-                    href: url,
-                    text: articulo.artnom,
-                });
-                h4.append(titleLink);
 
-                div.append(link);
-                div.append(h4);
-                div.append(h5);
-
-                categoriasDiv.append(div);
+                slide.append(img, title, price);
+                $("#carousel-recomendados").append(slide);
             });
+        },
+    });
+
+    new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            1024: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            480: { slidesPerView: 1 },
         },
     });
 });

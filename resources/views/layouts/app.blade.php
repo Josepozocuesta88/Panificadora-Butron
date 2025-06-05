@@ -46,6 +46,9 @@
   <link href="https://cdn.datatables.net/searchpanes/2.3.3/css/searchPanes.dataTables.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/select/3.0.0/css/select.dataTables.css" rel="stylesheet">
 
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <!-- Vite -->
   @vite('resources/sass/app.scss')
 
@@ -102,6 +105,10 @@
 
     <!-- Histórico -->
     <script src="{{ asset('js/scrollPositionSaver.js') }}"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 
     @stack('scripts')
   </footer>
