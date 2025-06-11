@@ -31,6 +31,7 @@ class Articulo extends Model
         'artrecpor',
         'artsigimp',
         'artgrucod',
+        'arttemporada',
 
     ];
 

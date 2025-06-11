@@ -1,8 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- styles -->
+<style>
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.15);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .pulse-icon {
+    animation: pulse 1s infinite;
+    display: inline-block;
+    transform-origin: center;
+  }
+</style>
+<!-- end styles -->
+
 <div class="pb-3 container-fluid bg-light">
-  <!-- start page title -->
   <div class="row">
     <div class="col-12">
       <div class="page-title-box">
@@ -17,7 +40,7 @@
       </div>
     </div>
   </div>
-  <!-- end page title -->
+
   <!-- ofertas -->
   <div class="tw-flex tw-justify-between tw-align-middle tw-ml-4">
     <div class="nav nav-tabs text-dark ">
@@ -32,9 +55,6 @@
         </a>
       </li>
 
-
-
-
       @if($existeOferta == 1)
       <li class="nav-item">
         <a href="#carrouselOfertas" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 ">
@@ -43,8 +63,10 @@
         </a>
       </li>
       @endif
+
     </ul>
   </div>
+  <!-- Fin de ofertas -->
 
   <div class="pb-5 tab-content">
     <div class="tab-pane show active" id="tarjetasOfertas">
@@ -122,25 +144,17 @@
                       </h5>
                       @endif
                       <span class="font-18 text-danger fw-bolder">
-                        {{
-                        \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioOferta)
-                        }}
-                        €
+                        {{ \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioOferta) }} €
                       </span>
                       @if(Auth::user()->usudistribuidor !== 1)
                       <span class="text-decoration-line-through font-14">
-                        {{
-                        \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa)
-                        }}
-                        €
+                        {{\App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa) }} €
                       </span>
                       @endif
                       @elseif(isset($ofertaArticulo->precioTarifa))
                       <span class="font-18">
-                        {{
-                        \App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa)
-                        }}
-                        €</span>
+                        {{\App\Services\FormatoNumeroService::convertirADecimal($ofertaArticulo->precioTarifa) }} €
+                      </span>
                       @else
                       <span class="font-18"></span>
                       @endif
@@ -151,9 +165,7 @@
                       @csrf
                       <div class="row">
                         <div class="col">
-                          @if ($ofertaArticulo->cajas->isNotEmpty() && config('app.caja')
-                          ==
-                          'si')
+                          @if ($ofertaArticulo->cajas->isNotEmpty() && config('app.caja') == 'si')
                           <div class="row">
                             <div class="quantity-input col">
                               <input type="number" class="quantity form-control" name="quantity" min="1" value="1">
@@ -163,11 +175,7 @@
                               <div class="form-check">
                                 <input class="form-check-input" type="radio" data-id="$caja->cajartcod"
                                   value="{{ $caja->cajcod }}" name="input-tipo" id="caja{{ $index }}"
-                                  @if($caja->cajdef==
-                                1)
-                                checked
-                                @endif
-                                >
+                                  @if($caja->cajdef==1) checked @endif>
                                 <label class="form-check-label" for="caja{{ $index }}">
                                   @if ($caja->cajreldir > 0)
                                   {{ $caja->cajreldir }}
@@ -211,7 +219,6 @@
       </div>
     </div>
     <div class="tab-pane " id="carrouselOfertas">
-
       <div class="container">
         <div id="carouselExampleIndicators" class="pb-5 carousel slide" data-bs-ride="carousel">
           <!-- Indicadores del Carrusel -->
@@ -266,7 +273,6 @@
     <h3>Todos los Productos</h3>
     @endisset
 
-
     <div class="gap-3 pb-3 d-flex justify-content-end">
       <!-- Ver todos los productos -->
       @isset($catnom)
@@ -307,13 +313,11 @@
     <div class="collapse" id="menuLateralFormulario">
 
       <div class="card card-body">
-
-        <form action="{{ route('filtrarArticulos', ['catnom' => $catnom ?? null]) }}" method="GET"
-          class="container mt-4 ordenacion-formulario">
-
+        <form action="{{ route('filtrarArticulos', ['catnom' => $catnom ?? null]) }}" method="GET" class="container mt-4 ordenacion-formulario">
           <h3 class="mb-4 text-center">Ordenar Productos</h3>
-          <p class="text-center">Seleccione cómo desea ordenar los productos. Puede combinar múltiples
-            criterios.</p>
+          <p class="text-center">
+            Seleccione cómo desea ordenar los productos. Puede combinar múltiples criterios.
+          </p>
 
           <!-- Opciones de Ordenación -->
           <div class="ordenacion-opciones row justify-content-center">
@@ -331,7 +335,6 @@
                   class="form-check-input checkbox-orden-nombre">
                 <label class="form-check-label" for="orden_nombre_desc">Z - A</label>
               </div>
-
             </div>
 
             <!-- Sección: Ordenar por Precio -->
@@ -378,25 +381,38 @@
     <div class="collapse" id="categoriasCollapse">
       <div class="p-3 card">
         <x-categorias :categorias="$categorias" />
-
       </div>
     </div>
-    <!--end Collapse categorias  -->
+    <!--end Collapse categorías  -->
 
     <div class="p-3 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
       @if($articulos->isNotEmpty())
       @foreach($articulos as $articulo)
       <div class="col">
-
         <div class="border shadow-lg card h-100 border-primary rounded-3 position-relative">
-
-          <!-- Ícono de la corazon -->
+          <!-- Ícono de la corazón -->
           @if(in_array($articulo->artcod, $favoritos))
-          <i onclick="heart(this)" data-artcod="{{$articulo->artcod}}"
-            class="top-0 m-2 cursor-pointer bi bi-suit-heart-fill red-heart position-absolute end-0 font-20 heartIcon"></i>
+          <i
+            onclick="heart(this)"
+            data-artcod="{{$articulo->artcod}}"
+            class="top-0 m-2 cursor-pointer bi bi-suit-heart-fill red-heart position-absolute end-0 font-20 heartIcon">
+          </i>
           @else
-          <i onclick="heart(this)" data-artcod="{{$articulo->artcod}}"
-            class="top-0 m-2 cursor-pointer bi bi-suit-heart position-absolute end-0 font-20 heartIcon"></i>
+          <i
+            onclick="heart(this)"
+            data-artcod="{{$articulo->artcod}}"
+            class="top-0 m2 cursor-pointer bi bi-suit-heart position-absolute end-0 font-20 heartIcon">
+          </i>
+          @endif
+
+          <!-- Temporada -->
+          @if(isset($articulo->arttemporada) && $articulo->arttemporada === 1)
+          <div class="top-0 cursor-pointer position-absolute start-0 font-20" style="margin-top: -10px; margin-left: -10px;">
+            <span class="badge bg-primary p-2">
+              <i class="mdi mdi-alert-circle-outline pulse-icon"></i>
+              Temporada
+            </span>
+          </div>
           @endif
 
           <figure class="m-0 overflow-hidden bg-white d-flex align-items-center justify-content-center"
@@ -410,7 +426,6 @@
               <img src="{{ asset('images/articulos/noimage.jpg') }}" class="h-auto d-block w-100" alt="no hay imagen"
                 title="No hay imagen">
               @endif
-
             </a>
           </figure>
 
@@ -419,29 +434,23 @@
               <h5 class="m-0 card-title text-primary">{{ $articulo->artnom }}</h5>
               @isset($articulo->artobs)<p class="card-text l3truncate">{{$articulo->artobs}}</p>@endisset
             </a>
-
           </div>
 
           <div class="pt-0 card-footer">
-
             <ul class="list-group list-group-flush">
-
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                  <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}" data-toggle="fullscreen"
-                    title="Stock disponible o no">
+                  <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}" data-toggle="fullscreen" title="Stock disponible o no">
                     @if($articulo->artstocon == 1 || $articulo->artstock > 1)
                     <i class="mdi mdi-archive-check font-24 text-success"></i>
                     @else
                     <i class="mdi mdi-archive-cancel font-24 text-danger"></i>
                     @endif
                   </a>
-                  <a class="pe-2" href="{{ asset('images/files/' . $articulo->artdocaso) }}" data-toggle="fullscreen"
-                    title="Ficha técnica">
+                  <a class="pe-2" href="{{ asset('images/files/' . $articulo->artdocaso) }}" data-toggle="fullscreen" title="Ficha técnica">
                     <i class="uil-clipboard-alt font-24"></i>
                   </a>
-                  <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}" data-toggle="fullscreen"
-                    title="Información">
+                  <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}" data-toggle="fullscreen" title="Información">
                     <i class="mdi mdi-information-outline font-24"></i>
                   </a>
                 </div>
@@ -459,32 +468,22 @@
                   </h5>
                   @endif
                   <span class="font-18 {{ Auth::user()->usudistribuidor == 1 ? 'text-danger fw-bolder' : '' }}">
-                    {{
-                    \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta)
-                    }}
-                    €
+                    {{\App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta)}} €
                   </span>
                   @if(Auth::user()->usudistribuidor !== 1)
                   <span class="text-decoration-line-through font-14">
-                    {{
-                    \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa)
-                    }}
-                    €
+                    {{\App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa)}} €
                   </span>
                   @endif
                   @elseif(isset($articulo->precioTarifa))
                   <span class="font-18">
-                    {{
-                    \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa)
-                    }}
-                    €</span>
+                    {{\App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa)}} €
+                  </span>
                   @else
                   <span class="font-18"></span>
                   @endif
                 </div>
               </li>
-
-
               <li class="list-group-item product-card">
                 <form method="POST" action="{{ route('cart.add', ['artcod' => $articulo->artcod]) }}">
                   @csrf
@@ -499,11 +498,7 @@
                           @foreach($articulo->cajas as $index => $caja)
                           <div class="form-check">
                             <input class="form-check-input" type="radio" data-id="$caja->cajartcod"
-                              value="{{ $caja->cajcod }}" name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef ==
-                            1)
-                            checked
-                            @endif
-                            >
+                              value="{{ $caja->cajcod }}" name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef == 1) checked @endif>
                             <label class="form-check-label" for="caja{{ $index }}">
                               @if($caja->cajreldir > 0)
                               {{ $caja->cajreldir }} {{ $articulo->promedcod }}
@@ -515,7 +510,6 @@
                               @else
                               (Caja)
                               @endif
-
                             </label>
                           </div>
                           @endforeach
@@ -529,36 +523,35 @@
                   <!-- submit -->
                   <div class="mt-3">
                     <div class="row align-items-end ">
-                      <button type="submit" class="btn btn-primary ms-2 col"
-                        onclick="$('#alertaStock').toast('show')"><i class="mdi mdi-cart me-1"></i> Añadir</button>
+                      <button
+                        type="submit"
+                        class="btn btn-primary ms-2 col"
+                        onclick="$('#alertaStock').toast('show')"
+                        @if(isset($articulo->arttemporada) && $articulo->arttemporada === 1) disabled @endif>
+                        <i class="mdi mdi-cart me-1"></i>
+                        Añadir
+                      </button>
                     </div>
                   </div>
                 </form>
-
               </li>
             </ul>
           </div>
         </div>
       </div>
       @endforeach
-
-
       @else
       <div class="container text-center alert alert-primary" role="alert">
         <i class="align-middle ri-information-line me-1 font-22"></i>
         <strong>Actualmente no disponemos de artículos en esta categoría</strong>
       </div>
-
-
       @endif
     </div>
     {{ $articulos->links('vendor.pagination.bootstrap-5') }}
   </div>
 </section>
 
-<!-- FIN CARDS DE PRODUCTOS -->
 @endsection
-
 
 @push('scripts')
 <script src="{{ asset('js/checkbox.js') }}"></script>
