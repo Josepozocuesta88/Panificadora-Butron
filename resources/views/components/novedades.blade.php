@@ -9,13 +9,22 @@
         <div class="col d-flex flex-column align-content-between align-items-center ">
             <div class="border shadow-lg card h-100 border-primary rounded-3 position-relative">
                 <figure class="m-0 overflow-hidden bg-white d-flex align-items-center justify-content-center" style="height:325px;">
-                    <a href="{{ route('info', ['artcod' => $articulo->artcod]) }}" class="d-block">
+                    <a href="{{ route('info', ['artcod' => $articulo->artcod]) }}" class="d-block position-relative">
                         @if($articulo->imagenes->isNotEmpty())
                         <img src="{{ asset('images/articulos/' . $articulo->imagenes->first()->imanom) }}" class="h-auto d-block w-100" alt="{{ $articulo->artnom }}" title="{{ $articulo->artnom }}" onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
                         @else
                         <img src="{{ asset('images/articulos/noimage.jpg') }}" class="h-auto d-block w-100" alt="no hay imagen" title="No hay imagen">
                         @endif
                     </a>
+                    <!-- Temporada -->
+                    @if(isset($articulo->arttemporada) && $articulo->arttemporada === 1)
+                    <div class="top-0 cursor-pointer position-absolute start-0 font-20" style="margin-top: -10px; margin-left: -10px;">
+                        <span class="badge bg-primary p-2">
+                            <i class="mdi mdi-alert-circle-outline pulse-icon"></i>
+                            Temporada
+                        </span>
+                    </div>
+                    @endif
                 </figure>
                 <div class="pb-0 bg-white card-body">
                     <a href="{{ route('info', ['artcod' => $articulo->artcod]) }}">
@@ -72,7 +81,13 @@
                         <li class="list-group-item">
                             <form method="POST" action="{{ route('cart.add', ['artcod' => $articulo->artcod]) }}" class="ps-lg-4">
                                 @csrf
-                                <button type="submit" class="btn btn-primary" onclick="$('#alertaStock').toast('show')"> Añadir al carrito </button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    onclick="$('#alertaStock').toast('show')"
+                                    @if(isset($articulo->arttemporada) && $articulo->arttemporada === 1) disabled @endif>
+                                    Añadir al carrito
+                                </button>
                             </form>
                         </li>
                     </ul>
