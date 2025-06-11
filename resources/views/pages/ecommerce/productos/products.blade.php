@@ -79,7 +79,8 @@
           @foreach ($articulosOferta as $ofertaArticulo)
           <div class="">
             <div class="card h-100 rounded-3 position-relative">
-              <!-- Ícono de la corazon -->
+
+              <!-- Ícono de la corazón -->
               @if (in_array($ofertaArticulo->artcod, $favoritos))
               <i onclick="heart(this)" data-artcod="{{ $ofertaArticulo->artcod }}"
                 class="top-0 m-2 cursor-pointer bi bi-suit-heart-fill red-heart position-absolute end-0 font-20 heartIcon"></i>
@@ -87,6 +88,17 @@
               <i onclick="heart(this)" data-artcod="{{ $ofertaArticulo->artcod }}"
                 class="top-0 m-2 cursor-pointer bi bi-suit-heart position-absolute end-0 font-20 heartIcon"></i>
               @endif
+
+              <!-- Temporada -->
+              @if(isset($ofertaArticulo->arttemporada) && $ofertaArticulo->arttemporada === 1)
+              <div class="top-0 cursor-pointer position-absolute start-0 font-20" style="margin-top: -10px; margin-left: -10px;">
+                <span class="badge bg-primary p-2">
+                  <i class="mdi mdi-alert-circle-outline pulse-icon"></i>
+                  Temporada
+                </span>
+              </div>
+              @endif
+
               <figure class="m-0 overflow-hidden bg-white d-flex align-items-center justify-content-center"
                 style="height:325px;">
                 <a href="{{ route('info', ['artcod' => $ofertaArticulo->artcod]) }}" class="d-block">
@@ -200,9 +212,14 @@
                       <!-- submit -->
                       <div class="mt-3">
                         <div class="row align-items-end ">
-                          <button type="submit" class="btn btn-primary ms-2 col"
-                            onclick="$('#alertaStock').toast('show')"><i class="mdi mdi-cart me-1"></i>
-                            Añadir</button>
+                          <button
+                            type="submit"
+                            class="btn btn-primary ms-2 col"
+                            onclick="$('#alertaStock').toast('show')"
+                            @if(isset($ofertaArticulo->arttemporada) && $ofertaArticulo->arttemporada === 1) disabled @endif>
+                            <i class="mdi mdi-cart me-1"></i>
+                            Añadir
+                          </button>
                         </div>
                       </div>
                     </form>
