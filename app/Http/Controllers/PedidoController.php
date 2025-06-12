@@ -7,18 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
+use App\Services\ArticleService;
+
 use App\Models\Pedido;
 use App\Models\Pedido_linea;
 use App\Models\Cart;
 use App\Models\ClienteDireccion;
 use App\Models\Representante;
 
-
-use App\Services\ArticleService;
+use Carbon\Carbon;
 
 class PedidoController extends Controller
 {
-  //
   protected $articleService;
 
   public function __construct(ArticleService $articleService)
@@ -29,32 +29,37 @@ class PedidoController extends Controller
   public function makeOrder(Request $request)
   {
     try {
-      $data = $request->all();
-      $direccionId = $data['direccionId'];
-      $comentario = $data['comentario'];
-      $recargo = $data['recargo'];
+      $data           = $request->all();
+      $direccionId    = $data['direccionId'];
+      $comentario     = $data['comentario'];
+
       Log::info('recargo desde makeOrder: ' . $data['recargo']);
-      $user = auth()->user();
-      $direccion = ClienteDireccion::where([['dirid', $direccionId], ['dirclicod', $user->usuclicod]])->first();
+
+      $user           = auth()->user();
+      $direccion      = ClienteDireccion::where([['dirid', $direccionId], ['dirclicod', $user->usuclicod]])->first();
+
       if (!$direccion) {
         return back()->with('error', 'La dirección seleccionada no existe');
       }
-      $items = $this->getItems($user->id);
-      $articulos = $items->pluck('articulo');
-      $this->articleService->calculatePrices($articulos, $user->usutarcod);
-      $itemDetails = $this->calculateItemDetails($items);
-      $itemDetails = $this->addTaxes($itemDetails, $articulos);
-      Log::info('itemDetails despues de addTaxes: ' . json_encode([$itemDetails]));
-      $data = $this->prepareOrderData($user, $itemDetails, $comentario);
-      $pedido = $this->createPedido($data, $user, $direccion);
-      $data['pedido'] = $pedido;
-      $this->sendOrderEmail($data, $user);
-      // dd($pedido);
 
+      $items          = $this->getItems($user->id);
+      $articulos      = $items->pluck('articulo');
+
+      $this->articleService->calculatePrices($articulos, $user->usutarcod);
+
+      $itemDetails    = $this->calculateItemDetails($items);
+      $itemDetails    = $this->addTaxes($itemDetails, $articulos);
+
+      Log::info('itemDetails despues de addTaxes: ' . json_encode([$itemDetails]));
+
+      $data           = $this->prepareOrderData($user, $itemDetails, $comentario);
+      $pedido         = $this->createPedido($data, $user, $direccion);
+      $data['pedido'] = $pedido;
+
+      // $this->sendOrderEmail($data, $user);
 
       return  ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
     } catch (\RuntimeException  $th) {
-      // Capturar un error específico relacionado con argumentos inválidos
       error_log('Error en los datos del pedido: ' . $th->getMessage());
       return ['message' => 'Datos del pedido incorrectos.'];
     }
@@ -92,7 +97,6 @@ class PedidoController extends Controller
     Log::info('newItems: ' . json_encode($newItems));
     return collect($newItems);
   }
-
 
   public function makeOrderOld()
   {
@@ -140,12 +144,11 @@ class PedidoController extends Controller
 
   private function createPedido($data, $user, $direccion = null)
   {
-    // Log::info('recargo: ' . $data['recargo']);
-    $pedido = new Pedido;
-    $pedido->cliente_id = $user->id;
-    $pedido->accclicod = $user->usuclicod;
-    $pedido->acccencod = $user->usucencod;
-    $pedido->observaciones = $data['comentario'];
+    $pedido                 = new Pedido;
+    $pedido->cliente_id     = $user->id;
+    $pedido->accclicod      = $user->usuclicod;
+    $pedido->acccencod      = $user->usucencod;
+    $pedido->observaciones  = $data['comentario'];
 
     if ($user->usuWebPedRpr == 1) {
       $pedido->estado = 3;
@@ -153,23 +156,24 @@ class PedidoController extends Controller
       $pedido->estado = 2;
     }
 
-    $pedido->fecha = date('Y-m-d H:i:s');
-    $pedido->subtotal = $data['subtotal'];
-    $pedido->descuento = $data['descuento'];
+    $pedido->fecha                = date('Y-m-d H:i:s');
+    $pedido->subtotal             = $data['subtotal'];
+    $pedido->descuento            = $data['descuento'];
     $pedido->descuento_porcentaje = $data['descuento_porcentaje'];
-    $pedido->gastos_envio = $data['gastos_envio'];
-    $pedido->total = $data['total'];
-    $pedido->iva_porcentaje = $data['iva_porcentaje'];
-    $pedido->iva_importe = $data['iva_importe'];
+    $pedido->gastos_envio         = $data['gastos_envio'];
+    $pedido->total                = $data['total'];
+    $pedido->iva_porcentaje       = $data['iva_porcentaje'];
+    $pedido->iva_importe          = $data['iva_importe'];
+
     if ($direccion) {
-      $pedido->env_nombre = $direccion->dirnom;
-      $pedido->env_apellidos = $direccion->dirape;
-      $pedido->env_pais_txt = $direccion->dirpai;
-      $pedido->env_direccion = $direccion->dirdir;
-      $pedido->env_poblacion = $direccion->dirpob;
-      $pedido->env_cp = $direccion->dircp;
-      $pedido->env_tfno_1 = $direccion->dirtfno1;
-      $pedido->env_tfno_2 = $direccion->dirtfno2;
+      $pedido->env_nombre         = $direccion->dirnom;
+      $pedido->env_apellidos      = $direccion->dirape;
+      $pedido->env_pais_txt       = $direccion->dirpai;
+      $pedido->env_direccion      = $direccion->dirdir;
+      $pedido->env_poblacion      = $direccion->dirpob;
+      $pedido->env_cp             = $direccion->dircp;
+      $pedido->env_tfno_1         = $direccion->dirtfno1;
+      $pedido->env_tfno_2         = $direccion->dirtfno2;
     }
     $pedido->save();
     foreach ($data['itemDetails'] as $itemDetail) {
@@ -245,48 +249,50 @@ class PedidoController extends Controller
     return $items->map(function ($item) {
       if ($item->articulo) {
 
-        $name = $item->articulo->artnom;
-        $img = $item->articulo->primeraImagen();
-        $tarifa = $item->articulo->precioTarifa;
-        $price = $item->articulo->precioOferta ?? $tarifa;
+        $name     = $item->articulo->artnom;
+        $img      = $item->articulo->primeraImagen();
+        $tarifa   = $item->articulo->precioTarifa;
+        $price    = $item->articulo->precioOferta ?? $tarifa;
 
         if ($tarifa === null) {
           return ['name' => $name, 'price' => 'Precio no disponible'];
         }
 
-        $isOnOffer = $tarifa != $price;
-        $isBox = in_array($item->cartcajcod, ['0001', '0002', '0003']);
-        $unitCount = $isBox ? $item->cajreldir : 1;
+        $isOnOffer  = $tarifa != $price;
+        $isBox      = in_array($item->cartcajcod, ['0001', '0002', '0003']);
+        $unitCount  = $isBox ? $item->cajreldir : 1;
         $totalUnits = $isBox ? $item->cartcantcaj * $unitCount : $item->cartcant;
 
         if ($isBox) {
-          $name = $item->cajnom;
+          $name     = $item->cajnom;
         }
 
-        $total = round($price * $totalUnits, 2);
-        $artivapor = $total * ($item->articulo->artivapor / 100);
+        $total          = round($price * $totalUnits, 2);
+        $artivapor      = $total * ($item->articulo->artivapor / 100);
         $iva_porcentaje = $item->articulo->artivapor;
+
         Auth::user()->usuivacod === "S" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
-        $artsigimp = $total * ($item->articulo->artsigimp / 100);
+
+        $artsigimp      = $total * ($item->articulo->artsigimp / 100);
 
         return [
-          'ivaPorcentaje' => $iva_porcentaje,
-          'cartcod' => $item->cartcod,
-          'artcod' => $item->cartartcod,
-          'cajcod' => $item->cajcod,
-          'cartcajcod' => $item->cartcajcod,
-          'name' => $name,
-          'artivapor' => $artivapor,
-          'artrecpor' => $artrecpor,
-          'artsigimp' => $artsigimp,
-          'promedcod' => $item->articulo->promedcod,
-          'image' => $img,
+          'ivaPorcentaje'     => $iva_porcentaje,
+          'cartcod'           => $item->cartcod,
+          'artcod'            => $item->cartartcod,
+          'cajcod'            => $item->cajcod,
+          'cartcajcod'        => $item->cartcajcod,
+          'name'              => $name,
+          'artivapor'         => $artivapor,
+          'artrecpor'         => $artrecpor,
+          'artsigimp'         => $artsigimp,
+          'promedcod'         => $item->articulo->promedcod,
+          'image'             => $img,
           'cantidad_unidades' => $item->cartcant,
-          'cantidad_cajas' => $item->cartcantcaj,
-          'isOnOffer' => $isOnOffer,
-          'price' => $price,
-          'tarifa' => $tarifa,
-          'total' => $total
+          'cantidad_cajas'    => $item->cartcantcaj,
+          'isOnOffer'         => $isOnOffer,
+          'price'             => $price,
+          'tarifa'            => $tarifa,
+          'total'             => $total
         ];
       }
     })->filter();
@@ -294,36 +300,46 @@ class PedidoController extends Controller
 
   private function prepareOrderData($user, $itemDetails, $comentario = "")
   {
-    $subtotal = $itemDetails->sum('total');
-    $artivapor = $itemDetails->sum('artivapor');
-    $artrecpor = $itemDetails->sum('recargo');
-    $artsigimp = $itemDetails->sum('artsigimp');
-    $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
-    Auth::user()->usudes1 == 0 ? $data['descuento'] = 0.00 : $data['descuento'] = $subtotal * (Auth::user()->usudes1 / 100);
-    $shippingCost = 0.00;
 
-    $total = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+    $descuento = $this->discountForClient($user->id)->getData();
 
-    if (Auth::user()->usudes1 != 0) {
-      $descuento = $subtotal * (Auth::user()->usudes1 / 100);
-      $nuevo_subtotal = $subtotal - $descuento;
-      $artivapor = $nuevo_subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
-      $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
-      $total = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+    if (!$descuento->result) {
+      $subtotal           = $itemDetails->sum('total');
+      $descuento_aplicado = $subtotal * 0.05;
+      $subtotal          -= $descuento_aplicado;
+    } else {
+      $subtotal           = $itemDetails->sum('total');
     }
 
-    $data['total'] = $total;
-    $data['gastos_envio'] = $shippingCost;
-    $data['comentario'] = $comentario;
+    $artivapor            = $itemDetails->sum('artivapor');
+    $artrecpor            = $itemDetails->sum('recargo');
+    $artsigimp            = $itemDetails->sum('artsigimp');
+    $iva_porcentaje       = $itemDetails->sum('ivaPorcentaje');
+    Auth::user()->usudes1 == 0 ? $data['descuento'] = 0.00 : $data['descuento'] = $subtotal * (Auth::user()->usudes1 / 100);
+    $shippingCost         = 0.00;
+
+    $total                = $subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+
+    if (Auth::user()->usudes1 != 0) {
+      $descuento      = $subtotal * (Auth::user()->usudes1 / 100);
+      $nuevo_subtotal = $subtotal - $descuento;
+      $artivapor      = $nuevo_subtotal * ($itemDetails->avg('ivaPorcentaje') / 100);
+      $iva_porcentaje = $itemDetails->sum('ivaPorcentaje');
+      $total          = $nuevo_subtotal + $shippingCost + $artivapor + $artrecpor + $artsigimp;
+    }
+
+    $data['total']                = $total;
+    $data['gastos_envio']         = $shippingCost;
+    $data['comentario']           = $comentario;
     $data['descuento_porcentaje'] = $user->usudes1 . '%';
-    $data['iva_porcentaje'] = $iva_porcentaje;
-    $data['iva_importe'] = $artivapor;
-    $data['itemDetails'] = $itemDetails;
-    $data['subtotal'] = $subtotal;
-    $data['artrecpor'] = $artrecpor;
-    $data['artivapor'] = $artivapor;
-    $data['artsigimp'] = $artsigimp;
-    $data['usuario'] = $user;
+    $data['iva_porcentaje']       = $iva_porcentaje;
+    $data['iva_importe']          = $artivapor;
+    $data['itemDetails']          = $itemDetails;
+    $data['subtotal']             = $subtotal;
+    $data['artrecpor']            = $artrecpor;
+    $data['artivapor']            = $artivapor;
+    $data['artsigimp']            = $artsigimp;
+    $data['usuario']              = $user;
 
     return $data;
   }
@@ -334,5 +350,43 @@ class PedidoController extends Controller
     Cart::where('cartusucod', $user->id)->delete();
 
     return;
+  }
+
+  private function discountForClient($clienteId)
+  {
+    // Obtener el primer pedido del cliente
+    $primerPedido = Pedido::where('cliente_id', $clienteId)
+      ->orderBy('fecha', 'asc')
+      ->first();
+
+    // Si no tiene pedidos, no califica
+    if (!$primerPedido) {
+      return response()->json([
+        'result'  => false,
+        'message' => 'El cliente aún no tiene pedidos.'
+      ]);
+    }
+
+    // Calcular la ventana de 3 meses a partir del primer pedido
+    $fechaInicio  = $primerPedido->fecha;
+    $fechaFin     = Carbon::parse($fechaInicio)->addMonths(3)->endOfDay();
+
+    // Obtener todos los pedidos dentro de esa ventana
+    $pedidosEnRango = Pedido::where('cliente_id', $clienteId)
+      ->whereBetween('fecha', [$fechaInicio, $fechaFin])
+      ->orderBy('fecha', 'asc')
+      ->get();
+
+    if ($pedidosEnRango->count() >= 3) {
+      return response()->json([
+        'result'  => true,
+        'message' => 'El cliente completó 3 pedidos en los 3 meses desde su primer pedido.'
+      ]);
+    }
+
+    return response()->json([
+      'result'  => false,
+      'message' => 'El cliente aún no ha completado los 3 pedidos en el plazo de 3 meses.'
+    ]);
   }
 }

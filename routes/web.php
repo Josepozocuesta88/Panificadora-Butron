@@ -23,37 +23,18 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-// index
-
-// Welcome del proyecto desactivado
-// Route::get('/', [CategoryController::class, 'index'])->name('welcome');
 Route::get('/welcome', [CategoryController::class, 'index'])->name('welcome');
 
-
-//ruta a commingSon
 Route::view('/', 'commingSon')->name('commingSon');
-
 
 // método que registra todas las rutas necesarias para las funciones de autenticación
 Auth::routes();
-
 
 // home (pagina de inicio cuando te logeas)
 Route::get('/home', [OfertaCController::class, 'index'])->name('home');
 
 // dashboard (AJAX)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
-
 
 // Mi cuenta
 Route::middleware(['auth'])->group(function () {
