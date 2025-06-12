@@ -300,7 +300,6 @@ class PedidoController extends Controller
 
   private function prepareOrderData($user, $itemDetails, $comentario = "")
   {
-
     $descuento = $this->discountForClient($user->id)->getData();
 
     if (!$descuento->result) {
@@ -367,9 +366,9 @@ class PedidoController extends Controller
       ]);
     }
 
-    // Calcular la ventana de 3 meses a partir del primer pedido
+    // Calcular la ventana de 2 meses a partir del primer pedido
     $fechaInicio  = $primerPedido->fecha;
-    $fechaFin     = Carbon::parse($fechaInicio)->addMonths(3)->endOfDay();
+    $fechaFin     = Carbon::parse($fechaInicio)->addMonths(2)->endOfDay();
 
     // Obtener todos los pedidos dentro de esa ventana
     $pedidosEnRango = Pedido::where('cliente_id', $clienteId)
@@ -380,13 +379,13 @@ class PedidoController extends Controller
     if ($pedidosEnRango->count() >= 3) {
       return response()->json([
         'result'  => true,
-        'message' => 'El cliente completó 3 pedidos en los 3 meses desde su primer pedido.'
+        'message' => 'El cliente completó 3 pedidos en los 2 meses desde su primer pedido.'
       ]);
     }
 
     return response()->json([
       'result'  => false,
-      'message' => 'El cliente aún no ha completado los 3 pedidos en el plazo de 3 meses.'
+      'message' => 'El cliente aún no ha completado los 3 pedidos en el plazo de 2 meses.'
     ]);
   }
 }
