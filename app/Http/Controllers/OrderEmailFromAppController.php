@@ -34,8 +34,8 @@ class OrderEmailFromAppController extends Controller
 
     $user = User::where('usuclicod', $pedido->accclicod)->first();
     $repre = Representante::where('rprcod', $user->usurprcod)->first();
-    $email = $user->email;
-    // $email = "web.arturo@redesycomponentes.com";
+    // $email = $user->email;
+    $email = "web.arturo@redesycomponentes.com";
 
     if ($user->usuWebPedRpr == 1) {
       $emails_copia = $repre->rprema;
@@ -57,7 +57,7 @@ class OrderEmailFromAppController extends Controller
     // Enviar correo
     Mail::send('pages.ecommerce.pedidos.email-orderfromapp', $data, function ($message) use ($email, $emails_copia) {
       $message->to($email)
-        ->cc($emails_copia)
+        ->cc("jorge.web@redesycomponentes.com")
         ->subject('Su pedido ya se ha procesado')
         ->from(config('mail.from.address'), config('app.name'));
     });

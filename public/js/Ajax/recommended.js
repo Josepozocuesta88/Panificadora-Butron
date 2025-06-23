@@ -24,12 +24,17 @@ $(document).ready(function () {
 
                 let url = "/articles/" + articulo.artcod;
 
-                let img = $("<img/>", {
-                    src: imageUrl,
-                    alt: articulo.artnom,
-                    class: "img-fluid mb-2",
-                    style: "width: 180px; height: 180px; object-fit: contain;",
-                });
+                let img = $("<a/>", {
+                    href: url,
+                    class: "text-decoration-none text-dark",
+                }).append(
+                    $("<img/>", {
+                        src: imageUrl,
+                        alt: articulo.artnom,
+                        class: "img-fluid mb-2",
+                        style: "width: 180px; height: 180px; object-fit: contain;",
+                    })
+                );
 
                 let title = $("<h6/>", {
                     class: "text-truncate w-100 px-2",
