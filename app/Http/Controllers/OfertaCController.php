@@ -42,12 +42,12 @@ class OfertaCController extends Controller
       $categorias = Category::all();
     }
 
-    $usuarioCodigo = Auth::user()->usuclicod;
-    $query = Articulo::with('imagenes')->orderby('artfecrea', 'desc')->limit(15);
+    $usuarioCodigo  = Auth::user()->usuclicod;
+    $query          = Articulo::with('imagenes')->orderby('artfecrea', 'desc')->limit(15);
 
-    $excluidosArticulos = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
-    $excluidosGrupos = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
-    $excluidasCategorias = ClienteCategoria::where('clicod', $usuarioCodigo)->pluck('catcod')->toArray();
+    $excluidosArticulos   = ClienteArticulo::where('clicod', $usuarioCodigo)->pluck('artcod')->toArray();
+    $excluidosGrupos      = ClienteGrupo::where('clicod', $usuarioCodigo)->pluck('grucod')->toArray();
+    $excluidasCategorias  = ClienteCategoria::where('clicod', $usuarioCodigo)->pluck('catcod')->toArray();
 
     if (!empty($excluidosArticulos)) {
       $query->whereNotIn('artcod', $excluidosArticulos);
@@ -65,17 +65,18 @@ class OfertaCController extends Controller
 
     // Generales
     $articulosConPrecio     = $articleService->calculatePrices($novedades, $usutarcod);
-    // $articleService->calculatePrices($articulosOferta, $usutarcod);
 
     // Personalizas
     $ofertasServicePer      = app(\App\Contracts\OfertaServiceInterface::class);
     $ofertasPer             = $ofertasServicePer->obtenerOfertas();
     $articulosOfertaPer     = $ofP->obtenerArticulosEnOferta();
-    // $articulosConPrecioPer  = $articleService->calculatePrices($novedades, $usutarcod);
     $articulosConPrecioPer  = $articleService->calculatePrices($articulosOfertaPer, $usutarcod);
-    // dd($articulosConPrecioPer);
-    $favoritos    = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
-    $existeOferta = $articulosOfertaPer === null ||  $articulosOfertaPer->isEmpty() ? 0 : 1;
+    $favoritos              = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
+    $existeOferta           = $articulosOfertaPer === null ||  $articulosOfertaPer->isEmpty() ? 0 : 1;
+
+
+
+
 
     return view('index', compact(
       'categorias',
