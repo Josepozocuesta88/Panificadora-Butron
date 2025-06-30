@@ -173,7 +173,7 @@ class CartController extends Controller
       'artsigimp'     => $artsigimp,
       'total'         => $total,
       'direcciones'   => $user->direcciones,
-      'descuento'     => $descuento->result,
+      'descuento'     => $descuento,
     ]);
   }
 
