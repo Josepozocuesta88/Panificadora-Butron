@@ -19,7 +19,6 @@ use Carbon\Carbon;
 
 class DocumentoController extends Controller
 {
-    //
     public function getDocumentos347()
     {
         $documents = Documento::where('docclicod', Auth::user()->usuclicod)
@@ -232,7 +231,6 @@ class DocumentoController extends Controller
         }
     }
 
-
     private function getContentType($fileExtension)
     {
         $mimeTypes = [
@@ -246,8 +244,6 @@ class DocumentoController extends Controller
 
         return $mimeTypes[$fileExtension] ?? 'application/octet-stream';
     }
-
-
 
     // función de pasarela de pago
     public function payment(Request $request)
@@ -292,25 +288,15 @@ class DocumentoController extends Controller
         }
     }
 
-    public function paymentSuccess(Request $request)
+    public function paymentSuccess()
     {
-        // $message = $request->all();
-        // if (isset($message['Ds_MerchantParameters'])) {
-        //     $decode = json_decode(base64_decode($message['Des_MerchantParameters']), true);
-        //     $date = urldecode($decode['Ds_Date']);
-        //     $hour = urldecode($decode['Ds_hour']);
-        //     $decode['Ds_Date'] = $date;
-        //     $decode['Ds_Hour'] = $hour;
-        // }
-        // return response()->json(['success' => true, 'message' => $message, 'decode' => $decode]);
-        // return view('pages.documentos.document');
-        return redirect()->route('get.documentos');
+
+        return redirect()->route('dashboard')->with('success', 'Pago realizado con éxito.');
     }
 
-    public function paymentError(Request $request)
+    public function paymentError()
     {
-        // return response()->json(['success' => false, 'message' => $request->all()]);
-        return redirect()->route('get.documentos');
+        return redirect()->route('dashboard')->with('error', 'Error al procesar el pago. Por favor, inténtelo de nuevo más tarde.');
     }
 
     public function documentUpdate(Request $request)
@@ -343,4 +329,64 @@ class DocumentoController extends Controller
         $message = "El estado proporcionado no es válido.";
         return response()->json(['error' => true, 'message' => $message]);
     }
+
+
+
+    // Para pruebas, puedes usar el siguiente código comentado para simular la pasarela de pago con Redsys
+    // public function payment(Request $request)
+    // {
+    //     $id = $request->input('id');
+    //     $order = $request->input('numero');
+    //     $importe_completo = $request->input('importe');
+    //     $isTest = $request->input('test', 1); // 1 = test, 0 = producción
+    //     $order_compuesta = (string)$id . "_" . mt_rand(1000, 9999);
+
+    //     try {
+    //         Datos de entorno de prueba de Redsys
+    //         $merchantCode = '999008881'; // Código comercio de pruebas Redsys
+    //         $terminal = '1';             // Terminal pruebas
+    //         $currency = '978';           // Euro
+    //         $key = 'sq7HjrUOBfKmC576ILgskD5srU870gJ7'; // Clave secreta pruebas
+
+    //         URLs simuladas para pruebas
+    //         $urlNotification = 'https://mituweb.com/redsys/notification';
+    //         $urlOk = route('pagoSuccess');
+    //         $urlKo = route('pagoError');
+
+    //         Redsys::setAmount($importe_completo);
+    //         Redsys::setOrder($order_compuesta);
+    //         Redsys::setMerchantcode($merchantCode);
+    //         Redsys::setCurrency($currency);
+    //         Redsys::setTransactiontype('0');
+    //         Redsys::setTerminal($terminal);
+    //         Redsys::setMethod('T');
+    //         Redsys::setNotification($urlNotification);
+    //         Redsys::setUrlOk($urlOk);
+    //         Redsys::setUrlKo($urlKo);
+    //         Redsys::setVersion('HMAC_SHA256_V1');
+    //         Redsys::setTradeName('PROF CONGELADO 2015 SL');
+    //         Redsys::setTitular('Javier');
+    //         Redsys::setProductDescription('Pago Facturas');
+
+    //         Modo test o producción
+    //         Redsys::setEnvironment($isTest ? 'test' : 'live');
+
+    //         $signature = Redsys::generateMerchantSignature($key);
+    //         Redsys::setMerchantSignature($signature);
+
+    //         $form = Redsys::createForm();
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'form' => $form
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => $e->getMessage(),
+    //         ]);
+    //     }
+    // }
+
+
 }
