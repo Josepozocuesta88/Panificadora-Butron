@@ -85,7 +85,7 @@
               <div class="mb-3">
                 <h3 class="mb-3 text-primary"> 1. INFORMACIÓN AL USUARIO</h3>
                 <h4> ¿Quién es el responsable del tratamiento de tus datos personales?</h4>
-                <p> PROFESIONALES DEL CONGELADO 2015, S.L. es el RESPONSABLE del tratamiento de los datos
+                <p> REPOSTERIA FLORY'S VERGARA, SLU. es el RESPONSABLE del tratamiento de los datos
                   personales del USUARIO y le informa
                   de que estos datos serán tratados de conformidad con lo dispuesto en el Reglamento (UE)
                   2016/679, de 27 de abril (GDPR), y la Ley
@@ -128,7 +128,7 @@
                     ajusta a la normativa vigente.</li>
                 </ul>
                 <h5> Datos de contacto para ejercer sus derechos:</h5>
-                <p>PROFESIONALES DEL CONGELADO 2015, S.L.. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena
+                <p>REPOSTERIA FLORY'S VERGARA, SLU.. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena
                   (Córdoba). E-mail:
                   administracion@florys.es</p>
               </div>
@@ -169,8 +169,8 @@
                   los USUARIOS y les ha comunicado la
                   información adecuada para que puedan ejercerlos.</p>
                 <p>Para más información sobre las garantías de privacidad, puedes dirigirte al RESPONSABLE a
-                  través de PROFESIONALES DEL
-                  CONGELADO 2015, S.L.. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena (Córdoba).
+                  través de REPOSTERIA FLORY'S VERGARA, SLU.. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena
+                  (Córdoba).
                   E-mail: administracion@florys.es</p>
               </div>
             </div> <!-- end card-body-->
