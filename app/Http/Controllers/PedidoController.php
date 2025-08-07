@@ -56,7 +56,7 @@ class PedidoController extends Controller
       $pedido         = $this->createPedido($data, $user, $direccion);
       $data['pedido'] = $pedido;
 
-      // $this->sendOrderEmail($data, $user);
+      $this->sendOrderEmail($data, $user);
 
       return  ['message' => '¡Su pedido se procesó correctamente!', 'data' => $pedido];
     } catch (\RuntimeException  $th) {

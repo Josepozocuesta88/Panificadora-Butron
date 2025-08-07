@@ -293,6 +293,7 @@ class CartController extends Controller
     }
 
     $data['usuario'] = Auth::user();
+
     try {
       Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $email_copia) {
         $message->to($email)
