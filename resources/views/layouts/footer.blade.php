@@ -5,6 +5,7 @@
             <div class="col-md-6"></div>
             <div class="col-md-6">
                 <div class="text-md-end footer-links d-none d-md-block">
+                    <a href="{{ route('terminos') }}">Términos y Condiciones</a>
                     <a href="{{ route('privacidad') }}">Política de Privacidad</a>
                     <a href="{{ route('cookies') }}">Política de Cookies</a>
                     <a href="{{ route('redes') }}">Política de Privacidad Redes Sociales</a>
