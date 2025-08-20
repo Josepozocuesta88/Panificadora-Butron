@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+
+use Webklex\IMAP\Facades\Client;
+
 use App\Services\ArticleService;
 use App\Models\Articulo;
 use App\Models\Caja;
@@ -13,6 +16,7 @@ use App\Models\Cart;
 use App\Models\Pedido;
 use App\Models\Pedido_linea;
 use App\Models\Representante;
+
 use Carbon\Carbon;
 
 class CartController extends Controller
@@ -295,12 +299,14 @@ class CartController extends Controller
     $data['usuario'] = Auth::user();
 
     try {
-      Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $email_copia) {
+      $sendEmail = Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $email_copia) {
         $message->to($email)
           ->cc($email_copia)
           ->subject('Su pedido ya se ha procesado')
           ->from(config('mail.from.address'), config('app.name'));
       });
+
+      $this->saveSendEmail($sendEmail->toString());
     } catch (\Exception $e) {
       Log::error("Error al enviar correo: " . $e->getMessage());
 
@@ -416,5 +422,18 @@ class CartController extends Controller
       'result' => false,
       'message' => 'El cliente aún no ha completado los 3 pedidos en el plazo de 2 meses.'
     ]);
+  }
+
+  public function saveSendEmail($mimeMessage)
+  {
+    try {
+      $client = Client::account('default');
+      $client->connect();
+
+      $folder = $client->getFolderByName('Sent');
+      $folder->appendMessage($mimeMessage);
+    } catch (\Exception $e) {
+      // \Log::error('Error al guardar el correo en Enviados: ' . $e->getMessage());
+    }
   }
 }
