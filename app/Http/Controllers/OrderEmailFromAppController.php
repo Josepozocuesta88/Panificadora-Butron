@@ -34,8 +34,8 @@ class OrderEmailFromAppController extends Controller
 
     $user = User::where('usuclicod', $pedido->accclicod)->first();
     $repre = Representante::where('rprcod', $user->usurprcod)->first();
-    $email = $user->email;
-    // $email = "web.arturo@redesycomponentes.com";
+     $email = $user->email;
+    //$email = "Administracion2@florys.es";
 
     if ($user->usuWebPedRpr == 1) {
       $emails_copia = $repre->rprema;

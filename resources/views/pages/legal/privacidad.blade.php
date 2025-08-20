@@ -27,7 +27,7 @@
             <div class="mb-4">
               <h3 class="mb-3 text-primary fw-bold">1. INFORMACIÓN AL USUARIO</h3>
               <h5 class="fw-bold mb-2">¿Quién es el responsable del tratamiento de tus datos personales?</h5>
-              <p>REPOSTERIA FLORY'S VERGARA, SLU. es el <span class="fw-bold">RESPONSABLE</span> del tratamiento de los datos personales del USUARIO y le informa de que estos datos serán tratados de conformidad con lo dispuesto en el Reglamento (UE) 2016/679, de 27 de abril (GDPR), y la Ley Orgánica 3/2018, de 5 de diciembre (LOPDGDD).</p>
+              <p>REPOSTERIA FLORY'S VERGARA, SLU. (<span class="fw-bold">B14489504 </span>) es el <span class="fw-bold">RESPONSABLE</span> del tratamiento de los datos personales del USUARIO y le informa de que estos datos serán tratados de conformidad con lo dispuesto en el Reglamento (UE) 2016/679, de 27 de abril (GDPR), y la Ley Orgánica 3/2018, de 5 de diciembre (LOPDGDD).</p>
 
               <br>
               <h5 class="fw-bold mb-2">¿Para qué tratamos tus datos personales y por qué lo hacemos?</h5>
@@ -59,7 +59,7 @@
 
               <br>
               <h6 class="fw-bold mb-1">Datos de contacto para ejercer sus derechos:</h6>
-              <p>REPOSTERIA FLORY'S VERGARA, SLU. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena (Córdoba). E-mail: <a href="mailto:administracion@florys.es">administracion@florys.es</a></p>
+              <p>REPOSTERIA FLORY'S VERGARA, SLU. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena (Córdoba). NIF: <span class="fw-bold">B14489504 </span> E-mail: <a href="mailto:administracion@florys.es">administracion@florys.es</a></p>
             </div>
 
             <div class="mb-4">
@@ -75,7 +75,7 @@
               <br>
               <p>El RESPONSABLE garantiza que ha implementado políticas técnicas y organizativas apropiadas para aplicar las medidas de seguridad que establecen el GDPR y la LOPDGDD con el fin de proteger los derechos y libertades de los USUARIOS y les ha comunicado la información adecuada para que puedan ejercerlos.</p>
               <br>
-              <p>Para más información sobre las garantías de privacidad, puedes dirigirte al RESPONSABLE a través de REPOSTERIA FLORY'S VERGARA, SLU. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena (Córdoba). E-mail: <a href="mailto:administracion@florys.es">administracion@florys.es</a></p>
+              <p>Para más información sobre las garantías de privacidad, puedes dirigirte al RESPONSABLE a través de REPOSTERIA FLORY'S VERGARA, SLU. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena (Córdoba). NIF: <span class="fw-bold">B14489504 </span> E-mail: <a href="mailto:administracion@florys.es">administracion@florys.es</a></p>
             </div>
           </div> <!-- end card-body-->
         </div> <!-- end card-->
