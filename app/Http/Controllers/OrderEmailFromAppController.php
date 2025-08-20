@@ -7,9 +7,13 @@ use App\Models\Pedido;
 use App\Models\Pedido_linea;
 use App\Models\Representante;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+
+use Webklex\IMAP\Facades\Client;
+
 
 class OrderEmailFromAppController extends Controller
 {
@@ -55,11 +59,26 @@ class OrderEmailFromAppController extends Controller
     ];
 
     // Enviar correo
-    Mail::send('pages.ecommerce.pedidos.email-orderfromapp', $data, function ($message) use ($email, $emails_copia) {
+    $sendEmail = Mail::send('pages.ecommerce.pedidos.email-orderfromapp', $data, function ($message) use ($email, $emails_copia) {
       $message->to($email)
         ->cc("web.jorge@redesycomponentes.com", $emails_copia)
         ->subject('Su pedido ya se ha procesado')
         ->from(config('mail.from.address'), config('app.name'));
     });
+
+    $this->saveSendEmail($sendEmail->toString());
+  }
+
+  public function saveSendEmail($mimeMessage)
+  {
+    try {
+      $client = Client::account('default');
+      $client->connect();
+
+      $folder = $client->getFolderByName('Sent');
+      $folder->appendMessage($mimeMessage);
+    } catch (\Exception $e) {
+      // \Log::error('Error al guardar el correo en Enviados: ' . $e->getMessage());
+    }
   }
 }

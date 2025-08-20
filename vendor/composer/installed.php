@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '46c28dbf898e6ec174d31388114042f9f1bdf155',
+        'reference' => 'f5c3b6a262a4a54c4fafd0eeff99e2cd6b4761f7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -382,7 +382,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '46c28dbf898e6ec174d31388114042f9f1bdf155',
+            'reference' => 'f5c3b6a262a4a54c4fafd0eeff99e2cd6b4761f7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -784,8 +784,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1358,6 +1358,24 @@
             'reference' => 'b1d923f88091c6bf09699efcd7c8a1b1bfd7351d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../voku/portable-ascii',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'webklex/laravel-imap' => array(
+            'pretty_version' => '6.2.0',
+            'version' => '6.2.0.0',
+            'reference' => '57609df58c2f4ef625e4d90a47d8615cfb15f925',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../webklex/laravel-imap',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'webklex/php-imap' => array(
+            'pretty_version' => '6.2.0',
+            'version' => '6.2.0.0',
+            'reference' => '6b8ef85d621bbbaf52741b00cca8e9237e2b2e05',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../webklex/php-imap',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

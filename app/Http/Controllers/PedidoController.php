@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
+use Webklex\IMAP\Facades\Client;
+
 use App\Services\ArticleService;
 
 use App\Models\Pedido;
@@ -215,12 +217,14 @@ class PedidoController extends Controller
       $emails_copia = array($representante->rprema, $email_empresa);
     }
 
-    Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $emails_copia) {
+    $sendEmail = Mail::send('pages.ecommerce.pedidos.email-order', $data, function ($message) use ($data, $email, $emails_copia) {
       $message->to($email)
         ->cc($emails_copia)
         ->subject('Su pedido ya se ha procesado')
         ->from(config('mail.from.address'), config('app.name'));
     });
+
+    $this->saveSendEmail($sendEmail->toString());
   }
 
   public function guardarComentario(Request $request)
@@ -387,5 +391,18 @@ class PedidoController extends Controller
       'result'  => false,
       'message' => 'El cliente aún no ha completado los 3 pedidos en el plazo de 2 meses.'
     ]);
+  }
+
+  public function saveSendEmail($mimeMessage)
+  {
+    try {
+      $client = Client::account('default');
+      $client->connect();
+
+      $folder = $client->getFolderByName('Sent');
+      $folder->appendMessage($mimeMessage);
+    } catch (\Exception $e) {
+      // \Log::error('Error al guardar el correo en Enviados: ' . $e->getMessage());
+    }
   }
 }
