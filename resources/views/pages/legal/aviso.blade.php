@@ -32,7 +32,7 @@
                         <div class="mb-3">
                             <h3 class="mb-3 text-primary text-center"> LEY DE LOS SERVICIOS DE LA SOCIEDAD DE LA INFORMACIÓN (LSSI)
                             </h3>
-                            <p> PROFESIONALES DEL CONGELADO 2015, S.L., responsable del sitio web, en adelante
+                            <p> REPOSTERIA FLORY'S VERGARA, SLU., responsable del sitio web, en adelante
                                 RESPONSABLE, pone a
                                 disposición de los usuarios el presente documento, con el que pretende dar cumplimiento
                                 a las obligaciones
@@ -46,7 +46,7 @@
                                 cumplimiento riguroso de las disposiciones aquí dispuestas, así como a cualquier otra
                                 disposición legal que fuera
                                 de aplicación.</p>
-                            <p>PROFESIONALES DEL CONGELADO 2015, S.L. se reserva el derecho de modificar cualquier tipo
+                            <p>REPOSTERIA FLORY'S VERGARA, SLU. se reserva el derecho de modificar cualquier tipo
                                 de información
                                 que pudiera aparecer en el sitio web, sin que exista obligación de preavisar o poner en
                                 conocimiento de los
@@ -57,9 +57,9 @@
 
                         <div class="mb-3">
                             <h4 class="mb-3 text-primary"> 1. DATOS IDENTIFICATIVOS</h4>
-                            <p> Nombre de dominio: congeladosflorys.com/</p>
-                            <p> Nombre comercial: CONGELADOS FLORYS</p>
-                            <p> Denominación social: PROFESIONALES DEL CONGELADO 2015, S.L.</p>
+                            <p> Nombre de dominio: florys.es/</p>
+                            <p> Nombre comercial: REPOSTERIA FLORY'S</p>
+                            <p> Denominación social: REPOSTERIA FLORY'S VERGARA, SLU.</p>
                             <p> NIF: B56027790</p>
                             <p> Domicilio social: C/ Pintor Vicente Piernagorda, s/n</p>
                             <p> Teléfono: 957690508</p>
@@ -93,7 +93,7 @@
                                 terceros puedan
                                 redirigir directamente a los contenidos concretos del sitio web, y en todo caso
                                 redirigir al sitio web principal de
-                                congeladosflorys.com/.</p>
+                                florys.es/.</p>
                             <p> El RESPONSABLE reconoce a favor de sus titulares los correspondientes derechos de
                                 propiedad intelectual e
                                 industrial, no implicando su sola mención o aparición en el sitio web la existencia de

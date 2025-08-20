@@ -134,7 +134,7 @@
 
                         <div class="mb-3">
                             <h3 class="mb-3 text-primary"> TRATAMIENTO DE DATOS PERSONALES</h3>
-                            <p> PROFESIONALES DEL CONGELADO 2015, S.L. es el Responsable del tratamiento de los datos
+                            <p> REPOSTERIA FLORY'S VERGARA, SLU. es el Responsable del tratamiento de los datos
                                 personales del Interesado
                                 y le informa de que estos datos serán tratados de conformidad con lo dispuesto en el
                                 Reglamento (UE) 2016/679, de 27
@@ -160,7 +160,7 @@
                                     se ajusta a la normativa vigente.</li>
                             </ul>
                             <p> Datos de contacto para ejercer sus derechos:</p>
-                            <p>PROFESIONALES DEL CONGELADO 2015, S.L.. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena
+                            <p>REPOSTERIA FLORY'S VERGARA, SLU.. C/ Pintor Vicente Piernagorda, s/n, - 14850 Baena
                                 (Córdoba). E-mail:
                                 administracion@florys.es</p>
                         </div>
@@ -177,25 +177,25 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">congeladosfloryspanel.com/</th>
+                                        <th scope="row">florys.es/</th>
                                         <td>XSRF-TOKEN</td>
                                         <td>Esta cookie se utiliza para la protección CSRF (Cross-Site Request Forgery). Verifica que las solicitudes entrantes provienen de esta aplicación y no de un tercero.</td>
                                         <td>Seguridad</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">congeladosfloryspanel.com</th>
+                                        <th scope="row">florys.es</th>
                                         <td>laravel_session</td>
                                         <td>Esta cookie es usada para identificar una sesión de usuario dentro de la aplicación. Es esencial para mantener el estado de la sesión cuando un usuario navega en la aplicación.</td>
                                         <td>Funcionalidad del sitio</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">congeladosfloryspanel.com</th>
+                                        <th scope="row">florys.es</th>
                                         <td>laravel_cookie_consent</td>
                                         <td>Esta cookie es proporcionada por DataTables y se utiliza para recordar las preferencias de visualización del usuario, como el esquema de color o la configuración de disposición de las tablas de datos, permitiendo una experiencia de navegación más personalizada y coherente en nuestro sitio web. No recopila ni almacena información personal del usuario.</td>
                                         <td>Funcionalidad del sitio</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">congeladosfloryspanel.com</th>
+                                        <th scope="row">florys.es</th>
                                         <td>dt-demo-scheme</td>
                                         <td>.</td>
                                         <td>Funcionalidad del sitio</td>
