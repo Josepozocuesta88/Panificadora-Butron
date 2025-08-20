@@ -158,6 +158,9 @@ Route::middleware(['auth'])->group(function () {
   // política de privacidad
   Route::view('/politica-de-privacidad', 'pages.legal.privacidad')->name('privacidad');
 
+  // términos y condiciones
+  Route::view('/terminos-condiciones', 'pages.legal.terminos-condiciones')->name('terminos');
+
   // aviso legal
   Route::view('/aviso-legal', 'pages.legal.aviso')->name('avisoLegal');
 
