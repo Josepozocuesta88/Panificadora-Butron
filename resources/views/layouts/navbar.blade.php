@@ -144,7 +144,6 @@
           @endif
           @endauth
 
-
           <!-- item-->
           @if (session()->has('impersonate'))
           <a href="{{ route('account.logout') }}" class="dropdown-item">

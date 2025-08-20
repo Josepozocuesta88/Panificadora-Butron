@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4 mb-4">
 
     <ul class="nav nav-tabs mb-3" id="emailTabs" role="tablist">
         <li class="nav-item" role="presentation">
