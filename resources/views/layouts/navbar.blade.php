@@ -160,14 +160,22 @@
 
           @if(Auth::user()->usugrucod === 'Admin' || Auth::user()->usugrucod === 'SA')
           <a href="{{ route('corporate-form') }}" class="dropdown-item">
-            <i class="mdi mdi-account-circle me-1"></i>
+            <i class="mdi mdi-image me-1"></i>
             <span>Imágenes Corporativas</span>
           </a>
           @endif
+
           @if(Auth::user()->usugrucod === 'SA')
           <a href="{{ route('clear.database') }}" class="dropdown-item" id="clear-database">
-            <i class="mdi mdi-account-circle me-1"></i>
+            <i class="mdi mdi-database me-1"></i>
             <span>Limpiar Base de datos</span>
+          </a>
+          @endif
+
+          @if(Auth::user()->usugrucod === 'SA')
+          <a href="{{ route('settings.email') }}" class="dropdown-item" id="clear-database">
+            <i class="mdi mdi-email-outline me-1"></i>
+            <span>Gestión de Correo</span>
           </a>
           @endif
 

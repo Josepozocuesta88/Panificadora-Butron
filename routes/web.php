@@ -17,6 +17,7 @@ use App\Http\Controllers\PuntosController;
 use App\Http\Controllers\RecomendadosController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserLogController;
+use App\Http\Controllers\settingEmailController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -171,6 +172,9 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/updateLogo', [LogoController::class, 'updateLogo'])->name('updateLogo');
 
   Route::get('/clear-database', [DbController::class, 'truncateAllTables'])->name('clear.database');
+
+  // settings
+  Route::get('/settings/email', [settingEmailController::class, 'index'])->name('settings.email');
 });
 
 Route::get('/categorias/preview/{catcod}', [ArticuloController::class, 'showByCategoryLogout'])->name('categoriesNoLogin');
