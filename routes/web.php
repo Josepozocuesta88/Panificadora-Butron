@@ -18,6 +18,7 @@ use App\Http\Controllers\RecomendadosController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserLogController;
 use App\Http\Controllers\settingEmailController;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
