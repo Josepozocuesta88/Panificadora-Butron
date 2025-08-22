@@ -54,13 +54,20 @@ class OrderEmailFromAppController extends Controller
 
     // Enviar correo
     try {
-      Mail::send('pages.ecommerce.pedidos.email-orderfromapp', $data, function ($message) use ($email, $emails_copia) {
+      Mail::send('pages.ecommerce.pedidos.email-orderfromapp', $data, function ($message) use ($email, $emails_copia, &$sendEmail) {
         $message->to($email)
           ->cc($emails_copia)
           ->subject('Su pedido ya se ha procesado')
           ->from(config('mail.from.address'), config('app.name'));
+        // Guardar el mensaje MIME para luego almacenarlo en "Enviados"
+        $sendEmail = $message;
       });
       Log::info("Correo enviado correctamente al usuario: {$email}");
+
+      // Guardar el correo en la carpeta "Enviados"
+      if (isset($sendEmail)) {
+        $this->saveSendEmail($sendEmail->getSymfonyMessage()->toString());
+      }
     } catch (\Exception $e) {
       Log::error("Error al enviar el correo al usuario: {$email}. Detalle: " . $e->getMessage());
     }
