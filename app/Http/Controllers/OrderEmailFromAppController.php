@@ -59,12 +59,18 @@ class OrderEmailFromAppController extends Controller
     ];
 
     // Enviar correo
-    $sendEmail = Mail::send('pages.ecommerce.pedidos.email-orderfromapp', $data, function ($message) use ($email, $emails_copia) {
-      $message->to($email)
-        ->cc("web.jorge@redesycomponentes.com", $emails_copia)
-        ->subject('Su pedido ya se ha procesado')
-        ->from(config('mail.from.address'), config('app.name'));
-    });
+   // Enviar correo
+    try {
+      $sendEmail = Mail::send('pages.ecommerce.pedidos.email-orderfromapp', $data, function ($message) use ($email, $emails_copia) {
+        $message->to($email)
+          ->cc("web.jorge@redesycomponentes.com", $emails_copia)
+          ->subject('Su pedido ya se ha procesado')
+          ->from(config('mail.from.address'), config('app.name'));
+      });
+      Log::info('Correo enviado', ['destinatario' => $email, 'estado' => 'enviado']);
+    } catch (\Exception $e) {
+      Log::error('Error al enviar correo', ['destinatario' => $email, 'estado' => 'fallido', 'error' => $e->getMessage()]);
+    }
 
     $this->saveSendEmail($sendEmail->toString());
   }
