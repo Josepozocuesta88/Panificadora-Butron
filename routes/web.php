@@ -31,6 +31,8 @@ Route::view('/', 'commingSon')->name('commingSon');
 // método que registra todas las rutas necesarias para las funciones de autenticación
 Auth::routes();
 
+Route::post("/login/validate-code", [App\Http\Controllers\Auth\LoginController::class, 'validateCode'])->name('loginValidateCode');
+
 Route::middleware(['auth'])->group(function () {
   // home 
   Route::get('/home', [OfertaCController::class, 'index'])->name('home');

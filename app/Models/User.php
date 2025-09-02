@@ -29,6 +29,7 @@ class User extends Authenticatable
         'usudes1',
         'usunuevo',
         'usuivacod',
+        'accesorapido',
     ];
 
     /**

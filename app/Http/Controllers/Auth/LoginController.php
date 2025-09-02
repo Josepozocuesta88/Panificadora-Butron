@@ -50,33 +50,31 @@ class LoginController extends Controller
    */
   protected function attemptLogin(Request $request)
   {
+
+    // Autenticación normal por email/password
     $credentials = $this->credentials($request);
     $user = $this->guard()->getProvider()->retrieveByCredentials($credentials);
 
     if ($user) {
       $storedPassword = $user->getAuthPassword();
 
-      // Verificar si el hash almacenado es un hash Bcrypt
       if (!empty($credentials['password'])) {
-
         if (strlen($storedPassword) === 60) {
-          // Intentar la verificación con Bcrypt
           if (Hash::check($credentials['password'], $storedPassword)) {
             $this->guard()->login($user, $request->filled('remember'));
-            // return true;
+
             return $user->usunuevo == 0 || $user->usunuevo == null ? 'new_user' : true;
           }
         } elseif (md5($credentials['password']) === $storedPassword) {
-          // Hash MD5 coincidente, actualizar a Bcrypt
           $user->password = Hash::make($credentials['password']);
           $user->save();
           $this->guard()->login($user, $request->filled('remember'));
+
           return true;
         }
       }
     }
 
-    // Contraseña incorrecta o usuario no encontrado
     return false;
   }
 
@@ -101,7 +99,6 @@ class LoginController extends Controller
 
 
 
-
   /**
    * Verifica la contraseña del usuario.
    *
@@ -114,5 +111,29 @@ class LoginController extends Controller
     // Aquí implementas tu lógica de verificación. 
     // Por ejemplo, si las contraseñas están en MD5 (no recomendado por seguridad):
     return md5($plainPassword) === $hashedPassword;
+  }
+
+
+  // validar código de invitación
+  public function validateCode(Request $request)
+  {
+    $request->validate([
+      'invite_code' => 'required|string',
+    ]);
+
+    $inviteCode = $request->input('invite_code');
+    $user = \App\Models\User::where('accesorapido', $inviteCode)->first();
+
+    if ($user) {
+      return response()->json([
+        'success' => true,
+        'email' => $user->email,
+        'password' => $user->usunif,
+      ]);
+    }
+
+    return response()->json([
+      'success' => false,
+    ]);
   }
 }
