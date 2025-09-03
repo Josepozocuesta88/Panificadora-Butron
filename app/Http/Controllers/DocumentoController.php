@@ -267,7 +267,7 @@ class DocumentoController extends Controller
             Redsys::setUrlOk(config('redsys.url_ok'));
             Redsys::setUrlKo(config('redsys.url_ko'));
             Redsys::setVersion(config('redsys.signatured'));
-            Redsys::setTradeName('PROF CONGELADO 2015 SL');
+            Redsys::setTradeName('PROF Reposteria Florys SL');
             Redsys::setTitular('Javier');
             Redsys::setProductDescription('Pago Facturas');
             Redsys::setEnviroment(config('redsys.enviroment'));
