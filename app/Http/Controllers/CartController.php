@@ -361,7 +361,7 @@ class CartController extends Controller
         $artivapor = $total * ($item->articulo->artivapor / 100);
         $iva_porcentaje = $item->articulo->artivapor;
         // Auth::user()->usuivacod === "R" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
-        Auth::user()->usuivacod !== "N" && Auth::user()->usuivacod !== "E" ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
+        Auth::user()->usuivacod !== "N" && Auth::user()->usuivacod !== "E" && Auth::user()->usuivacod !== "O"  ? $artrecpor = $total * ($item->articulo->artrecpor / 100) : $artrecpor = 0;
         $artsigimp = $total * ($item->articulo->artsigimp / 100);
         // Log::info('recargo desde calculateItemDetails: ' . $item->articulo->artrecpor);
 

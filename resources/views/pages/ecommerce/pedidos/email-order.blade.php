@@ -109,10 +109,10 @@
   <h4>Resumen del Pedido:</h4>
   <ul>
     <li>Subtotal: {{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €</li>
-    <li>Total IVA: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['iva']
-      * $item['cantidad_unidades'])) }} €</li>
-    <li>Total Recargo: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) =>
-      $item['recargo'] * $item['cantidad_unidades'])) }} €</li>
+    <li>Total IVA: {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['iva'] * $item['cantidad_unidades'])) }} €</li>
+    <li>Total Recargo:
+      {{ \App\Services\FormatoNumeroService::convertirADecimal($itemDetails->sum(fn($item) => $item['recargo'] * $item['cantidad_unidades'])) }} €
+    </li>
     @php
     $totalSinRedondeo = floor(($pedido->total + $itemDetails->sum(fn($item) => $item['recargo'] *
     $item['cantidad_unidades'])) * 100) / 100;
