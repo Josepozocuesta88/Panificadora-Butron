@@ -399,12 +399,15 @@ $minSubtotal = QanetParametro2::where('connom', 'QCLOUDVENTAMINIMA')->first();
 
               </div>
               <div class="mt-4 col-lg-12 col-xl-3 mt-xl-0">
-                @if(!$descuento)
+
+                <!-- para el descuento especial -->
+                {{-- @if(!$descuento)
                 <div class="alert alert-success border-animation" role="alert">
                   <i class="bi bi-gift me-1 align-middle font-20 icono-animated"></i>
                   ¡Felicidades! tiene un descuento de <strong>5%</strong> para su compra.
                 </div>
-                @endif
+                @endif --}}
+                <!-- fin del descuento especial -->
 
                 <div class="p-3 border rounded">
                   <h4 class="mb-3 header-title">Detalles del pedido</h4>
@@ -412,11 +415,16 @@ $minSubtotal = QanetParametro2::where('connom', 'QCLOUDVENTAMINIMA')->first();
                     <table class="table mb-0">
                       <tbody>
                         <tr>
-                          @if($descuento)
+                          <!-- para descuento especial -->
+                          {{-- @if($descuento)
                           <td>Subtotal :</td>
                           @else
                           <td>Subtotal + Descuento (5%):</td>
                           @endif
+                          --}}
+                          <!-- fin del descuento especial -->
+
+                          <td>Subtotal :</td>
                           <td class="ps-0">
                             {{ \App\Services\FormatoNumeroService::convertirADecimal($subtotal) }} €
                           </td>

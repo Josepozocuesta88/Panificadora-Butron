@@ -120,11 +120,10 @@ class CartController extends Controller
       return view('pages.ecommerce.carrito.cart', ['message' => 'El carrito está vacío.']);
     }
 
-    $descuento = $this->discountForClient($user->id)->getData();
-
+    // descuento de primeras compras
+    // $descuento = $this->discountForClient($user->id)->getData();
 
     $articulos = $items->pluck('articulo');
-
 
     $this->articleService->calculatePrices($articulos, $user->usutarcod);
 
@@ -134,13 +133,16 @@ class CartController extends Controller
       return view('pages.ecommerce.carrito.cart', ['message' => 'Todos los artículos en el carrito no están disponibles.']);
     }
 
-    if (!$descuento->result) {
-      $subtotal = $itemDetails->sum('total');
-      $descuento_aplicado = $subtotal * 0.05;
-      $subtotal -= $descuento_aplicado;
-    } else {
-      $subtotal     = $itemDetails->sum('total');
-    }
+    // descuento de primeras compras
+    // if (!$descuento->result) {
+    //   $subtotal = $itemDetails->sum('total');
+    //   $descuento_aplicado = $subtotal * 0.05;
+    //   $subtotal -= $descuento_aplicado;
+    // } else {
+    //   $subtotal     = $itemDetails->sum('total');
+    // }
+
+    $subtotal     = $itemDetails->sum('total');
 
     $shippingCost = 0.00;
     $total        = $subtotal + $shippingCost;
@@ -177,7 +179,7 @@ class CartController extends Controller
       'artsigimp'     => $artsigimp,
       'total'         => $total,
       'direcciones'   => $user->direcciones,
-      'descuento'     => $descuento,
+      // 'descuento'     => $descuento,
     ]);
   }
 
