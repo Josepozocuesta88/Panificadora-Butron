@@ -90,8 +90,11 @@ class ArticuloController extends Controller
 
   public function search(Request $request, OfertasGeneralesService $ofG, OfertasPersonalizadasService $ofP)
   {
+
     session(['search' => $request->get('query')]);
-    $keywords = explode(' ', $request->get('query'));
+    $keywords = $request->get('query') ? explode(' ', $request->get('query')) : [];
+
+    // dd($keywords);
 
     $usuarioCodigo = Auth::user()->usuclicod;
     $query = Articulo::situacion('C')->search($keywords)->restrictions()->with(['imagenes', 'cajas']);
@@ -123,6 +126,8 @@ class ArticuloController extends Controller
     $ofertasServicePer  = app(\App\Contracts\OfertaServiceInterface::class);
     $ofertasPer         = $ofertasServicePer->obtenerOfertas();
     $articulosOfertaPer = $ofP->obtenerArticulosEnOferta();
+
+
 
     return $this->prepareView($articulos, null, $ofertas, $articulosOferta, $ofertasPer, $articulosOfertaPer);
   }
