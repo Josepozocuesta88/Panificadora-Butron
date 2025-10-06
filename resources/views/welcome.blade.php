@@ -145,7 +145,7 @@
           <!-- Iconos de navegación -->
           <div class="d-flex" style="height: 50px;">
             <a class="nav-link pe-2" href="{{ route('search') }}">
-            <i class="bi bi-search text-white font-25"></i>
+              <i class="bi bi-search text-white font-25"></i>
             </a>
             <a class="nav-link pe-2" href="{{ route('login') }}">
               <i class="bi bi-person-circle text-white font-25"></i>
@@ -156,9 +156,6 @@
           </div>
         </div>
       </nav>
-      <div>
-        <img src="{{ asset('images/web/navbar.png') }}" style="margin:auto;margin-top:-2px; width:100vw;" alt="navbar">
-      </div>
     </div>
     <div>
       <img src="{{ asset(config('app.hero_index')) }}" class="img-fluid responsive-style" {{--
@@ -172,7 +169,7 @@
     </div>
 
     <!-- novedades y ofertas -->
-   <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
+    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 ">
       <li class="nav-item bg-white">
         <a href="#novedades" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
           <i class="bi bi-lightbulb d-md-none d-block"></i>
@@ -187,7 +184,7 @@
       </li>
     </ul>
 
-     <div class="tab-content pb-5">
+    <div class="tab-content pb-5">
       <div class="tab-pane show active" id="novedades">
         <!-- novedades -->
         <x-novedades :novedades="$novedades" />
@@ -200,65 +197,65 @@
           <div class="carousel-indicators">
             @foreach($ofertas as $index => $image)
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $index }}"
-    class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}"
-    aria-label="Slide {{ $index + 1 }}"></button>
-    @endforeach
-  </div>
+              class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}"
+              aria-label="Slide {{ $index + 1 }}"></button>
+            @endforeach
+          </div>
 
-  <!-- Elementos del Carrusel -->
-  <div class="carousel-inner pb-3">
-    @foreach($ofertas as $image)
-    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-      <a
-        href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
-        <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block w-100 fill"
-          alt="banner publicitario">
-      </a>
-    </div>
-    @endforeach
-  </div>
+          <!-- Elementos del Carrusel -->
+          <div class="carousel-inner pb-3">
+            @foreach($ofertas as $image)
+            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+              <a
+                href="{{ isset($image->ofcartcod) && $image->ofcartcod ? route('info', ['artcod' => $image->ofcartcod]) : 'javascript:void(0)' }}">
+                <img src="{{ asset('images/ofertas/' . trim($image->ofcima)) }}" class="d-block w-100 fill"
+                  alt="banner publicitario">
+              </a>
+            </div>
+            @endforeach
+          </div>
 
-  <!-- Controles del Carrusel -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-    data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-    data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-  </div>
-  <!-- fin ofertas -->
-  </div>
-  </div>
-  <!-- fin novedades y ofertas -->
-
-  <!-- categorias disponibles -->
-  <h2 class="text-primary py-3">Nuestro Catálogo</h2>
-  <div class="row justify-content-center">
-    @foreach($categories as $category)
-    <div class="categoria col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 d-block position-relative p-0 m-2">
-      <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
-        <img src="{{ asset('images/categorias/' . $category->catima) }}" class="object-fit-fill border rounded"
-          alt="{{ $category->catnom }}" style="height:300px; width:100%;r"
-          onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
-      </a>
-      <div class="nombre-categoria bg-primary text-center">
-        <h3>
-          <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
-            onclick="irAProductos()">
-            {{ $category->catnom }}
-          </a>
-        </h3>
-        <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
-          class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
+          <!-- Controles del Carrusel -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <!-- fin ofertas -->
       </div>
     </div>
-    @endforeach
+    <!-- fin novedades y ofertas -->
+
+    <!-- categorias disponibles -->
+    <h2 class="text-primary py-3">Nuestro Catálogo</h2>
+    <div class="row justify-content-center">
+      @foreach($categories as $category)
+      <div class="categoria col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 d-block position-relative p-0 m-2">
+        <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" title="" onclick="irAProductos()">
+          <img src="{{ asset('images/categorias/' . $category->catima) }}" class="object-fit-fill border rounded"
+            alt="{{ $category->catnom }}" style="height:300px; width:100%;r"
+            onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
+        </a>
+        <div class="nombre-categoria bg-primary text-center">
+          <h3>
+            <a href="{{route('categories', ['catcod' => $category->catcod])}}" class="text-white"
+              onclick="irAProductos()">
+              {{ $category->catnom }}
+            </a>
+          </h3>
+          <a href="{{route('categories', ['catcod' => $category->catcod])}}" onclick="irAProductos()"
+            class="categoria-link text-warning font-20">Ver más <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+      @endforeach
+    </div>
   </div>
-  </div> 
 
   <div class="row pe-0 mx-0">
     <div class="col-12 bg-light pe-0 pt-1">

@@ -109,10 +109,6 @@
           </div>
         </div>
       </nav>
-      <div>
-        <img src="{{ asset('images/web/navbar.png') }}" class="w-100"
-          style="margin-top: -2px; max-height: 6vh; min-height: 3vh;" alt="navbar">
-      </div>
     </div>
 
     <div>

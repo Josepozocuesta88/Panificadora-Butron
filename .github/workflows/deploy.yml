@@ -17,7 +17,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1"
+          php-version: "8.3"
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
@@ -32,12 +32,9 @@ jobs:
 
       - name: Deploy to Hostinger
         run: |
-          ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u583081103@46.202.172.45 << 'EOF'
-            cd domains/florys.es/public_html/reposteria-florys &&
+          ssh -p 65002 -o ConnectTimeout=30 -o StrictHostKeyChecking=no u775018289@213.130.145.55 << 'EOF'
+            cd domains/panificadorabutron-panel.com/public_html/butron &&
             git pull origin main &&
             php artisan cache:clear &&
-            php artisan config:cache &&
-            php artisan optimize:clear
+            php artisan config:cache
           EOF
-
-#
