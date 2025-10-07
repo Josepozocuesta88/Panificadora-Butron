@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'voku\\' => array($vendorDir . '/voku/portable-ascii/src/voku'),
-    'Yajra\\DataTables\\' => array($vendorDir . '/yajra/laravel-datatables-buttons/src', $vendorDir . '/yajra/laravel-datatables-editor/src', $vendorDir . '/yajra/laravel-datatables-fractal/src', $vendorDir . '/yajra/laravel-datatables-html/src', $vendorDir . '/yajra/laravel-datatables-oracle/src'),
+    'Yajra\\DataTables\\' => array($vendorDir . '/yajra/laravel-datatables-fractal/src', $vendorDir . '/yajra/laravel-datatables-editor/src', $vendorDir . '/yajra/laravel-datatables-buttons/src', $vendorDir . '/yajra/laravel-datatables-html/src', $vendorDir . '/yajra/laravel-datatables-oracle/src'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'Webklex\\PHPIMAP\\' => array($vendorDir . '/webklex/php-imap/src'),
@@ -44,8 +44,8 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Ssheduardo\\Redsys\\' => array($vendorDir . '/ssheduardo/redsys-laravel/src'),
     'Spatie\\LaravelPackageTools\\' => array($vendorDir . '/spatie/laravel-package-tools/src'),
-    'Spatie\\LaravelIgnition\\' => array($vendorDir . '/spatie/error-solutions/legacy/laravel-ignition', $vendorDir . '/spatie/laravel-ignition/src'),
-    'Spatie\\Ignition\\' => array($vendorDir . '/spatie/error-solutions/legacy/ignition', $vendorDir . '/spatie/ignition/src'),
+    'Spatie\\LaravelIgnition\\' => array($vendorDir . '/spatie/laravel-ignition/src', $vendorDir . '/spatie/error-solutions/legacy/laravel-ignition'),
+    'Spatie\\Ignition\\' => array($vendorDir . '/spatie/ignition/src', $vendorDir . '/spatie/error-solutions/legacy/ignition'),
     'Spatie\\FlareClient\\' => array($vendorDir . '/spatie/flare-client-php/src'),
     'Spatie\\ErrorSolutions\\' => array($vendorDir . '/spatie/error-solutions/src'),
     'Spatie\\CookieConsent\\' => array($vendorDir . '/spatie/laravel-cookie-consent/src'),
