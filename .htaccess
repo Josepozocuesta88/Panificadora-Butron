@@ -2,13 +2,14 @@ RewriteEngine On
 RewriteBase /
 
 # Serve files from the root directory
+
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ public/$1 [L]
+RewriteRule ^(.\*)$ public/$1 [L]
 
 <FilesMatch "(\.env|artisan|composer\.json|composer\.lock|package\.json|package-lock\.json)">
-    Order allow,deny
-    Deny from all
+Order allow,deny
+Deny from all
 </FilesMatch>
- 
+
 RedirectMatch 403 ^/(storage|bootstrap/cache|node_modules|vendor|tests)
 RedirectMatch 403 /.git
