@@ -190,7 +190,7 @@
               <i class="ri-phone-fill font-25"></i>
               <div class="ps-2">
                 ¿Alguna duda? ¡Llámanos!
-                <a href="tel:+34957690508">957 690 508</a>
+                <a href="tel:+34607047099">607 047 099</a>
               </div>
             </div>
           </div>
