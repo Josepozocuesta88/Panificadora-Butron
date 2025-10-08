@@ -391,7 +391,7 @@ $minSubtotal = QanetParametro2::where('connom', 'QCLOUDVENTAMINIMA')->first();
                     <a onclick="window.location.href='/articles/search?query=';" class="btn btn-info">
                       <i class="mdi mdi-arrow-left"></i> Continuar comprando
                     </a>
-                    @if(isset($minSubtotal) && ($minSubtotal->condoble === null || $subtotal >= $minSubtotal->condoble))
+                    @if(!isset($minSubtotal) || $minSubtotal->condoble === null || $subtotal >= $minSubtotal->condoble)
                     <button class="btn btn-danger" id="procesarPedido">
                       <i class="mdi mdi-cart-plus me-1"></i> Procesar el pedido
                     </button>
