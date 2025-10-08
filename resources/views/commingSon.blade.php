@@ -87,13 +87,13 @@
   <section class="position-sticky">
     <div class="position-absolute top-0 w-100 z-1">
       <nav class="navbar navbar-expand-2xl navbar-light bg-primary pt-3">
-        <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 8vh;">
-          <a class="navbar-brand d-md-none position-absolute  translate-middle-y" style="margin-top: 10vh;" href="#">
+        <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 12vh;">
+          <a class="navbar-brand d-md-none position-absolute  translate-middle-y" style="margin-top: 5vh;" href="#">
             <img src="{{ asset(config('app.logo')) }}" alt="Logo pequeño" width="100">
           </a>
           <div class="d-none d-md-flex justify-content-center flex-grow-1">
-            <a class="" style="margin-bottom: -71px; margin-left:11rem" href="#">
-              <img src="{{ asset(config('app.logo')) }}" alt="Logo grande" width="220">
+            <a class="" style="margin-bottom: -71px; margin-left:11rem; margin-top: -80px;" href="#">
+              <img src="{{ asset(config('app.logo')) }}" alt="Logo grande" width="190">
             </a>
           </div>
           <div class="d-flex" style="height: 50px;">
