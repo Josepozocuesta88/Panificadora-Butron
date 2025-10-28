@@ -1237,79 +1237,130 @@
 
   @media (max-width: 767px) {
     .novedades-section {
-      padding: 2.5rem 0;
-    }
-
-    .novedades-title {
-      font-size: 1.75rem;
-    }
-
-    .novedades-subtitle {
-      font-size: 1rem;
-    }
-
-    .novedad-image-container {
-      height: 180px;
-    }
-
-    .action-buttons-novedad {
-      gap: 6px;
-    }
-
-    .btn-detail-novedad,
-    .btn-doc-novedad,
-    .btn-add-novedad {
-      height: 38px;
-      font-size: 13px;
-      border-radius: 10px;
-    }
-
-    .price-offer-novedad,
-    .price-normal-novedad {
-      font-size: 1.1rem;
-    }
-  }
-
-  @media (max-width: 575px) {
-    .container-fluid {
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
-    }
-
-    .novedades-section {
       padding: 2rem 0;
     }
 
     .novedades-title {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
     }
 
-    .novedad-content {
-      padding: 1rem 0.875rem 0.875rem;
-    }
-
-    .novedad-title {
+    .novedades-subtitle {
       font-size: 0.95rem;
-      height: 2.5rem;
+      margin-bottom: 2rem;
     }
 
-    .novedad-description {
-      font-size: 0.85rem;
-      height: 2.5rem;
+    /* Mejoras para grid móvil de novedades */
+    .novedades-grid .col-6 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+
+    .novedad-card {
+      border-radius: 12px;
+      margin-bottom: 1rem;
     }
 
     .novedad-image-container {
       height: 160px;
     }
 
+    .novedad-content {
+      padding: 1rem 0.75rem 0.75rem;
+    }
+
+    .novedad-name {
+      font-size: 0.85rem;
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+    }
+
     .action-buttons-novedad {
       gap: 4px;
+      margin-top: 0.75rem;
     }
 
     .btn-detail-novedad,
     .btn-doc-novedad,
     .btn-add-novedad {
-      height: 36px;
+      height: 32px;
+      width: 32px;
+      font-size: 11px;
+      border-radius: 8px;
+    }
+
+    .price-offer-novedad,
+    .price-normal-novedad {
+      font-size: 1rem;
+    }
+
+    .price-original-novedad {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .container-fluid {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    .novedades-section {
+      padding: 1.5rem 0;
+    }
+
+    .novedades-title {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .novedades-subtitle {
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Grid para móviles pequeños - 2 columnas más compactas */
+    .novedades-grid .col-6 {
+      flex: 0 0 50%;
+      max-width: 50%;
+      padding: 0 0.25rem;
+    }
+
+    .novedad-card {
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+    }
+
+    .novedad-content {
+      padding: 0.75rem 0.5rem 0.5rem;
+    }
+
+    .novedad-name {
+      font-size: 0.75rem;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      height: 2rem;
+    }
+
+    .novedad-description {
+      display: none;
+      /* Ocultar descripción en móviles pequeños */
+    }
+
+    .novedad-image-container {
+      height: 140px;
+    }
+
+    .action-buttons-novedad {
+      gap: 2px;
+      margin-top: 0.5rem;
+    }
+
+    .btn-detail-novedad,
+    .btn-doc-novedad,
+    .btn-add-novedad {
+      height: 28px;
+      width: 28px;
       font-size: 12px;
       border-radius: 8px;
       width: 100%;
@@ -1322,15 +1373,77 @@
   }
 
   @media (max-width: 374px) {
-    .novedad-title {
-      font-size: 0.9rem;
+
+    /* Estilos para móviles extra pequeños - Novedades */
+    .novedades-title {
+      font-size: 1.2rem;
+    }
+
+    .novedades-grid .col-6 {
+      padding: 0 0.125rem;
+    }
+
+    .novedad-card {
+      margin-bottom: 0.5rem;
+    }
+
+    .novedad-image-container {
+      height: 120px;
+    }
+
+    .novedad-content {
+      padding: 0.5rem 0.25rem 0.25rem;
+    }
+
+    .novedad-name {
+      font-size: 0.7rem;
+      height: 1.8rem;
+      margin-bottom: 0.25rem;
     }
 
     .btn-detail-novedad,
     .btn-doc-novedad,
     .btn-add-novedad {
-      height: 32px;
-      font-size: 11px;
+      height: 26px;
+      width: 26px;
+      font-size: 10px;
+    }
+
+    .price-offer-novedad,
+    .price-normal-novedad {
+      font-size: 0.9rem;
+    }
+
+    .price-original-novedad {
+      font-size: 0.7rem;
+    }
+
+    /* Estilos para móviles extra pequeños - Categorías */
+    .categorias-title {
+      font-size: 1.3rem;
+    }
+
+    .categoria-item {
+      height: 220px;
+    }
+
+    .categoria-content {
+      padding: 0.75rem;
+    }
+
+    .categoria-icon {
+      font-size: 35px;
+      margin-bottom: 0.5rem;
+    }
+
+    .categoria-name {
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .categoria-btn {
+      padding: 5px 10px;
+      font-size: 0.65rem;
     }
   }
 
@@ -1678,40 +1791,46 @@
 
   @media (max-width: 767px) {
     .categorias-section {
-      padding: 3rem 0;
+      padding: 2.5rem 0;
     }
 
     .categorias-title {
-      font-size: 2rem;
-      margin-bottom: 2.5rem;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
     }
 
     .categorias-subtitle {
-      font-size: 1.1rem;
-      margin-bottom: 3rem;
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Mejorar grid mobile - 2 columnas en móviles */
+    .categorias-grid .col-6 {
+      flex: 0 0 50%;
+      max-width: 50%;
     }
 
     .categoria-item {
-      height: 300px;
+      height: 280px;
     }
 
     .categoria-icon {
-      font-size: 60px;
-      margin-bottom: 1.25rem;
+      font-size: 50px;
+      margin-bottom: 1rem;
     }
 
     .categoria-content {
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .categoria-name {
-      font-size: 1.2rem;
-      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
     }
 
     .categoria-btn {
-      padding: 8px 18px;
-      font-size: 0.8rem;
+      padding: 8px 16px;
+      font-size: 0.75rem;
     }
 
     .cta-content {
@@ -1736,40 +1855,52 @@
 
   @media (max-width: 575px) {
     .container-fluid {
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
     }
 
     .categorias-section {
-      padding: 2.5rem 0;
+      padding: 2rem 0;
     }
 
     .categorias-title {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .categorias-subtitle {
+      font-size: 0.9rem;
       margin-bottom: 2rem;
     }
 
+    /* Una sola columna en móviles muy pequeños */
+    .categorias-grid .col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
     .categoria-item {
-      height: 280px;
+      height: 250px;
+      margin-bottom: 1rem;
     }
 
     .categoria-content {
-      padding: 1.25rem;
+      padding: 1rem;
     }
 
     .categoria-icon {
-      font-size: 50px;
-      margin-bottom: 1rem;
+      font-size: 40px;
+      margin-bottom: 0.75rem;
     }
 
     .categoria-name {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
     }
 
     .categoria-btn {
-      padding: 8px 16px;
-      font-size: 0.75rem;
+      padding: 6px 12px;
+      font-size: 0.7rem;
     }
 
     .cta-content {
