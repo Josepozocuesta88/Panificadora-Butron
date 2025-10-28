@@ -811,7 +811,7 @@
   .novedades-section {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     padding: 4rem 0;
-    margin-top: 3rem;
+    margin-top: 1rem;
   }
 
   /* Header Styles */
@@ -1333,6 +1333,463 @@
       font-size: 11px;
     }
   }
+
+  /* ===== CATEGORÍAS SECTION STYLES ===== */
+  .categorias-section {
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    padding: 5rem 0;
+    margin-top: 1rem;
+    position: relative;
+    min-height: 80vh;
+  }
+
+  .categorias-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 20% 80%, rgba(201, 140, 0, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(201, 140, 0, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(201, 140, 0, 0.02) 0%, transparent 80%);
+    pointer-events: none;
+  }
+
+  /* Header Styles */
+  .categorias-header {
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .categorias-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+    position: relative;
+  }
+
+  .categorias-subtitle {
+    font-size: 1.1rem;
+    color: #64748b;
+    font-weight: 300;
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .title-divider-cat {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #c98c00, #e6a500);
+    margin: 1.5rem auto 0;
+    border-radius: 2px;
+  }
+
+  /* Grid Container */
+  .categorias-grid {
+    max-width: 1800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Categoria Item - Image Style */
+  .categoria-item {
+    position: relative;
+    display: block;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 380px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    box-shadow: 0 8px 32px rgba(201, 140, 0, 0.15);
+  }
+
+  .categoria-item:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(201, 140, 0, 0.25);
+    text-decoration: none;
+  }
+
+  .categoria-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.4s ease;
+  }
+
+  .categoria-item:hover .categoria-background {
+    transform: scale(1.1);
+  }
+
+  .categoria-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(201, 140, 0, 0.45) 0%, rgba(184, 128, 10, 0.55) 100%);
+    transition: all 0.4s ease;
+  }
+
+  .categoria-item:hover .categoria-overlay {
+    background: linear-gradient(135deg, rgba(201, 140, 0, 0.65) 0%, rgba(184, 128, 10, 0.75) 100%);
+  }
+
+  .categoria-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    z-index: 2;
+  }
+
+  .categoria-icon {
+    color: white;
+    margin-bottom: 1.5rem;
+    transition: all 0.4s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+    font-size: 80px;
+  }
+
+  .categoria-item:hover .categoria-icon {
+    transform: rotate(360deg) scale(1.15);
+  }
+
+  .categoria-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+  }
+
+  .categoria-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .categoria-item:hover .categoria-btn {
+    background: white;
+    color: #c98c00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Call to Action Section */
+  .categorias-cta {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-content {
+    background: linear-gradient(135deg, white 0%, #fafafa 100%);
+    padding: 4rem 3rem;
+    border-radius: 32px;
+    box-shadow: 0 20px 60px rgba(201, 140, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.08);
+    border: 3px solid rgba(201, 140, 0, 0.15);
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    transform: perspective(1000px) rotateX(2deg);
+    transition: all 0.4s ease;
+  }
+
+  .cta-content:hover {
+    transform: perspective(1000px) rotateX(0deg) translateY(-8px);
+    box-shadow: 0 32px 80px rgba(201, 140, 0, 0.20), 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(201, 140, 0, 0.25);
+  }
+
+  .cta-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(201, 140, 0, 0.02) 0%, rgba(230, 165, 0, 0.02) 100%);
+    z-index: -1;
+  }
+
+  .cta-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #1e293b 0%, #c98c00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    line-height: 1.2;
+  }
+
+  .cta-description {
+    font-size: 1.25rem;
+    color: #64748b;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 40px;
+    background: linear-gradient(135deg, #c98c00 0%, #b07a00 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 60px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 12px 48px rgba(201, 140, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+  }
+
+  .cta-button:hover::before {
+    left: 100%;
+  }
+
+  .cta-button:hover {
+    background: linear-gradient(135deg, #b07a00 0%, #9d6a00 100%);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 24px 72px rgba(201, 140, 0, 0.5);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .cta-button i {
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+  }
+
+  .cta-button:hover i {
+    transform: scale(1.3) rotate(15deg);
+  }
+
+  /* Responsive Design */
+  @media (min-width: 1400px) {
+    .categorias-grid {
+      max-width: 1800px;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .categorias-grid .col-lg-3 {
+      flex: 0 0 25%;
+      max-width: 25%;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .categorias-section {
+      padding: 4rem 0;
+    }
+
+    .categorias-title {
+      font-size: 2.2rem;
+    }
+
+    .categoria-item {
+      height: 320px;
+    }
+
+    .categoria-icon {
+      font-size: 70px;
+    }
+
+    .categoria-name {
+      font-size: 1.3rem;
+    }
+
+    .categoria-btn {
+      padding: 10px 18px;
+      font-size: 0.85rem;
+    }
+
+    .cta-content {
+      padding: 3rem 2rem;
+    }
+
+    .cta-title {
+      font-size: 2rem;
+    }
+
+    .cta-description {
+      font-size: 1.15rem;
+    }
+
+    .cta-button {
+      padding: 18px 36px;
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .categorias-section {
+      padding: 3rem 0;
+    }
+
+    .categorias-title {
+      font-size: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .categorias-subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+
+    .categoria-item {
+      height: 300px;
+    }
+
+    .categoria-icon {
+      font-size: 60px;
+      margin-bottom: 1.25rem;
+    }
+
+    .categoria-content {
+      padding: 1.5rem;
+    }
+
+    .categoria-name {
+      font-size: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .categoria-btn {
+      padding: 8px 18px;
+      font-size: 0.8rem;
+    }
+
+    .cta-content {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .cta-title {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-description {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-button {
+      padding: 14px 28px;
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .container-fluid {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+
+    .categorias-section {
+      padding: 2.5rem 0;
+    }
+
+    .categorias-title {
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .categoria-item {
+      height: 280px;
+    }
+
+    .categoria-content {
+      padding: 1.25rem;
+    }
+
+    .categoria-icon {
+      font-size: 50px;
+      margin-bottom: 1rem;
+    }
+
+    .categoria-name {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .categoria-btn {
+      padding: 8px 16px;
+      font-size: 0.75rem;
+    }
+
+    .cta-content {
+      padding: 2rem 1rem;
+      border-radius: 16px;
+    }
+
+    .cta-title {
+      font-size: 1.5rem;
+    }
+
+    .cta-description {
+      font-size: 0.95rem;
+    }
+
+    .cta-button {
+      padding: 12px 20px;
+      font-size: 0.95rem;
+    }
+  }
 </style>
 
 <!-- Sección de Ofertas Unificada -->
@@ -1659,8 +2116,52 @@
 @endif
 <!-- Fin Sección de Ofertas Unificada -->
 
+<!-- Sección de Categorías Mejorada -->
+<div class="categorias-section py-1">
+  <div class="container-fluid px-4">
+    <!-- Título y Llamada a la Acción -->
+    <div class="categorias-header text-center mb-5 mt-2">
+      <h2 class="categorias-title">Nuestras Categorías</h2>
+      <p class="categorias-subtitle">Explora toda nuestra variedad de productos artesanales</p>
+      <div class="title-divider-cat"></div>
+    </div>
+
+    <!-- Grid de Categorías -->
+    <div class="categorias-grid">
+      <div class="row g-3 justify-content-center">
+        @foreach($categorias as $category)
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="{{ route('categories', ['catcod' => $category->catcod]) }}" onclick="irAProductos()" class="categoria-item">
+            <!-- Imagen de fondo -->
+            <div class="categoria-background" style="background-image: url('{{ asset('images/categorias/' . $category->catima) }}');"></div>
+
+            <!-- Overlay con gradiente -->
+            <div class="categoria-overlay"></div>
+
+            <!-- Contenido superpuesto -->
+            <div class="categoria-content">
+              <div class="categoria-icon">
+                <i class="bi bi-basket2-fill"></i>
+              </div>
+
+              <h3 class="categoria-name">{{ $category->catnom }}</h3>
+
+              <div class="categoria-btn">
+                <span>Ver Productos</span>
+                <i class="bi bi-arrow-right ms-2"></i>
+              </div>
+            </div>
+          </a>
+        </div>
+        @endforeach
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- Sección de Novedades Mejorada -->
-<div class="novedades-section py-5">
+<div class="novedades-section py-1">
   <div class="container-fluid px-4">
     <!-- Título Elegante -->
     <div class="novedades-header text-center mb-5">
@@ -1770,38 +2271,27 @@
   </div>
 </div>
 
-<div class="container mt-3">
-  <div class="mb-3 row">
-    <div class="col-lg-12">
-      <div class="nav nav-tabs text-dark ">
-        <h3>Categor&#237;as</h3>
-      </div>
+
+
+<div class="pt-4 row">
+  <div class="col-lg-12">
+    <div class="nav nav-tabs text-dark ">
+      <h3>Histórico de compras</h3>
     </div>
-  </div>
-  <div class="row justify-content-center">
-    <x-categorias :categorias="$categorias" />
-  </div>
-  <div class="pt-4 row">
-    <div class="col-lg-12">
-      <div class="nav nav-tabs text-dark ">
-        <h3>Histórico de compras</h3>
-      </div>
-    </div>
-  </div>
-  <div class="pt-3 table-responsive">
-    <table class="table table-centered w-100 dt-responsive nowrap" id="history-datatable">
-      <thead class="table-light">
-        <tr>
-          <th>Código</th>
-          <th>Producto</th>
-          <th>Fecha Compra</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-        </tr>
-      </thead>
-    </table>
   </div>
 </div>
+<div class="pt-3 table-responsive">
+  <table class="table table-centered w-100 dt-responsive nowrap" id="history-datatable">
+    <thead class="table-light">
+      <tr>
+        <th>Código</th>
+        <th>Producto</th>
+        <th>Fecha Compra</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+  </table>
 </div>
 
 @endsection
