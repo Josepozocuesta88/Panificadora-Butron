@@ -1132,14 +1132,11 @@
 @endif
 <!-- Fin Sección de Ofertas Unificada -->
 
-<section class="py-2" id="productos">
+<section class="py-2 mt-3" id="productos">
   <div class="container">
     @isset($catnom)
     <h3 class="pb-2 text-primary">{{$catnom}}</h3>
-    @else
-    <h3>Todos los Productos</h3>
     @endisset
-
 
     <!-- Controles para móviles -->
     <div class="d-block d-lg-none pb-3">
