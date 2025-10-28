@@ -1682,9 +1682,9 @@
                 <img src="{{ asset('images/articulos/' . $articulo->imagenes->first()->imanom) }}"
                   alt="{{ $articulo->artnom }}"
                   class="novedad-image"
-                  onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.jpg') }}';">
+                  onerror="this.onerror=null; this.src='{{ asset('images/articulos/noimage.png') }}';">
                 @else
-                <img src="{{ asset('images/articulos/noimage.jpg') }}"
+                <img src="{{ asset('images/articulos/noimage.png') }}"
                   alt="Sin imagen"
                   class="novedad-image">
                 @endif
