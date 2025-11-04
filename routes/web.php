@@ -18,6 +18,7 @@ use App\Http\Controllers\RecomendadosController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserLogController;
 use App\Http\Controllers\settingEmailController;
+use App\Http\Controllers\ToolsController;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -178,6 +179,37 @@ Route::middleware(['auth'])->group(function () {
 
   // settings
   Route::get('/settings/email', [settingEmailController::class, 'index'])->name('settings.email');
+
+
+  // herramientas (solo para administradores)
+  Route::get('/tools', [ToolsController::class, 'index'])->name('tools.index');
+  Route::post('/tools/send-budget', [ToolsController::class, 'sendBudgetForEmail'])->name('tools.sendBudgetForEmail');
+  Route::post('/tools/send-invoice', [ToolsController::class, 'sendInvoiceForEmail'])->name('tools.sendInvoiceForEmail');
+  Route::get('/tools/ver/{filename}', [ToolsController::class, 'showBudget'])->where('filename', '.*')->name('tools.showBudget');
+  Route::post('/tools/send-single-budget', [ToolsController::class, 'sendSingleBudgetForEmail'])->name('tools.sendSingleBudgetForEmail');
+  Route::post('/tools/send-single-invoice', [ToolsController::class, 'sendSingleInvoiceForEmail'])->name('tools.sendSingleInvoiceForEmail');
+  Route::post('/tools/update-single-budget', [ToolsController::class, 'updateBudget'])->name('tools.updateBudget');
+  Route::post('/tools/update-single-invoice', [ToolsController::class, 'updateInvoice'])->name('tools.updateInvoice');
+  Route::get('/tools/download/{docId}', [ToolsController::class, 'downloadDocument'])->name('tools.downloadDocument');
+
+
+  Route::get('/management/users', [ToolsController::class, 'manageUsers'])->name('users.management');
+
+  // Cambiar el rol de un usuario (AJAX)
+  Route::put('/users/change-role/{id}', [ToolsController::class, 'changeUserRole'])->name('users.changeRole');
+
+  // Cambiar la contraseña de un usuario (AJAX)
+  Route::put('/users/update-password/{id}', [ToolsController::class, 'updateUserPassword'])->name('users.updatePassword');
+
+  // Obtener la agenda de un usuario (AJAX)
+  Route::get('/users/agenda/{id}', [ToolsController::class, 'getUserAgenda'])->name('users.agenda');
+
+  // Actualizar estado de pedidos (AJAX)
+  Route::put('/pedidos/update-status/{id}', [ToolsController::class, 'updateOrderStatus'])->name('orders.updateStatus');
+
+  // Gestión de presupuestos de pedidos
+  Route::put('/pedidos/update-presupuesto/{id}', [ToolsController::class, 'updatePresupuestoPedido'])->name('presupuestos.update');
+  Route::put('/pedidos/convertir-pedido/{id}', [ToolsController::class, 'convertirPresupuestoAPedido'])->name('presupuestos.convertir');
 });
 
 Route::get('/categorias/preview/{catcod}', [ArticuloController::class, 'showByCategoryLogout'])->name('categoriesNoLogin');

@@ -184,6 +184,13 @@
             <span>Soporte Técnico</span>
           </a>
 
+          @if(Auth::user()->usugrucod === 'SA' || Auth::user()->usugrucod === 'Admin')
+          <a href="{{ route('users.management') }}" class="dropdown-item">
+            <i class="mdi mdi-account-multiple-outline me-1"></i>
+            <span>Gestionar Usuarios</span>
+          </a>
+          @endif
+
           <!-- item-->
           <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
