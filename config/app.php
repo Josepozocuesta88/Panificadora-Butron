@@ -40,7 +40,7 @@ return [
   'hero_gift' => 'images/web/gift.jpg',
 
 
-  'logo' => 'images/web/logo.png',
+  'logo' => 'images/web/logonuevoblanco.png',
 
   'caja' => 'si',
 
