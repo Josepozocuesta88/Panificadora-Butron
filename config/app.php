@@ -44,7 +44,7 @@ return [
 
   'caja' => 'si',
 
-  'telefono' => '607 047 099',
+  'telefono' => '674 62 47 22',
 
   'direccion' => 'Calle de los pueblos, 4-6, 11130 Chiclana de la Frontera, Cádiz',
 

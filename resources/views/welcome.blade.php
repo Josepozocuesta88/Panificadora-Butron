@@ -164,7 +164,7 @@
   </section>
   <div class="container pb-3" style="top:-400px; bottom:0%;">
     <div class="d-flex flex-column justify-content-center align-items-center margen-abajo">
-      <div class="etiqueta">Tlf: 607 047 099</div>
+      <div class="etiqueta">Tlf: 674 62 47 22</div>
       <a href="{{ route('productsnologin') }}" class=" btn-catalogo">Contacta con nosotros</a>
     </div>
 
@@ -320,7 +320,7 @@
               <i class="ri-phone-fill font-25"></i>
               <div class="ps-2">
                 ¿Alguna duda? ¡Llámanos!
-                <a href="tel:+34607047099">607 047 099</a>
+                <a href="tel:+34674624722">674 62 47 22</a>
               </div>
             </div>
           </div>
