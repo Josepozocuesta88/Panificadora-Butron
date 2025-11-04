@@ -22,10 +22,10 @@
   <link rel="dns-prefetch" href="//fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-  <link href="{{asset('vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/datatables.net-select-bs5/css/select.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
 
   <link href="{{asset('css/app-saas.css')}}" rel="stylesheet" type="text/css" id="app-style" />
   <link href="{{asset('css/icons.css') }}" rel="stylesheet" type="text/css" />
@@ -74,24 +74,24 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('vendor/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('vendor/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('vendor/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
 
-    <script src="{{ asset('vendor/chart.js/chart.min.js ')}}"></script>
-    <script src="{{ asset('vendor/apexcharts/apexcharts.min.js ')}}"></script>
+    <script src="{{ asset('assets/chart.js/chart.min.js ')}}"></script>
+    <script src="{{ asset('assets/apexcharts/apexcharts.min.js ')}}"></script>
 
-    <script src="{{ asset('vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-    <script src="{{ asset('vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+    <script src="{{ asset('assets/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
 
     <script src="{{ asset('js/Ajax/cart.js') }}"></script>
 
     <script src="{{ asset('js/scrollPositionSaver.js') }}"></script>
 
-    <script src="{{asset('vendor/fullcalendar/main.min.js')}}"></script>
+    <script src="{{asset('assets/fullcalendar/main.min.js')}}"></script>
 
     <script src="https://unpkg.com/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
 
