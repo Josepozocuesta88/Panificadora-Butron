@@ -633,6 +633,7 @@ class ComposerStaticInit1d3e1f9ff08cd31c949794af460777d4
         'App\\Http\\Controllers\\PuntosController' => __DIR__ . '/../..' . '/app/Http/Controllers/PuntosController.php',
         'App\\Http\\Controllers\\RecomendadosController' => __DIR__ . '/../..' . '/app/Http/Controllers/RecomendadosController.php',
         'App\\Http\\Controllers\\SupportController' => __DIR__ . '/../..' . '/app/Http/Controllers/SupportController.php',
+        'App\\Http\\Controllers\\ToolsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ToolsController.php',
         'App\\Http\\Controllers\\UserLogController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserLogController.php',
         'App\\Http\\Controllers\\settingEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/settingEmailController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

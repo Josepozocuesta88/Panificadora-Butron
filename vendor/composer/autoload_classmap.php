@@ -34,6 +34,7 @@ return array(
     'App\\Http\\Controllers\\PuntosController' => $baseDir . '/app/Http/Controllers/PuntosController.php',
     'App\\Http\\Controllers\\RecomendadosController' => $baseDir . '/app/Http/Controllers/RecomendadosController.php',
     'App\\Http\\Controllers\\SupportController' => $baseDir . '/app/Http/Controllers/SupportController.php',
+    'App\\Http\\Controllers\\ToolsController' => $baseDir . '/app/Http/Controllers/ToolsController.php',
     'App\\Http\\Controllers\\UserLogController' => $baseDir . '/app/Http/Controllers/UserLogController.php',
     'App\\Http\\Controllers\\settingEmailController' => $baseDir . '/app/Http/Controllers/settingEmailController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
