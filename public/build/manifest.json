@@ -1,4 +1,8 @@
 {
+  "images/web/bg-login.jpg": {
+    "file": "assets/bg-login-8f387140.jpg",
+    "src": "images/web/bg-login.jpg"
+  },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
     "file": "assets/bootstrap-icons-f55513b7.woff",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
@@ -6,10 +10,6 @@
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
     "file": "assets/bootstrap-icons-6c757103.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
-  },
-  "public/images/web/bg-login.jpg": {
-    "file": "assets/bg-login-8f387140.jpg",
-    "src": "public/images/web/bg-login.jpg"
   },
   "resources/js/app.js": {
     "file": "assets/app-333c7f54.js",
