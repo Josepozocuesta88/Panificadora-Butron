@@ -74,10 +74,6 @@ class OfertaCController extends Controller
     $favoritos              = Auth::user() ? Auth::user()->favoritos->pluck('favartcod')->toArray() : [];
     $existeOferta           = $articulosOfertaPer === null ||  $articulosOfertaPer->isEmpty() ? 0 : 1;
 
-
-
-
-
     return view('index', compact(
       'categorias',
       'ofertas',

@@ -3,8 +3,8 @@
 @section('content')
 <style>
   :root {
-    --primary: #c98c00;
-    --primary-dark: #b07a00;
+    --primary: #594b42;
+    --primary-dark: #473b32;
     --gray-50: #f9fafb;
     --gray-100: #f3f4f6;
     --gray-600: #4b5563;
@@ -96,7 +96,7 @@
   }
 
   .heart-icon.active i {
-    color: #c98c00;
+    color: #594b42;
   }
 
   .product-content {
@@ -134,13 +134,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #c98c00;
+    color: #594b42;
     transition: all 0.3s ease;
     text-decoration: none;
   }
 
   .action-btn:hover {
-    background: #c98c00;
+    background: #594b42;
     color: white;
     transform: translateY(-2px);
   }
@@ -163,7 +163,7 @@
   .price-current {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #c98c00;
+    color: #594b42;
   }
 
   .price-original {
@@ -175,7 +175,7 @@
 
   .add-to-cart {
     width: 100%;
-    background: #c98c00;
+    background: #594b42;
     color: white;
     border: none;
     padding: 0.75rem;
@@ -189,7 +189,7 @@
   }
 
   .add-to-cart:hover {
-    background: #b07a00;
+    background: #473b32;
     transform: translateY(-2px);
   }
 
@@ -202,7 +202,7 @@
   .section-title {
     font-size: 2.5rem;
     font-weight: 800;
-    color: #c98c00;
+    color: #594b42;
     margin-bottom: 0.5rem;
   }
 
@@ -362,7 +362,7 @@
     transform: translateX(-50%);
     width: 60px;
     height: 2px;
-    background: linear-gradient(90deg, #c98c00, #e6a500);
+    background: linear-gradient(90deg, #594b42, #473b32);
     border-radius: 1px;
   }
 
@@ -527,7 +527,7 @@
   }
 
   .product-title a:hover {
-    color: #c98c00;
+    color: #594b42;
   }
 
   /* Price Info with Blue Highlights */
@@ -561,7 +561,7 @@
   }
 
   .stock-available {
-    color: #c98c00;
+    color: #594b42;
     font-size: 12px;
     font-weight: 500;
     display: flex;
@@ -596,8 +596,8 @@
 
   .package-selector:focus {
     outline: none;
-    border-color: #c98c00;
-    box-shadow: 0 0 0 2px rgba(201, 140, 0, 0.1);
+    border-color: #594b42;
+    box-shadow: 0 0 0 2px rgba(89, 75, 66, 0.1);
   }
 
   /* Action Buttons Side by Side */
@@ -631,27 +631,27 @@
 
   .btn-detail {
     background: white;
-    color: #c98c00;
-    border: 1px solid #c98c00;
+    color: #594b42;
+    border: 1px solid #594b42;
   }
 
   .btn-detail:hover {
-    background: #c98c00;
+    background: #594b42;
     color: white;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(201, 140, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(89, 75, 66, 0.3);
   }
 
   .btn-add {
-    background: #c98c00;
+    background: #594b42;
     color: white;
-    border: 1px solid #c98c00;
+    border: 1px solid #594b42;
   }
 
   .btn-add:hover {
-    background: #b07a00;
+    background: #473b32;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(201, 140, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(89, 75, 66, 0.4);
   }
 
   .add-form {
@@ -842,7 +842,7 @@
   .title-divider {
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, #c98c00, #e6a500);
+    background: linear-gradient(90deg, #594b42, #473b32);
     margin: 1.5rem auto 0;
     border-radius: 2px;
   }
@@ -857,7 +857,7 @@
   .novedad-card {
     background: white;
     border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(201, 140, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 32px rgba(89, 75, 66, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border: 2px solid transparent;
@@ -875,19 +875,19 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(201, 140, 0, 0.02) 0%, rgba(230, 165, 0, 0.02) 100%);
+    background: linear-gradient(135deg, rgba(89, 75, 66, 0.02) 0%, rgba(71, 59, 50, 0.02) 100%);
     border-radius: 18px;
     z-index: -1;
   }
 
   .novedad-card:hover {
     transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 25px 60px rgba(201, 140, 0, 0.15), 0 8px 32px rgba(0, 0, 0, 0.08);
-    border-color: rgba(201, 140, 0, 0.2);
+    box-shadow: 0 25px 60px rgba(89, 75, 66, 0.15), 0 8px 32px rgba(0, 0, 0, 0.08);
+    border-color: rgba(89, 75, 66, 0.2);
   }
 
   .novedad-card:hover::before {
-    background: linear-gradient(135deg, rgba(201, 140, 0, 0.05) 0%, rgba(230, 165, 0, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(89, 75, 66, 0.05) 0%, rgba(71, 59, 50, 0.05) 100%);
   }
 
   /* Image Container */
@@ -920,7 +920,7 @@
     position: absolute;
     top: 16px;
     left: 16px;
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    background: linear-gradient(135deg, #594b42 0%, #473b32 100%);
     color: white;
     padding: 8px 14px;
     border-radius: 25px;
@@ -929,7 +929,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(89, 75, 66, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 10;
@@ -983,7 +983,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(201, 140, 0, 0.1) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(89, 75, 66, 0.1) 50%, transparent 100%);
   }
 
   .novedad-title {
@@ -1004,14 +1004,14 @@
     color: inherit;
     text-decoration: none;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, #1e293b 0%, #c98c00 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #594b42 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .novedad-title a:hover {
-    background: linear-gradient(135deg, #c98c00 0%, #e6a500 100%);
+    background: linear-gradient(135deg, #594b42 0%, #473b32 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1037,16 +1037,16 @@
   }
 
   .stock-available-novedad {
-    color: #c98c00;
+    color: #594b42;
     font-size: 0.85rem;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    background: rgba(201, 140, 0, 0.1);
+    background: rgba(89, 75, 66, 0.1);
     border-radius: 20px;
-    border: 1px solid rgba(201, 140, 0, 0.2);
+    border: 1px solid rgba(89, 75, 66, 0.2);
   }
 
   .stock-unavailable-novedad {
@@ -1074,9 +1074,9 @@
   .price-offer-novedad {
     font-size: 1.25rem;
     font-weight: 800;
-    color: #c98c00;
+    color: #594b42;
     margin-bottom: 4px;
-    text-shadow: 0 1px 2px rgba(201, 140, 0, 0.1);
+    text-shadow: 0 1px 2px rgba(89, 75, 66, 0.1);
   }
 
   .price-original-novedad {
@@ -1140,16 +1140,16 @@
 
   .btn-detail-novedad {
     background: linear-gradient(135deg, white 0%, #f8fafc 100%);
-    color: #c98c00;
-    border: 2px solid #c98c00;
-    box-shadow: 0 2px 8px rgba(201, 140, 0, 0.1);
+    color: #594b42;
+    border: 2px solid #594b42;
+    box-shadow: 0 2px 8px rgba(89, 75, 66, 0.1);
   }
 
   .btn-detail-novedad:hover {
-    background: linear-gradient(135deg, #c98c00 0%, #b07a00 100%);
+    background: linear-gradient(135deg, #594b42 0%, #473b32 100%);
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(201, 140, 0, 0.3);
+    box-shadow: 0 8px 20px rgba(89, 75, 66, 0.3);
   }
 
   .btn-doc-novedad {
@@ -1168,17 +1168,17 @@
   }
 
   .btn-add-novedad {
-    background: linear-gradient(135deg, #c98c00 0%, #b07a00 100%);
+    background: linear-gradient(135deg, #594b42 0%, #473b32 100%);
     color: white;
-    border: 2px solid #c98c00;
-    box-shadow: 0 4px 16px rgba(201, 140, 0, 0.2);
+    border: 2px solid #594b42;
+    box-shadow: 0 4px 16px rgba(89, 75, 66, 0.2);
     width: 100%;
   }
 
   .btn-add-novedad:hover:not(:disabled) {
-    background: linear-gradient(135deg, #b07a00 0%, #9d6a00 100%);
+    background: linear-gradient(135deg, #473b32 0%, #3a2f28 100%);
     transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(201, 140, 0, 0.4);
+    box-shadow: 0 12px 28px rgba(89, 75, 66, 0.4);
   }
 
   .btn-add-novedad:disabled {
@@ -1463,9 +1463,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: radial-gradient(circle at 20% 80%, rgba(201, 140, 0, 0.05) 0%, transparent 60%),
-      radial-gradient(circle at 80% 20%, rgba(201, 140, 0, 0.05) 0%, transparent 60%),
-      radial-gradient(circle at 50% 50%, rgba(201, 140, 0, 0.02) 0%, transparent 80%);
+    background-image: radial-gradient(circle at 20% 80%, rgba(89, 75, 66, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(89, 75, 66, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(89, 75, 66, 0.02) 0%, transparent 80%);
     pointer-events: none;
   }
 
@@ -1499,7 +1499,7 @@
   .title-divider-cat {
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, #c98c00, #e6a500);
+    background: linear-gradient(90deg, #594b42, #473b32);
     margin: 1.5rem auto 0;
     border-radius: 2px;
   }
@@ -1521,12 +1521,12 @@
     height: 380px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    box-shadow: 0 8px 32px rgba(201, 140, 0, 0.15);
+    box-shadow: 0 8px 32px rgba(89, 75, 66, 0.15);
   }
 
   .categoria-item:hover {
     transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(201, 140, 0, 0.25);
+    box-shadow: 0 20px 60px rgba(89, 75, 66, 0.25);
     text-decoration: none;
   }
 
@@ -1552,12 +1552,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(201, 140, 0, 0.45) 0%, rgba(184, 128, 10, 0.55) 100%);
+    background: linear-gradient(135deg, rgba(89, 75, 66, 0.45) 0%, rgba(71, 59, 50, 0.55) 100%);
     transition: all 0.4s ease;
   }
 
   .categoria-item:hover .categoria-overlay {
-    background: linear-gradient(135deg, rgba(201, 140, 0, 0.65) 0%, rgba(184, 128, 10, 0.75) 100%);
+    background: linear-gradient(135deg, rgba(89, 75, 66, 0.65) 0%, rgba(71, 59, 50, 0.75) 100%);
   }
 
   .categoria-content {
@@ -1616,7 +1616,7 @@
 
   .categoria-item:hover .categoria-btn {
     background: white;
-    color: #c98c00;
+    color: #594b42;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
   }
@@ -1631,8 +1631,8 @@
     background: linear-gradient(135deg, white 0%, #fafafa 100%);
     padding: 4rem 3rem;
     border-radius: 32px;
-    box-shadow: 0 20px 60px rgba(201, 140, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.08);
-    border: 3px solid rgba(201, 140, 0, 0.15);
+    box-shadow: 0 20px 60px rgba(89, 75, 66, 0.15), 0 8px 24px rgba(0, 0, 0, 0.08);
+    border: 3px solid rgba(89, 75, 66, 0.15);
     max-width: 800px;
     margin: 0 auto;
     position: relative;
@@ -1643,8 +1643,8 @@
 
   .cta-content:hover {
     transform: perspective(1000px) rotateX(0deg) translateY(-8px);
-    box-shadow: 0 32px 80px rgba(201, 140, 0, 0.20), 0 12px 40px rgba(0, 0, 0, 0.12);
-    border-color: rgba(201, 140, 0, 0.25);
+    box-shadow: 0 32px 80px rgba(89, 75, 66, 0.20), 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(89, 75, 66, 0.25);
   }
 
   .cta-content::before {
@@ -1654,7 +1654,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(201, 140, 0, 0.02) 0%, rgba(230, 165, 0, 0.02) 100%);
+    background: linear-gradient(135deg, rgba(89, 75, 66, 0.02) 0%, rgba(71, 59, 50, 0.02) 100%);
     z-index: -1;
   }
 
@@ -1663,7 +1663,7 @@
     font-weight: 800;
     color: #1e293b;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, #1e293b 0%, #c98c00 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #594b42 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1684,7 +1684,7 @@
     align-items: center;
     gap: 16px;
     padding: 20px 40px;
-    background: linear-gradient(135deg, #c98c00 0%, #b07a00 100%);
+    background: linear-gradient(135deg, #594b42 0%, #473b32 100%);
     color: white;
     text-decoration: none;
     border-radius: 60px;
@@ -1693,7 +1693,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 12px 48px rgba(201, 140, 0, 0.3);
+    box-shadow: 0 12px 48px rgba(89, 75, 66, 0.3);
     position: relative;
     overflow: hidden;
     border: 3px solid rgba(255, 255, 255, 0.2);
@@ -1715,9 +1715,9 @@
   }
 
   .cta-button:hover {
-    background: linear-gradient(135deg, #b07a00 0%, #9d6a00 100%);
+    background: linear-gradient(135deg, #473b32 0%, #3a2f28 100%);
     transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 24px 72px rgba(201, 140, 0, 0.5);
+    box-shadow: 0 24px 72px rgba(89, 75, 66, 0.5);
     color: white;
     border-color: rgba(255, 255, 255, 0.4);
   }

@@ -25,18 +25,14 @@
 </head>
 
 <body>
-
-    <!--Auth fluid left content -->
+    <!-- Logo -->
+    <div class="auth-brand d-flex justify-content-center" style="background-color: #594b42;">
+        <a href="{{ route('welcome') }}" class="logo-dark d-flex justify-content-center align-items-center" style="width: 60%;">
+            <span><img src="{{ asset(config('app.logo')) }}" alt="logo" height="32" style="max-width: 300px;"></span>
+        </a>
+    </div>
     <div class="px-2 " style="margin: 0 auto; max-width:900px;">
         <div class=" d-flex flex-column h-100 gap-1">
-
-            <!-- Logo -->
-            <div class="auth-brand text-center text-lg-start align-self-center mt-5">
-                <a href="{{ route('welcome') }}" class="logo-dark">
-                    <span><img src="{{ asset(config('app.logo')) }}" alt="logo" height="100"></span>
-                </a>
-            </div>
-
             <div class="mt-4">
                 <!-- title-->
                 <h4 class="mt-0 text-primary">Entrar</h4>
