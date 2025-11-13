@@ -806,6 +806,158 @@
       padding: 6px 4px;
     }
   }
+
+  /* ===== DISEÑO RESPONSIVO PARA CARDS DE ESCRITORIO (BASADO EN VIEWPORT) ===== */
+  /* Estas reglas hacen que las cards escalen proporcionalmente con el tamaño de la pantalla */
+
+  @media (min-width: 768px) {
+
+    /* Altura de imagen proporcional al viewport */
+    .desktop-product-image {
+      height: clamp(200px, 18vh, 400px);
+    }
+
+    /* Padding del body proporcional */
+    .desktop-card-body {
+      padding: clamp(0.8rem, 1vw, 1.5rem);
+    }
+
+    /* Título escalable */
+    .desktop-product-title {
+      font-size: clamp(0.9rem, 1.1vw, 1.4rem);
+      line-height: 1.3;
+    }
+
+    /* Descripción escalable */
+    .desktop-product-description {
+      font-size: clamp(0.75rem, 0.9vw, 1.1rem);
+      line-height: 1.4;
+    }
+
+    /* Iconos escalables */
+    .desktop-icon {
+      font-size: clamp(18px, 1.5vw, 28px);
+    }
+
+    /* Icono corazón */
+    .desktop-heart-icon {
+      font-size: clamp(16px, 1.3vw, 24px);
+    }
+
+    /* Badge escalable */
+    .desktop-badge {
+      font-size: clamp(0.65rem, 0.8vw, 1rem);
+      padding: clamp(0.2rem, 0.3vw, 0.5rem) clamp(0.4rem, 0.6vw, 0.8rem);
+    }
+
+    /* Precios escalables */
+    .desktop-price-offer {
+      font-size: clamp(1rem, 1.2vw, 1.6rem);
+    }
+
+    .desktop-price-original {
+      font-size: clamp(0.8rem, 0.95vw, 1.2rem);
+    }
+
+    .desktop-price-normal {
+      font-size: clamp(1rem, 1.2vw, 1.6rem);
+    }
+
+    /* Footer padding */
+    .desktop-card-footer {
+      padding: clamp(0.6rem, 0.9vw, 1.2rem);
+    }
+
+    /* Input y labels escalables */
+    .desktop-input {
+      font-size: clamp(0.8rem, 0.95vw, 1.1rem);
+      padding: clamp(0.3rem, 0.5vw, 0.7rem);
+    }
+
+    .desktop-label {
+      font-size: clamp(0.75rem, 0.9vw, 1.05rem);
+    }
+
+    .desktop-radio {
+      width: clamp(14px, 1.1vw, 20px);
+      height: clamp(14px, 1.1vw, 20px);
+    }
+
+    /* Botón escalable */
+    .desktop-btn {
+      font-size: clamp(0.85rem, 1vw, 1.2rem);
+      padding: clamp(0.4rem, 0.6vw, 0.9rem) clamp(0.6rem, 0.9vw, 1.2rem);
+    }
+
+    /* Border radius proporcional */
+    .desktop-product-card {
+      border-radius: clamp(8px, 0.8vw, 16px);
+    }
+  }
+
+  /* Ajustes específicos para pantallas medianas (tablets grandes y laptops pequeños) */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .desktop-product-image {
+      height: clamp(180px, 16vh, 280px);
+    }
+  }
+
+  /* Ajustes para pantallas grandes (laptops y monitores pequeños) */
+  @media (min-width: 1200px) and (max-width: 1599px) {
+    .desktop-product-image {
+      height: clamp(220px, 17vh, 320px);
+    }
+  }
+
+  /* Ajustes para pantallas extra grandes (monitores grandes 24"-27") */
+  @media (min-width: 1600px) and (max-width: 1919px) {
+    .desktop-product-image {
+      height: clamp(240px, 18vh, 360px);
+    }
+
+    .desktop-product-title {
+      font-size: clamp(1rem, 1.15vw, 1.5rem);
+    }
+  }
+
+  /* Ajustes para pantallas XXL (monitores 27"+ y 4K) */
+  @media (min-width: 1920px) and (max-width: 2559px) {
+    .desktop-product-image {
+      height: clamp(280px, 19vh, 420px);
+    }
+
+    .desktop-product-title {
+      font-size: clamp(1.1rem, 1.2vw, 1.6rem);
+    }
+
+    .desktop-icon {
+      font-size: clamp(22px, 1.6vw, 32px);
+    }
+  }
+
+  /* Ajustes para pantallas ultra anchas (monitores 32"+ y ultra-wide) */
+  @media (min-width: 2560px) {
+    .desktop-product-image {
+      height: clamp(320px, 20vh, 480px);
+    }
+
+    .desktop-product-title {
+      font-size: clamp(1.2rem, 1.25vw, 1.8rem);
+    }
+
+    .desktop-product-description {
+      font-size: clamp(0.9rem, 1vw, 1.3rem);
+    }
+
+    .desktop-icon {
+      font-size: clamp(24px, 1.7vw, 36px);
+    }
+
+    .desktop-price-offer,
+    .desktop-price-normal {
+      font-size: clamp(1.2rem, 1.3vw, 1.8rem);
+    }
+  }
 </style>
 
 <!-- Sección de Ofertas Unificada -->
@@ -1434,20 +1586,17 @@
 
       <!-- DISEÑO ORIGINAL PARA PANTALLAS GRANDES -->
       <div class="col d-none d-md-block">
-
-        <div class="border shadow-lg card h-100 border-primary rounded-3 position-relative">
-
+        <div class="border shadow-lg card h-100 border-primary rounded-3 position-relative desktop-product-card">
           <!-- Ícono de la corazon -->
           @if(in_array($articulo->artcod, $favoritos))
           <i onclick="heart(this)" data-artcod="{{$articulo->artcod}}"
-            class="top-0 m-2 cursor-pointer bi bi-suit-heart-fill red-heart position-absolute end-0 font-20 heartIcon"></i>
+            class="top-0 m-2 cursor-pointer bi bi-suit-heart-fill red-heart position-absolute end-0 heartIcon desktop-heart-icon"></i>
           @else
           <i onclick="heart(this)" data-artcod="{{$articulo->artcod}}"
-            class="top-0 m-2 cursor-pointer bi bi-suit-heart position-absolute end-0 font-20 heartIcon"></i>
+            class="top-0 m-2 cursor-pointer bi bi-suit-heart position-absolute end-0 heartIcon desktop-heart-icon"></i>
           @endif
 
-          <figure class="m-0 overflow-hidden bg-white d-flex align-items-center justify-content-center"
-            style="height:325px;">
+          <figure class="m-0 overflow-hidden bg-white d-flex align-items-center justify-content-center desktop-product-image">
             <a href="{{route('info', ['artcod' => $articulo->artcod])}}" class="d-block">
               @if($articulo->imagenes->isNotEmpty())
               <img src="{{ asset('images/articulos/' . $articulo->imagenes->first()->imanom) }}"
@@ -1457,77 +1606,70 @@
               <img src="{{ asset('images/articulos/noimage.jpg') }}" class="h-auto d-block w-100" alt="no hay imagen"
                 title="No hay imagen">
               @endif
-
             </a>
           </figure>
 
-          <div class="pb-0 bg-white card-body">
+          <div class="pb-0 bg-white card-body desktop-card-body">
             <a href="{{route('info', ['artcod' => $articulo->artcod])}}">
-              <h5 class="m-0 card-title text-primary">{{ $articulo->artnom }}</h5>
-              @isset($articulo->artobs)<p class="card-text l3truncate">{{$articulo->artobs}}</p>@endisset
+              <h5 class="m-0 card-title text-primary desktop-product-title">{{ $articulo->artnom }}</h5>
+              @isset($articulo->artobs)<p class="card-text l3truncate desktop-product-description">{{$articulo->artobs}}</p>@endisset
             </a>
-
           </div>
 
-          <div class="pt-0 card-footer">
-
+          <div class="pt-0 card-footer desktop-card-footer">
             <ul class="list-group list-group-flush">
-
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                   <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}" data-toggle="fullscreen"
                     title="Stock disponible o no">
                     @if($articulo->artstocon == 1 || $articulo->artstock > 1)
-                    <i class="mdi mdi-archive-check font-24 text-success"></i>
+                    <i class="mdi mdi-archive-check desktop-icon text-success"></i>
                     @else
-                    <i class="mdi mdi-archive-cancel font-24 text-danger"></i>
+                    <i class="mdi mdi-archive-cancel desktop-icon text-danger"></i>
                     @endif
                   </a>
                   <a class="pe-2" href="{{ asset('images/files/' . $articulo->artdocaso) }}" data-toggle="fullscreen"
                     title="Ficha técnica">
-                    <i class="uil-clipboard-alt font-24"></i>
+                    <i class="uil-clipboard-alt desktop-icon"></i>
                   </a>
                   <a class="pe-2" href="{{route('info', ['artcod' => $articulo->artcod])}}" data-toggle="fullscreen"
                     title="Información">
-                    <i class="mdi mdi-information-outline font-24"></i>
+                    <i class="mdi mdi-information-outline desktop-icon"></i>
                   </a>
                 </div>
-
                 <div class="text-end">
                   @if ($articulo->precioOferta)
                   <h5>
-                    <span class="badge badge-danger-lighten">
+                    <span class="badge badge-danger-lighten desktop-badge">
                       OFERTA
                       @if($articulo->precioDescuento)
                       {{$articulo->precioDescuento}}%
                       @endif
                     </span>
                   </h5>
-                  <span class="font-18 text-danger fw-bolder">
+                  <span class="text-danger fw-bolder desktop-price-offer">
                     {{
                     \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioOferta)
                     }}
                     €
                   </span>
-                  <span class="text-decoration-line-through font-14">
+                  <span class="text-decoration-line-through desktop-price-original">
                     {{
                     \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa)
                     }}
                     €
                   </span>
                   @elseif(isset($articulo->precioTarifa))
-                  <span class="font-18">
+                  <span class="desktop-price-normal">
                     {{
                     \App\Services\FormatoNumeroService::convertirADecimal($articulo->precioTarifa)
                     }}
                     €</span>
                   @else
-                  <span class="font-18"></span>
+                  <span class="desktop-price-normal"></span>
                   @endif
                 </div>
               </li>
-
-
               <li class="list-group-item product-card">
                 <form method="POST" action="{{ route('cart.add', ['artcod' => $articulo->artcod]) }}">
                   @csrf
@@ -1536,18 +1678,18 @@
                       @if($articulo->cajas->isNotEmpty() && config('app.caja') == 'si')
                       <div class="row">
                         <div class="quantity-input col">
-                          <input type="number" class="quantity form-control" name="quantity" min="1" value="1">
+                          <input type="number" class="quantity form-control desktop-input" name="quantity" min="1" value="1">
                         </div>
                         <div class="col-auto">
                           @foreach($articulo->cajas as $index => $caja)
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" data-id="$caja->cajartcod"
+                            <input class="form-check-input desktop-radio" type="radio" data-id="$caja->cajartcod"
                               value="{{ $caja->cajcod }}" name="input-tipo" id="caja{{ $index }}" @if($caja->cajdef ==
                             1)
                             checked
                             @endif
                             >
-                            <label class="form-check-label" for="caja{{ $index }}">
+                            <label class="form-check-label desktop-label" for="caja{{ $index }}">
                               @if($caja->cajreldir > 0)
                               {{ $caja->cajreldir }} {{ $articulo->promedcod }}
                               @endif
@@ -1568,16 +1710,14 @@
                       <!-- end product price unidades-->
                     </div>
                   </div>
-
                   <!-- submit -->
                   <div class="mt-3">
                     <div class="row align-items-end ">
-                      <button type="submit" class="btn btn-primary ms-2 col"
+                      <button type="submit" class="btn btn-primary ms-2 col desktop-btn"
                         onclick="$('#alertaStock').toast('show')"><i class="mdi mdi-cart me-1"></i> Añadir</button>
                     </div>
                   </div>
                 </form>
-
               </li>
             </ul>
           </div>
