@@ -24,6 +24,36 @@
   </div>
   <!-- end page title -->
 
+
+  <!-- Gestión de correos del cliente -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <div class="icon-container me-3"
+                style="width: 60px; height: 60px; background: linear-gradient(135deg, #c98c00 0%, #b07a00 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-envelope-fill text-white" style="font-size: 1.75rem;"></i>
+              </div>
+              <div>
+                <h4 class="mb-1">Gestión de Correos Electrónicos</h4>
+                <p class="text-muted mb-0">
+                  Administra los correos asociados a tu cuenta para facturación, ventas y notificaciones
+                </p>
+              </div>
+            </div>
+            <a href="{{ route('client-emails.index') }}" class="btn btn-primary btn-lg">
+              <i class="bi bi-gear me-2"></i>
+              Gestionar Correos
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin -->
+
   <div class="row">
     <div class="col-12">
       @if (session('status'))

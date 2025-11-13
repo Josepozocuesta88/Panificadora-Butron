@@ -208,6 +208,37 @@
         width: 1.2rem;
     }
 
+    /* Estilos para badges de tipo de correo */
+    .bg-gradient-purple {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .bg-gradient-pink-red {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+
+    .bg-gradient-pink-yellow {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        color: white;
+    }
+
+    .bg-gradient-blue {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+
+    .bg-gradient-green {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        color: white;
+    }
+
+    .bg-gradient-pastel {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #333;
+    }
+
     /* Estilos para el modal de WhatsApp */
     .contact-item {
         transition: all 0.2s ease;
@@ -397,6 +428,12 @@
                                     <td class="text-center align-middle">
                                         <!-- Botones para pantallas >= sm -->
                                         <div class="btn-group d-none d-sm-inline-flex" role="group" aria-label="Acciones de usuario">
+                                            <button class="btn btn-sm btn-outline-primary"
+                                                onclick="openEmailsModal({{ $user->id }}, '{{ addslashes($user->name) }}')"
+                                                data-bs-toggle="tooltip"
+                                                title="Ver correos electrónicos">
+                                                <i class="mdi mdi-email-multiple"></i>
+                                            </button>
                                             <button class="btn btn-sm btn-outline-warning"
                                                 onclick="openPasswordModal({{ $user->id }}, '{{ addslashes($user->name) }}')"
                                                 data-bs-toggle="tooltip"
@@ -417,6 +454,12 @@
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionsDropdown{{ $user->id }}">
+                                                <li>
+                                                    <a class="dropdown-item" href="#"
+                                                        onclick="openEmailsModal({{ $user->id }}, '{{ addslashes($user->name) }}'); return false;">
+                                                        <i class="mdi mdi-email-multiple me-2"></i>Ver correos
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#"
                                                         onclick="openPasswordModal({{ $user->id }}, '{{ addslashes($user->name) }}'); return false;">
@@ -583,6 +626,56 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Modal Ver Correos Electrónicos -->
+<div class="modal fade" id="userEmailsModal" tabindex="-1" role="dialog" aria-labelledby="userEmailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-primary text-white border-0">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm bg-white bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="mdi mdi-email-multiple fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title mb-0 fw-semibold" id="userEmailsModalLabel">Correos Electrónicos</h5>
+                        <small class="opacity-75">Usuario: <span id="emailsUserName"></span></small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Loading spinner -->
+                <div class="text-center py-4" id="emailsLoading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando correos...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Cargando correos electrónicos...</p>
+                </div>
+
+                <!-- Contenedor de correos -->
+                <div class="row" id="emailsContainer" style="display: none;">
+                    <!-- Los correos se cargarán aquí dinámicamente -->
+                </div>
+
+                <!-- Mensaje cuando no hay correos -->
+                <div class="text-center py-4 d-none" id="noEmailsMessage">
+                    <i class="mdi mdi-email-off-outline fs-1 text-muted"></i>
+                    <p class="mt-2 text-muted">Este usuario no tiene correos electrónicos registrados</p>
+                </div>
+
+                <!-- Mensajes de error -->
+                <div class="alert alert-danger d-none" id="emailsErrorMsg">
+                    <i class="mdi mdi-alert-circle me-2"></i>
+                </div>
+            </div>
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="mdi mdi-close me-1"></i>Cerrar
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1148,6 +1241,134 @@
         document.getElementById('whatsappErrorMsg').classList.add('d-none');
         document.getElementById('selectAllContacts').classList.remove('d-none');
         document.getElementById('deselectAllContacts').classList.add('d-none');
+    });
+
+    // Variables globales para el modal de correos
+    let currentUserEmails = [];
+
+    function openEmailsModal(userId, userName) {
+        // Actualizar información del usuario
+        document.getElementById('emailsUserName').textContent = userName;
+
+        // Resetear elementos del modal
+        document.getElementById('emailsLoading').style.display = 'block';
+        document.getElementById('emailsContainer').style.display = 'none';
+        document.getElementById('noEmailsMessage').classList.add('d-none');
+        document.getElementById('emailsErrorMsg').classList.add('d-none');
+
+        // Mostrar el modal
+        var modal = new bootstrap.Modal(document.getElementById('userEmailsModal'));
+        modal.show();
+
+        // Cargar los correos del usuario
+        loadUserEmails(userId);
+    }
+
+    function loadUserEmails(userId) {
+        fetch(`{{ url('api/users') }}/${userId}/emails`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                currentUserEmails = data;
+                displayEmails(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('emailsLoading').style.display = 'none';
+                document.getElementById('emailsErrorMsg').classList.remove('d-none');
+                document.getElementById('emailsErrorMsg').textContent = 'Error al cargar los correos electrónicos';
+            });
+    }
+
+    function displayEmails(emails) {
+        document.getElementById('emailsLoading').style.display = 'none';
+
+        if (emails.length === 0) {
+            document.getElementById('noEmailsMessage').classList.remove('d-none');
+            return;
+        }
+
+        document.getElementById('emailsContainer').style.display = 'block';
+
+        const emailsContainer = document.getElementById('emailsContainer');
+        emailsContainer.innerHTML = '';
+
+        emails.forEach(email => {
+            const emailCard = createEmailCard(email);
+            emailsContainer.appendChild(emailCard);
+        });
+    }
+
+    function createEmailCard(email) {
+        const col = document.createElement('div');
+        col.className = 'col-12 col-md-6 mb-3';
+
+        const typeBadgeClass = getTypeBadgeClass(email.type);
+        const typeName = email.type_name || email.type;
+        const isPrimaryBadge = email.is_primary ? '<span class="badge bg-warning text-dark ms-2"><i class="mdi mdi-star"></i> Principal</span>' : '';
+        const statusBadge = email.is_active ?
+            '<span class="badge bg-success ms-2"><i class="mdi mdi-check-circle"></i> Activo</span>' :
+            '<span class="badge bg-secondary ms-2"><i class="mdi mdi-close-circle"></i> Inactivo</span>';
+
+        col.innerHTML = `
+            <div class="card border shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 class="mb-0">
+                            <i class="mdi mdi-email me-1"></i>
+                            <a href="mailto:${email.email}" class="text-decoration-none">${email.email}</a>
+                        </h6>
+                    </div>
+                    <div class="mb-2">
+                        <span class="badge ${typeBadgeClass}">
+                            <i class="mdi mdi-tag me-1"></i>${typeName}
+                        </span>
+                        ${isPrimaryBadge}
+                        ${statusBadge}
+                    </div>
+                    ${email.notes ? `<p class="text-muted small mb-0"><i class="mdi mdi-note-text me-1"></i>${email.notes}</p>` : ''}
+                    <small class="text-muted">
+                        <i class="mdi mdi-clock-outline me-1"></i>
+                        Creado: ${formatDate(email.created_at)}
+                    </small>
+                </div>
+            </div>
+        `;
+
+        return col;
+    }
+
+    function getTypeBadgeClass(type) {
+        const typeClasses = {
+            'facturacion': 'bg-gradient-purple',
+            'ventas': 'bg-gradient-pink-red',
+            'admin': 'bg-gradient-pink-yellow',
+            'soporte': 'bg-gradient-blue',
+            'logistica': 'bg-gradient-green',
+            'general': 'bg-gradient-pastel'
+        };
+        return typeClasses[type] || 'bg-secondary';
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    // Limpiar modal al cerrar
+    document.getElementById('userEmailsModal').addEventListener('hidden.bs.modal', function() {
+        currentUserEmails = [];
+        document.getElementById('emailsContainer').innerHTML = '';
+        document.getElementById('emailsErrorMsg').classList.add('d-none');
     });
 </script>
 @endpush

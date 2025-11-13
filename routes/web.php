@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientEmailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DbController;
 use App\Http\Controllers\DocumentoController;
@@ -44,6 +45,14 @@ Route::middleware(['auth'])->group(function () {
   // Mi cuenta
   Route::view('/myaccount', 'pages.cuenta.myaccount')->name('myaccount');
   Route::put('/myaccount', [MyaccountController::class, 'update'])->name('myaccount.update');
+
+  // Gestión de correos electrónicos del cliente
+  Route::get('/client-emails', [ClientEmailController::class, 'index'])->name('client-emails.index');
+  Route::post('/client-emails', [ClientEmailController::class, 'store'])->name('client-emails.store');
+  Route::put('/client-emails/{clientEmail}', [ClientEmailController::class, 'update'])->name('client-emails.update');
+  Route::delete('/client-emails/{clientEmail}', [ClientEmailController::class, 'destroy'])->name('client-emails.destroy');
+  Route::patch('/client-emails/{clientEmail}/set-primary', [ClientEmailController::class, 'setPrimary'])->name('client-emails.set-primary');
+  Route::patch('/client-emails/{clientEmail}/toggle-active', [ClientEmailController::class, 'toggleActive'])->name('client-emails.toggle-active');
 
   // cambiar de usuario (modo administrador)
   Route::view('/accounts', 'pages.cuenta.accounts')->name('accounts');

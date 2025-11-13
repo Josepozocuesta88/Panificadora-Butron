@@ -661,4 +661,28 @@ class ToolsController extends Controller
             ], 500);
         }
     }
+
+    public function emailsForUser(Request $request)
+    {
+        $user = User::findOrFail($request->userId);
+        return response()->json(
+            $user->clientEmails()
+                ->orderBy('is_primary', 'desc')
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->map(function ($email) {
+                    return [
+                        'id' => $email->id,
+                        'email' => $email->email,
+                        'type' => $email->type,
+                        'type_name' => $email->getTypeNameAttribute(),
+                        'is_primary' => $email->is_primary,
+                        'is_active' => $email->is_active,
+                        'notes' => $email->notes,
+                        'created_at' => $email->created_at,
+                        'updated_at' => $email->updated_at,
+                    ];
+                })
+        );
+    }
 }

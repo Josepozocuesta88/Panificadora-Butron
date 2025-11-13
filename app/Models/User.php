@@ -113,4 +113,9 @@ class User extends Authenticatable
             })
             ->select('clientes_direcciones.*'); // Ajustar según sea necesario
     }
+
+    public function clientEmails()
+    {
+        return $this->hasMany(ClientEmail::class);
+    }
 }
