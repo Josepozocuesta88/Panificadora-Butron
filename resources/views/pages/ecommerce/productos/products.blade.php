@@ -808,154 +808,375 @@
   }
 
   /* ===== DISEÑO RESPONSIVO PARA CARDS DE ESCRITORIO (BASADO EN VIEWPORT) ===== */
-  /* Estas reglas hacen que las cards escalen proporcionalmente con el tamaño de la pantalla */
+  /* Las cards son MÁS PEQUEÑAS en pantallas pequeñas y MÁS GRANDES en pantallas grandes */
 
-  @media (min-width: 768px) {
-
-    /* Altura de imagen proporcional al viewport */
+  /* Tablets y laptops pequeños (768px - 1199px) - 13" a 15" */
+  @media (min-width: 768px) and (max-width: 1199px) {
     .desktop-product-image {
-      height: clamp(200px, 18vh, 400px);
+      height: 160px;
+      /* Más pequeña para pantallas pequeñas */
     }
 
-    /* Padding del body proporcional */
     .desktop-card-body {
-      padding: clamp(0.8rem, 1vw, 1.5rem);
+      padding: 0.7rem;
     }
 
-    /* Título escalable */
     .desktop-product-title {
-      font-size: clamp(0.9rem, 1.1vw, 1.4rem);
+      font-size: 0.85rem;
       line-height: 1.3;
     }
 
-    /* Descripción escalable */
     .desktop-product-description {
-      font-size: clamp(0.75rem, 0.9vw, 1.1rem);
-      line-height: 1.4;
+      font-size: 0.7rem;
+      line-height: 1.3;
     }
 
-    /* Iconos escalables */
     .desktop-icon {
-      font-size: clamp(18px, 1.5vw, 28px);
+      font-size: 16px;
     }
 
-    /* Icono corazón */
     .desktop-heart-icon {
-      font-size: clamp(16px, 1.3vw, 24px);
+      font-size: 14px;
     }
 
-    /* Badge escalable */
     .desktop-badge {
-      font-size: clamp(0.65rem, 0.8vw, 1rem);
-      padding: clamp(0.2rem, 0.3vw, 0.5rem) clamp(0.4rem, 0.6vw, 0.8rem);
+      font-size: 0.6rem;
+      padding: 0.15rem 0.35rem;
     }
 
-    /* Precios escalables */
     .desktop-price-offer {
-      font-size: clamp(1rem, 1.2vw, 1.6rem);
+      font-size: 0.95rem;
     }
 
     .desktop-price-original {
-      font-size: clamp(0.8rem, 0.95vw, 1.2rem);
+      font-size: 0.75rem;
     }
 
     .desktop-price-normal {
-      font-size: clamp(1rem, 1.2vw, 1.6rem);
+      font-size: 0.95rem;
     }
 
-    /* Footer padding */
     .desktop-card-footer {
-      padding: clamp(0.6rem, 0.9vw, 1.2rem);
+      padding: 0.5rem;
     }
 
-    /* Input y labels escalables */
     .desktop-input {
-      font-size: clamp(0.8rem, 0.95vw, 1.1rem);
-      padding: clamp(0.3rem, 0.5vw, 0.7rem);
+      font-size: 0.75rem;
+      padding: 0.25rem;
     }
 
     .desktop-label {
-      font-size: clamp(0.75rem, 0.9vw, 1.05rem);
+      font-size: 0.7rem;
     }
 
     .desktop-radio {
-      width: clamp(14px, 1.1vw, 20px);
-      height: clamp(14px, 1.1vw, 20px);
+      width: 12px;
+      height: 12px;
     }
 
-    /* Botón escalable */
     .desktop-btn {
-      font-size: clamp(0.85rem, 1vw, 1.2rem);
-      padding: clamp(0.4rem, 0.6vw, 0.9rem) clamp(0.6rem, 0.9vw, 1.2rem);
+      font-size: 0.8rem;
+      padding: 0.35rem 0.5rem;
     }
 
-    /* Border radius proporcional */
     .desktop-product-card {
-      border-radius: clamp(8px, 0.8vw, 16px);
+      border-radius: 6px;
     }
   }
 
-  /* Ajustes específicos para pantallas medianas (tablets grandes y laptops pequeños) */
-  @media (min-width: 768px) and (max-width: 1199px) {
-    .desktop-product-image {
-      height: clamp(180px, 16vh, 280px);
-    }
-  }
-
-  /* Ajustes para pantallas grandes (laptops y monitores pequeños) */
+  /* Laptops estándar (1200px - 1599px) - 15" a 17" */
   @media (min-width: 1200px) and (max-width: 1599px) {
     .desktop-product-image {
-      height: clamp(220px, 17vh, 320px);
+      height: 220px;
+      /* Tamaño medio */
     }
-  }
 
-  /* Ajustes para pantallas extra grandes (monitores grandes 24"-27") */
-  @media (min-width: 1600px) and (max-width: 1919px) {
-    .desktop-product-image {
-      height: clamp(240px, 18vh, 360px);
+    .desktop-card-body {
+      padding: 0.9rem;
     }
 
     .desktop-product-title {
-      font-size: clamp(1rem, 1.15vw, 1.5rem);
-    }
-  }
-
-  /* Ajustes para pantallas XXL (monitores 27"+ y 4K) */
-  @media (min-width: 1920px) and (max-width: 2559px) {
-    .desktop-product-image {
-      height: clamp(280px, 19vh, 420px);
-    }
-
-    .desktop-product-title {
-      font-size: clamp(1.1rem, 1.2vw, 1.6rem);
-    }
-
-    .desktop-icon {
-      font-size: clamp(22px, 1.6vw, 32px);
-    }
-  }
-
-  /* Ajustes para pantallas ultra anchas (monitores 32"+ y ultra-wide) */
-  @media (min-width: 2560px) {
-    .desktop-product-image {
-      height: clamp(320px, 20vh, 480px);
-    }
-
-    .desktop-product-title {
-      font-size: clamp(1.2rem, 1.25vw, 1.8rem);
+      font-size: 0.95rem;
+      line-height: 1.3;
     }
 
     .desktop-product-description {
-      font-size: clamp(0.9rem, 1vw, 1.3rem);
+      font-size: 0.8rem;
+      line-height: 1.4;
     }
 
     .desktop-icon {
-      font-size: clamp(24px, 1.7vw, 36px);
+      font-size: 20px;
     }
 
-    .desktop-price-offer,
+    .desktop-heart-icon {
+      font-size: 17px;
+    }
+
+    .desktop-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.45rem;
+    }
+
+    .desktop-price-offer {
+      font-size: 1.1rem;
+    }
+
+    .desktop-price-original {
+      font-size: 0.85rem;
+    }
+
     .desktop-price-normal {
-      font-size: clamp(1.2rem, 1.3vw, 1.8rem);
+      font-size: 1.1rem;
+    }
+
+    .desktop-card-footer {
+      padding: 0.7rem;
+    }
+
+    .desktop-input {
+      font-size: 0.85rem;
+      padding: 0.35rem;
+    }
+
+    .desktop-label {
+      font-size: 0.8rem;
+    }
+
+    .desktop-radio {
+      width: 14px;
+      height: 14px;
+    }
+
+    .desktop-btn {
+      font-size: 0.9rem;
+      padding: 0.45rem 0.7rem;
+    }
+
+    .desktop-product-card {
+      border-radius: 8px;
+    }
+  }
+
+  /* Monitores 24" (1600px - 1919px) */
+  @media (min-width: 1600px) and (max-width: 1919px) {
+    .desktop-product-image {
+      height: 280px;
+      /* Más grande */
+    }
+
+    .desktop-card-body {
+      padding: 1.1rem;
+    }
+
+    .desktop-product-title {
+      font-size: 1.05rem;
+      line-height: 1.3;
+    }
+
+    .desktop-product-description {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .desktop-icon {
+      font-size: 23px;
+    }
+
+    .desktop-heart-icon {
+      font-size: 19px;
+    }
+
+    .desktop-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.55rem;
+    }
+
+    .desktop-price-offer {
+      font-size: 1.25rem;
+    }
+
+    .desktop-price-original {
+      font-size: 0.95rem;
+    }
+
+    .desktop-price-normal {
+      font-size: 1.25rem;
+    }
+
+    .desktop-card-footer {
+      padding: 0.85rem;
+    }
+
+    .desktop-input {
+      font-size: 0.9rem;
+      padding: 0.4rem;
+    }
+
+    .desktop-label {
+      font-size: 0.85rem;
+    }
+
+    .desktop-radio {
+      width: 16px;
+      height: 16px;
+    }
+
+    .desktop-btn {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.8rem;
+    }
+
+    .desktop-product-card {
+      border-radius: 10px;
+    }
+  }
+
+  /* Monitores Full HD y 2K (1920px - 2559px) - 27" */
+  @media (min-width: 1920px) and (max-width: 2559px) {
+    .desktop-product-image {
+      height: 340px;
+      /* Aún más grande */
+    }
+
+    .desktop-card-body {
+      padding: 1.3rem;
+    }
+
+    .desktop-product-title {
+      font-size: 1.15rem;
+      line-height: 1.3;
+    }
+
+    .desktop-product-description {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .desktop-icon {
+      font-size: 26px;
+    }
+
+    .desktop-heart-icon {
+      font-size: 21px;
+    }
+
+    .desktop-badge {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.6rem;
+    }
+
+    .desktop-price-offer {
+      font-size: 1.4rem;
+    }
+
+    .desktop-price-original {
+      font-size: 1.05rem;
+    }
+
+    .desktop-price-normal {
+      font-size: 1.4rem;
+    }
+
+    .desktop-card-footer {
+      padding: 1rem;
+    }
+
+    .desktop-input {
+      font-size: 0.95rem;
+      padding: 0.45rem;
+    }
+
+    .desktop-label {
+      font-size: 0.9rem;
+    }
+
+    .desktop-radio {
+      width: 18px;
+      height: 18px;
+    }
+
+    .desktop-btn {
+      font-size: 1rem;
+      padding: 0.55rem 0.9rem;
+    }
+
+    .desktop-product-card {
+      border-radius: 12px;
+    }
+  }
+
+  /* Monitores 4K y ultra-wide (2560px+) - 32"+ */
+  @media (min-width: 2560px) {
+    .desktop-product-image {
+      height: 420px;
+      /* Máximo tamaño para pantallas grandes */
+    }
+
+    .desktop-card-body {
+      padding: 1.6rem;
+    }
+
+    .desktop-product-title {
+      font-size: 1.35rem;
+      line-height: 1.3;
+    }
+
+    .desktop-product-description {
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .desktop-icon {
+      font-size: 32px;
+    }
+
+    .desktop-heart-icon {
+      font-size: 26px;
+    }
+
+    .desktop-badge {
+      font-size: 0.95rem;
+      padding: 0.4rem 0.75rem;
+    }
+
+    .desktop-price-offer {
+      font-size: 1.65rem;
+    }
+
+    .desktop-price-original {
+      font-size: 1.2rem;
+    }
+
+    .desktop-price-normal {
+      font-size: 1.65rem;
+    }
+
+    .desktop-card-footer {
+      padding: 1.3rem;
+    }
+
+    .desktop-input {
+      font-size: 1.1rem;
+      padding: 0.55rem;
+    }
+
+    .desktop-label {
+      font-size: 1.05rem;
+    }
+
+    .desktop-radio {
+      width: 22px;
+      height: 22px;
+    }
+
+    .desktop-btn {
+      font-size: 1.15rem;
+      padding: 0.65rem 1.1rem;
+    }
+
+    .desktop-product-card {
+      border-radius: 14px;
     }
   }
 </style>
