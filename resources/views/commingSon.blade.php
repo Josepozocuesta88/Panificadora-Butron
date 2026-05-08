@@ -77,7 +77,7 @@
   </style>
 
   <!-- Vite -->
-  @vite('resources/sass/app.scss')
+  {{-- @vite('resources/sass/app.scss') --}}
 
 </head>
 
