@@ -9,8 +9,8 @@ auth.json
 # Dependencias y builds
 /node_modules
 /vendor
-# /public/build
-# /public/hot
+/public/build
+/public/hot
 
 # Almacenamiento y caché
 /storage/*.key
